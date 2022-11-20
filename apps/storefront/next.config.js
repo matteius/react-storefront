@@ -1,3 +1,8 @@
+/* eslint @typescript-eslint/no-var-requires: "off" */
+const { withImageLoader } = require("next-image-loader");
+const checkoutEmbededInStorefrontPath = "/saleor-app-checkout";
+const withPlugins = require('next-compose-plugins');
+
 // eslint-disable-next-line
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
@@ -8,14 +13,22 @@ const allowedImageDomains = process.env.NEXT_PUBLIC_ALLOWED_IMAGE_DOMAINS
   ? process.env.NEXT_PUBLIC_ALLOWED_IMAGE_DOMAINS.split(",")
   : [];
 
-const checkoutEmbededInStorefrontPath = "/saleor-app-checkout";
+const imageConversionFormats = process.env.NEXT_PUBLIC_IMAGE_CONVERSION_FORMATS
+  ? process.env.NEXT_PUBLIC_IMAGE_CONVERSION_FORMATS.split(",")
+  : [];
 
-module.exports = withBundleAnalyzer({
+const nextConfig = {
+  experimental: {
+      // reactRoot: true,
+      // images: { allowFutureImage: true },
+  },
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [apiURL.hostname, ...allowedImageDomains],
-    formats: ["image/avif", "image/webp"],
+    domains: ["cdn.mattscoinage.com"],
+    formats: imageConversionFormats,
+    // loaderFile: './image-loader.js',
+    // loader: 'custom',
   },
   trailingSlash: true,
   webpack(config) {
@@ -127,5 +140,13 @@ module.exports = withBundleAnalyzer({
       },
     ];
   },
-  experimental: {},
 });
+
+const nextPlugins = [
+  (config) => withImageLoader(config),
+  (config) => withBundleAnalyzer(config),
+  //(config) => withSentryConfig(config, sentryWebpackPluginOptions),
+  
+];
+
+module.exports = withPlugins(nextPlugins, nextConfig);

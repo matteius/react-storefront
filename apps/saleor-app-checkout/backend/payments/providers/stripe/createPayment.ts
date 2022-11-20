@@ -27,7 +27,7 @@ export const createStripePayment = async ({
 
     // @todo
     locale: "en",
-
+    payment_intent_data: {capture_method: "manual"}, 
     payment_method_types: stripePaymentMethod ? [stripePaymentMethod] : undefined,
     customer: stripeCheckoutCustomer.id,
     mode: "payment",

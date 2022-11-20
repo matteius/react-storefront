@@ -159,14 +159,14 @@ export function CheckoutLineItem({ line }: CheckoutLineItemProps) {
                 disabled={loadingLineUpdate}
                 pattern="[0-9]*"
               />
-          <p className="text-base text-slate-900 text-right">
+              <p className="text-base text-slate-900 text-right">
                 {formatPrice(line?.totalPrice?.gross)}
               </p>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

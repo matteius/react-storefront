@@ -23,7 +23,7 @@ export default function CheckoutSpa() {
     return null;
   }
 
-  const checkoutAppUrl = urlJoin(window.location.origin, "saleor-app-checkout", "/");
+  const checkoutAppUrl = urlJoin(window.location.origin, "/");
 
   return (
     <CheckoutStoreFront

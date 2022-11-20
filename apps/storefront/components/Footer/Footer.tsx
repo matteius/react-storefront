@@ -49,7 +49,11 @@ export function Footer({ className, ...rest }: FooterProps) {
                     {item?.name}
                   </a>
                 ) : (
-                  <Link href={getLinkPath(item!, currentChannel.slug, currentLocale)} passHref legacyBehavior>
+                  <Link
+                    href={getLinkPath(item, currentChannel.slug, currentLocale)}
+                    passHref
+                    legacyBehavior
+                  >
                     <a href="pass" className={styles["menu-heading"]}>
                       {item?.name}
                     </a>

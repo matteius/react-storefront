@@ -9,11 +9,9 @@ import Script from "next/script";
 import NextNProgress from "nextjs-progressbar";
 import React, { ReactElement, ReactNode, useEffect } from "react";
 
-import { DemoBanner } from "@/components/DemoBanner";
 import { RegionsProvider } from "@/components/RegionsProvider";
 import { SaleorProviderWithChannels } from "@/components/SaleorProviderWithChannels";
 import { BaseSeo } from "@/components/seo/BaseSeo";
-import { DEMO_MODE } from "@/lib/const";
 import apolloClient from "@/lib/graphql";
 import { CheckoutProvider } from "@/lib/providers/CheckoutProvider";
 
@@ -30,7 +28,9 @@ type AppPropsWithLayout = AppProps & {
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: ReactElement) => page);
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     const firebaseApp = initializeApp(firebaseConfig);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     getAnalytics(firebaseApp);
   }, []);
 
@@ -40,7 +40,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         id="google-analytics"
         strategy="afterInteractive"
         onLoad={() => {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           const firebaseApp = initializeApp(firebaseConfig);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
           getAnalytics(firebaseApp);
         }}
       />
@@ -48,8 +50,8 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         <CheckoutProvider>
           <RegionsProvider>
             <SaleorProviderWithChannels>
+              <BaseSeo />
               <NextNProgress color="#5B68E4" options={{ showSpinner: false }} />
-              {DEMO_MODE && <DemoBanner />}
               {getLayout(<Component {...pageProps} />)}
             </SaleorProviderWithChannels>
           </RegionsProvider>

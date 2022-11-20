@@ -144,6 +144,7 @@ export function FilteredProductList({
                 key={attribute.id}
                 label={translate(attribute, "name") || ""}
                 optionToggle={addAttributeFilter}
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 attributeSlug={attribute.slug!}
                 options={getFilterOptions(attribute, pills)}
               />

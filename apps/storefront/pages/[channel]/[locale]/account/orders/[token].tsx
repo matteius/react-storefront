@@ -25,6 +25,7 @@ function OrderDetailsPage({ token }: InferGetStaticPropsType<typeof getStaticPro
   const { formatPrice } = useRegions();
   const { authenticated } = useAuthState();
   const { loading, error, data } = useOrderDetailsByTokenQuery({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     variables: { token: token! },
     skip: !token || !authenticated,
   });

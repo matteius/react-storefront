@@ -8,6 +8,7 @@ class MyDocument extends Document<{ lang?: string }> {
   }
 
   render() {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const uri = process.env.NEXT_PUBLIC_API_URI!;
     const { hostname } = new URL(uri);
 
@@ -20,7 +21,7 @@ class MyDocument extends Document<{ lang?: string }> {
             href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;800&display=swap"
             rel="stylesheet"
           />
-        <meta
+          <meta
             name="description"
             content="MattsCoinage.com is your online shop for buying ancient and modern coins--featuring gold, silver and AE coins."
           />

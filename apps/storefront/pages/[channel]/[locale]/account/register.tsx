@@ -37,8 +37,10 @@ function RegisterPage() {
       // Unable to sign in.
       data?.accountRegister?.errors.forEach((e) => {
         if (e.field === "email") {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           setErrorForm("email", { message: e.message! });
         } else if (e.field === "password") {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           setErrorForm("password", { message: e.message! });
         } else {
           console.error("Registration error:", e);

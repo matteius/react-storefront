@@ -17,6 +17,14 @@ fragment ProductCardFragment on Product {
       name
     }
   }
+  collections {
+    id
+    name
+    translation(languageCode: $locale) {
+      id
+      name
+    }
+  }
   pricing {
     onSale
     priceRange {

@@ -1,29 +1,30 @@
 .footer {
-  @apply sm:container mb-18 sm:mb-15 mt-16;
+  @apply sm:container mb-1 sm:mb-1 mt-1;
 }
 
 .footer-inner {
-  @apply px-6 border-l-0 border-r-0 sm:border-l-2 sm:border-r-2;
+  @apply px-2 border-l-0 border-r-0 sm:border-l-2 sm:border-r-2 bg-orange-100;
 }
 
 @screen sm {
   .footer-inner {
-    padding: calc(theme("spacing.10") - theme("borderWidth.2"));
+    padding: calc(theme("spacing.4") - theme("borderWidth.2"));
   }
 }
 
 .menu {
-  @apply list-none mb-8;
+  @apply list-none mb-1;
+  flex-direction: column;
 }
 
 .menu li + li {
-  @apply mt-2;
+  @apply mt-1;
 }
 
 .menu-heading {
-  @apply block text-md font-bold mb-4 cursor-pointer hover:underline;
+  @apply block text-md font-bold mb-1 cursor-pointer hover:underline text-sky-700;
 }
 
 .menu-link {
-  @apply text-base cursor-pointer hover:underline;
+  @apply text-base cursor-pointer hover:underline text-sky-700;
 }

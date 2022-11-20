@@ -8,8 +8,6 @@ import { usePaths } from "@/lib/paths";
 import { useFooterMenuQuery } from "@/saleor/api";
 
 import { Box } from "../Box";
-import { ChannelDropdown } from "../regionDropdowns/ChannelDropdown";
-import { LocaleDropdown } from "../regionDropdowns/LocaleDropdown";
 import { useRegions } from "../RegionsProvider";
 import styles from "./Footer.module.css";
 
@@ -30,17 +28,17 @@ export function Footer({ className, ...rest }: FooterProps) {
   return (
     <footer className={clsx(styles.footer, className)} {...rest}>
       <Box className={styles["footer-inner"]}>
-        <div className="flex mb-14 sm:mb-10">
-          <Link href={paths.$url()} passHref>
-            <a href="pass" className="hidden sm:inline-block">
-              <div className="mt-px group block h-16 w-28 relative grayscale">
-                <Image src="/saleor.svg" alt="Saleor logo" layout="fill" />
-              </div>
-            </a>
-          </Link>
-          <div className="grid grid-cols-2 gap-[2rem] w-full sm:w-auto sm:flex sm:flex-wrap sm:justify-end sm:ml-auto">
+        <div className="flex justify-between">
+          <div className="flex-none mt-px group block h-24 w-24 relative grayscale">
+            <Link href={paths.$url()} passHref>
+              <a href="pass">
+                <Image src="/logo.png" alt="www.MattsCoinage.com" layout="responsive" />
+              </a>
+            </Link>
+          </div>
+          <div className="justify-between">
             {menu.map((item) => (
-              <div className="sm:ml-14" key={item?.id}>
+              <div key={item?.id} className="text-left">
                 {item?.url ? (
                   <a
                     href={item.url}
@@ -84,13 +82,9 @@ export function Footer({ className, ...rest }: FooterProps) {
           </div>
         </div>
         <div className="flex items-center">
-          <p className="text-sm text-main-3 flex-grow">
-            © Copyright 2018 - {new Date().getFullYear()} Saleor Commerce
+          <p className="text-sm text-main-3 flex-grow text-slate-800">
+            © Copyright {new Date().getFullYear()} MattsCoinage
           </p>
-          <div className="invisible md:visible flex gap-4">
-            <ChannelDropdown horizontalAlignment="right" />
-            <LocaleDropdown horizontalAlignment="right" />
-          </div>
         </div>
       </Box>
     </footer>

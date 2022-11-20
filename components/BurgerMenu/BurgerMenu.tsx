@@ -9,8 +9,6 @@ import { usePaths } from "@/lib/paths";
 import { useMainMenuQuery } from "@/saleor/api";
 
 import NavIconButton from "../Navbar/NavIconButton";
-import { ChannelDropdown } from "../regionDropdowns/ChannelDropdown";
-import { LocaleDropdown } from "../regionDropdowns/LocaleDropdown";
 import { useRegions } from "../RegionsProvider";
 import { messages } from "../translations";
 import styles from "./BurgerMenu.module.css";
@@ -47,10 +45,10 @@ export function BurgerMenu({ open, onCloseClick }: BurgerMenuProps) {
         [styles["container--open"]]: open,
       })}
     >
-      <div className={styles.backdrop} aria-hidden="true" onClick={onCloseClick} />
+      <div className={styles.backdrop} />
       <div className={styles.body}>
         <div className="flex justify-end w-full mb-5">
-          <NavIconButton icon="close" onClick={onCloseClick} />
+          <NavIconButton icon="close" onClick={onCloseClick} onKeyDown={onCloseClick} />
         </div>
         {menu.map((item) => (
           <CollapseMenu menuItem={item} key={item.id} />
@@ -84,10 +82,6 @@ export function BurgerMenu({ open, onCloseClick }: BurgerMenuProps) {
               </button>
             )}
           </div>
-        </div>
-        <div className="flex mt-4 gap-4">
-          <ChannelDropdown />
-          <LocaleDropdown />
         </div>
       </div>
     </div>

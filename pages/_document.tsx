@@ -16,6 +16,10 @@ class MyDocument extends Document<{ lang?: string }> {
         <Head>
           <link rel="preconnect" href={`//${hostname}`} crossOrigin="true" />
           <link rel="dns-prefetch" href={`//${hostname}`} />
+          <meta
+            name="description"
+            content="MattsCoinage.com is your online shop for buying ancient and modern coins--featuring gold, silver and AE coins."
+          />
         </Head>
         <body>
           <Main />

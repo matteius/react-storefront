@@ -33,7 +33,7 @@ export function ProductCollection({
   sortBy,
   setCounter,
   allowMore = true,
-  perPage = 4,
+  perPage = 5,
 }: ProductCollectionProps) {
   const t = useIntl();
   const { query } = useRegions();
@@ -82,7 +82,7 @@ export function ProductCollection({
   }
   return (
     <div>
-      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

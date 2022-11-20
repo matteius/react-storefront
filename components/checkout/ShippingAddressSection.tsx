@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 
 import { SavedAddressSelectionList } from "@/components";
-import { notNullable } from "@/lib/util";
 import {
   CheckoutDetailsFragment,
   CountryCode,
@@ -28,7 +27,7 @@ export function ShippingAddressSection({ active, checkout }: ShippingAddressSect
   const { authenticated } = useAuthState();
   const [editing, setEditing] = useState(!checkout.shippingAddress);
   const [shippingAddressUpdateMutation] = useCheckoutShippingAddressUpdateMutation({});
-
+  const [errorMessage, setErrorMessage] = useState<any>([]);
   const { billingAddress } = checkout;
 
   const onSameAsBilling = async () => {
@@ -41,17 +40,18 @@ export function ShippingAddressSection({ active, checkout }: ShippingAddressSect
           firstName: billingAddress.firstName || "",
           lastName: billingAddress.lastName || "",
           phone: billingAddress.phone || "",
-          country: (billingAddress.country.code as CountryCode) || "PL",
+          country: (billingAddress.country.code as CountryCode) || "US",
           streetAddress1: billingAddress.streetAddress1 || "",
           city: billingAddress.city || "",
           postalCode: billingAddress.postalCode || "",
+          countryArea: billingAddress.countryArea || "",
         },
         token: checkout.token,
         locale: query.locale,
       },
     });
     if (data?.checkoutShippingAddressUpdate?.errors.length) {
-      // todo: add error handling
+      await setErrorMessage(data?.checkoutShippingAddressUpdate?.errors);
       return;
     }
     // Successfully updated the shipping address
@@ -68,9 +68,10 @@ export function ShippingAddressSection({ active, checkout }: ShippingAddressSect
       },
     });
     setEditing(false);
-    return data?.checkoutShippingAddressUpdate?.errors.filter(notNullable) || [];
+    setErrorMessage(data?.checkoutShippingAddressUpdate?.errors);
+    return data?.checkoutShippingAddressUpdate?.errors || [];
   };
-
+  const listError: any = errorMessage.map((error: any) => [error.field, error.message].join(" "));
   return (
     <>
       <div className="mt-4 mb-4">
@@ -80,6 +81,7 @@ export function ShippingAddressSection({ active, checkout }: ShippingAddressSect
           {t.formatMessage(messages.shippingAddressCardHeader)}
         </h2>
       </div>
+      <pre>{listError.join("\r\n")}</pre>
       {active &&
         (editing ? (
           <>

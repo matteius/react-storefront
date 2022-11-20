@@ -17,7 +17,7 @@
   "app.checkout.pageHeader": "Your Cart",
   "app.checkout.paymentButton": "Pay {total}",
   "app.checkout.paymentCardHeader": "Payment",
-  "app.checkout.paymentInstruction": "Choose payment method",
+  "app.checkout.paymentInstruction": "Enter payment information",
   "app.checkout.phoneField": "Phone",
   "app.checkout.postalCodeField": "Postal code",
   "app.checkout.sameAsBillingButton": "Use the same address as billing",

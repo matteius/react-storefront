@@ -200,7 +200,7 @@ export const messages = defineMessages({
   paymentInstruction: {
     id: "app.checkout.paymentInstruction",
     description: "User instructions at payment section.",
-    defaultMessage: "Choose payment method",
+    defaultMessage: "Enter payment information",
   },
   phoneField: {
     id: "app.checkout.phoneField",
@@ -226,6 +226,11 @@ export const messages = defineMessages({
     id: "app.checkout.cityField",
     description: "City field label.",
     defaultMessage: "City",
+  },
+  countryAreaField: {
+    id: "app.checkout.countryAreaField",
+    description: "Country area field label.",
+    defaultMessage: "State",
   },
   postalCodeField: {
     id: "app.checkout.postalCodeField",

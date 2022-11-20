@@ -20,14 +20,20 @@ function UserMenu({ className, ...rest }: UserMenuProps) {
 
   return (
     <div className={clsx(styles["user-menu-container"], className)} {...rest}>
-      <NavIconButton icon="user" aria-hidden="true" />
+      <NavIconButton icon="user" />
       <div className={styles["user-menu"]}>
         <Link href={paths.account.preferences.$url()} passHref>
           <a tabIndex={0} className={styles["user-menu-item"]} href="pass">
             {t.formatMessage(messages.menuAccountPreferences)}
           </a>
         </Link>
-        <button type="button" onClick={onLogout} tabIndex={-1} className={styles["user-menu-item"]}>
+        <button
+          type="button"
+          onClick={onLogout}
+          tabIndex={-1}
+          className={styles["user-menu-item"]}
+          aria-label="Logout"
+        >
           {t.formatMessage(messages.logOut)}
         </button>
       </div>

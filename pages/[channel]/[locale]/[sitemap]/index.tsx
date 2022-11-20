@@ -26,31 +26,31 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           params: { slug: node.slug },
         })) || [];
       fields = paths.map((path) => ({
-        loc: `https://localhost:3001/category/${path.params.slug}`,
+        loc: `https://mattscoinage.com/default-channel/en-US/category/${path.params.slug}`,
       }));
     } else if (ctx.params.sitemap === "collection") {
       const result: ApolloQueryResult<CollectionPathsQuery | undefined> = await apolloClient.query({
         query: CollectionPathsDocument,
-        variables: {},
+        variables: { channel: "default-channel" },
       });
       const paths =
         result.data?.collections?.edges.map(({ node }) => ({
           params: { slug: node.slug },
         })) || [];
       fields = paths.map((path) => ({
-        loc: `https://localhost:3001/collection/${path.params.slug}`,
+        loc: `https://mattscoinage.com/default-channel/en-US/collection/${path.params.slug}`,
       }));
     } else if (ctx.params.sitemap === "product") {
       const result: ApolloQueryResult<ProductPathsQuery | undefined> = await apolloClient.query({
         query: ProductPathsDocument,
-        variables: {},
+        variables: { channel: "default-channel" },
       });
       const paths =
         result.data?.products?.edges.map(({ node }) => ({
           params: { slug: node.slug },
         })) || [];
       fields = paths.map((path) => ({
-        loc: `https://localhost:3001/product/${path.params.slug}`,
+        loc: `https://mattscoinage.com/default-channel/en-US/products/${path.params.slug}`,
       }));
     }
   }

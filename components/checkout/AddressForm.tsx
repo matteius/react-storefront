@@ -9,11 +9,12 @@ import { messages } from "../translations";
 export interface AddressFormData {
   firstName: string;
   lastName: string;
-  phone: string;
   country: CountryCode;
-  streetAddress1: string;
+  phone: string;
   city: string;
+  countryArea: string;
   postalCode: string;
+  streetAddress1: string;
 }
 
 export interface AddressFormProps {
@@ -38,9 +39,10 @@ export function AddressForm({
       firstName: existingAddressData?.firstName || "",
       lastName: existingAddressData?.lastName || "",
       phone: existingAddressData?.phone || "",
-      country: "PL",
+      country: "US",
       streetAddress1: existingAddressData?.streetAddress1 || "",
       city: existingAddressData?.city || "",
+      countryArea: existingAddressData?.countryArea || "",
       postalCode: existingAddressData?.postalCode || "",
     },
   });
@@ -148,21 +150,20 @@ export function AddressForm({
           </div>
         </div>
 
-        {/* <div className="col-span-full sm:col-span-4">
-        <label
-          htmlFor="province"
-          className="block text-sm font-medium text-gray-700"
-        >
-          Province
-        </label>
-        <div className="mt-1">
-          <input
-            type="text"
-            id="province"
-            className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          />
+        <div className="col-span-full sm:col-span-4">
+          <label htmlFor="countryArea" className="block text-sm font-medium text-gray-700">
+            {t.formatMessage(messages.countryAreaField)}
+          </label>
+          <div className="mt-1">
+            <input
+              type="text"
+              id="countryArea"
+              autoComplete="state"
+              className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              {...registerAddress("countryArea", { required: true })}
+            />
+          </div>
         </div>
-      </div> */}
 
         <div className="col-span-full sm:col-span-6">
           <label htmlFor="postal-code" className="block text-sm font-medium text-gray-700">

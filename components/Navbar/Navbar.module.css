@@ -1,5 +1,5 @@
 .navbar {
-  @apply bg-white text-main sticky top-0 z-50;
+  @apply bg-yellow-400 text-main top-0 z-50;
 }
 
 .inner {
@@ -31,7 +31,7 @@
 }
 
 .dropdown-menu {
-  @apply absolute top-18 left-[50%] translate-x-[-50%] pt-8 bg-white w-full border-b border-main-4 invisible;
+  @apply absolute top-18 left-[50%] translate-x-[-50%] pt-8 bg-orange-100 w-full border-b border-main-4 invisible;
   padding-bottom: calc(theme("spacing.12") - theme("borderWidth.DEFAULT"));
 }
 
@@ -40,19 +40,19 @@
 }
 
 .dropdown-main {
-  @apply inline-block text-[1.8rem] leading-[2.16rem] font-bold cursor-pointer hover:underline;
+  @apply inline-block text-base leading-normal font-medium cursor-pointer hover:underline;
 }
 
 .dropdown-ul {
   @apply list-none mt-3;
 }
 
-.dropdown-ul > li + li {
-  @apply mt-2;
+.dropdown-ul > li {
+  @apply mt-2 indent-2;
 }
 
 .dropdown-link {
-  @apply text-base text-main-2 cursor-pointer hover:underline;
+  @apply text-base text-base cursor-pointer hover:underline;
 }
 
 .nav-icon-button {
@@ -73,7 +73,7 @@
 }
 
 .user-menu {
-  @apply absolute top-[100%] right-0 shadow-modal flex flex-col  invisible;
+  @apply absolute top-[100%] right-0 shadow-modal flex flex-col invisible;
 }
 
 .user-menu-item {

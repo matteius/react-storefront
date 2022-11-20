@@ -49,7 +49,6 @@ export function ShippingMethodOption({ method }: ShippingMethodOptionProps) {
               checked ? "border-blue-500" : "border-transparent",
               "absolute -inset-px rounded pointer-events-none"
             )}
-            aria-hidden="true"
           />
         </>
       )}

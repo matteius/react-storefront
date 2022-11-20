@@ -5,6 +5,7 @@ fragment AddressDetailsFragment on Address {
   lastName
   streetAddress1
   city
+  countryArea
   postalCode
   isDefaultBillingAddress
   isDefaultShippingAddress

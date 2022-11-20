@@ -14,8 +14,18 @@ export function RichText({ jsonStringData }: RichTextProps) {
   }
 
   return (
-    <article className="prose-2xl">
-      <Blocks data={data} />
+    <article className="prose-base">
+      <Blocks
+        data={data}
+        config={{
+          header: {
+            className: "font-bold",
+          },
+          paragraph: {
+            className: "text-base",
+          },
+        }}
+      />
     </article>
   );
 }

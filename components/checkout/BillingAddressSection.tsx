@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useIntl } from "react-intl";
 
 import { SavedAddressSelectionList } from "@/components";
-import { notNullable } from "@/lib/util";
 import { CheckoutDetailsFragment, useCheckoutBillingAddressUpdateMutation } from "@/saleor/api";
 
 import { Button } from "../Button";
@@ -22,7 +21,7 @@ export function BillingAddressSection({ active, checkout }: BillingAddressSectio
   const { authenticated } = useAuthState();
   const [editing, setEditing] = useState(!checkout.billingAddress);
   const [checkoutBillingAddressUpdate] = useCheckoutBillingAddressUpdateMutation({});
-
+  const [errorMessage, setErrorMessage] = useState<any>([]);
   const { query } = useRegions();
 
   const updateMutation = async (formData: AddressFormData) => {
@@ -36,9 +35,10 @@ export function BillingAddressSection({ active, checkout }: BillingAddressSectio
       },
     });
     setEditing(false);
-    return data?.checkoutBillingAddressUpdate?.errors.filter(notNullable) || [];
+    setErrorMessage(data?.checkoutBillingAddressUpdate?.errors);
+    return data?.checkoutBillingAddressUpdate?.errors || [];
   };
-
+  const listError: any = errorMessage.map((error: any) => [error.field, error.message].join(" "));
   return (
     <>
       <div className="mt-4 mb-4">
@@ -48,6 +48,7 @@ export function BillingAddressSection({ active, checkout }: BillingAddressSectio
           {t.formatMessage(messages.billingAddressCardHeader)}
         </h2>
       </div>
+      <pre>{listError.join("\r\n")}</pre>
       {active &&
         (editing ? (
           <>

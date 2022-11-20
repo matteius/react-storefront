@@ -43,21 +43,17 @@ export function Navbar() {
     <>
       <div className={clsx(styles.navbar)}>
         <div className={clsx(styles.inner)}>
+          <div className="flex-1 flex xs:justify-left">
+            <Stamp />
+          </div>
           <div className="flex-1 h-full hidden xs:flex">
             <Menu />
-          </div>
-          <div className="flex-1 flex xs:justify-center">
-            <Link href={paths.$url()} passHref>
-              <a href="pass" className={styles.logo}>
-                <Stamp />
-              </a>
-            </Link>
           </div>
           <div className="flex-1 flex justify-end">
             {!authenticated ? (
               <Link href={paths.account.login.$url()} passHref>
                 <a href="pass">
-                  <NavIconButton icon="user" aria-hidden="true" />
+                  <NavIconButton icon="user" alt="Customer Login" />
                 </a>
               </Link>
             ) : (
@@ -65,17 +61,18 @@ export function Navbar() {
             )}
             <Link href={paths.cart.$url()} passHref>
               <a href="pass" className="ml-2 hidden xs:flex">
-                <NavIconButton icon="bag" aria-hidden="true" counter={counter} />
+                <NavIconButton icon="bag" alt="Customer Cart" counter={counter} />
               </a>
             </Link>
             <Link href={paths.search.$url()} passHref>
               <a href="pass" className="hidden lg:flex ml-2">
-                <NavIconButton icon="spyglass" />
+                <NavIconButton icon="spyglass" alt="Search Products" />
               </a>
             </Link>
 
             <NavIconButton
               icon="menu"
+              alt="Product Categories"
               className="ml-2 lg:hidden"
               onClick={() => setBurgerOpen(true)}
             />

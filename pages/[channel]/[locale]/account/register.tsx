@@ -51,7 +51,7 @@ function RegisterPage() {
   });
 
   return (
-    <div className="min-h-screen bg-no-repeat bg-cover bg-center bg-gradient-to-r from-blue-100 to-blue-500">
+    <div className="min-h-screen bg-no-repeat bg-cover bg-center bg-gradient-to-r from-yellow-400 to-orange-100">
       <div className="flex justify-end">
         <div className="bg-white min-h-screen w-1/2 flex justify-center items-center">
           <div>

@@ -47,8 +47,8 @@ export function ProductGallery({ product, selectedVariant }: ProductGalleryProps
                 onClick={() => setExpandedImage(media)}
                 src={media.url}
                 alt={media.alt}
-                layout="fill"
-                objectFit="cover"
+                layout="responsive"
+                objectFit="contain"
                 role="button"
                 tabIndex={-2}
                 priority

@@ -36,14 +36,20 @@ function CheckoutPage() {
     <>
       <BaseSeo title="Checkout" />
 
-      <main className="w-screen max-w-7xl md:px-8 md:mx-auto overflow-hidden flex md:flex-row flex-col justify-between">
-        <div className="md:w-2/3 w-full">
-          <CheckoutForm />
-        </div>
-        <div className="md:w-1/3 w-full">
-          <CheckoutSidebar checkout={checkout} />
-        </div>
-      </main>
+      <div className="py-10">
+        <main>
+          <div className="flex justify-center">
+            <div className="md:flex grid grid-cols-1 md:grid-cols-2">
+              <div className="mx-2.5 md:w-3/5">
+                <CheckoutSidebar checkout={checkout} />
+              </div>
+              <div className="mx-2.5 md:w-3/5">
+                <CheckoutForm />
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
     </>
   );
 }

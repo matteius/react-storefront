@@ -12,13 +12,13 @@
 }
 
 .body {
-  @apply relative z-10 bg-white h-full overflow-y-scroll py-6 px-7 flex flex-col;
+  @apply relative z-10 bg-orange-100 h-full overflow-y-scroll py-6 px-7 flex flex-col;
   width: 93.846153846153846%;
   max-width: 366px;
 }
 
 .burger-link {
-  @apply text-main-2 text-md font-bold text-left;
+  @apply text-base text-md font-bold text-left;
 }
 
 .burger-link + .burger-link {
@@ -30,7 +30,7 @@
 }
 
 .collapse-main {
-  @apply text-main text-lg leading-[1.2em] font-bold block w-full text-left;
+  @apply text-lg font-bold block w-full text-left;
 }
 
 .collapse-main--active {
@@ -38,7 +38,7 @@
 }
 
 .collapse-sub {
-  @apply text-main text-[2rem] leading-[1.2em] font-bold flex w-full;
+  @apply block indent-2 leading-[1.2em] text-base font-bold flex w-full;
 }
 
 .collapse-sub svg {
@@ -50,5 +50,5 @@
 }
 
 .menu-link {
-  @apply block mt-3 text-main-2 text-base;
+  @apply block mt-3 indent-4 text-base;
 }

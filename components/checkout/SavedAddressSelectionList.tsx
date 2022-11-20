@@ -2,12 +2,24 @@ import clsx from "clsx";
 import React from "react";
 
 import { Spinner } from "@/components";
-import { AddressDetailsFragment, CheckoutError, useCurrentUserAddressesQuery } from "@/saleor/api";
-
-import { AddressFormData } from "./AddressForm";
+import {
+  AddressDetailsFragment,
+  CheckoutError,
+  CountryCode,
+  useCurrentUserAddressesQuery,
+} from "@/saleor/api";
 
 interface SavedAddressSelectionListProps {
-  updateAddressMutation: (address: AddressFormData) => Promise<CheckoutError[]>;
+  updateAddressMutation: (address: {
+    firstName: string;
+    lastName: string;
+    country: CountryCode;
+    phone: string;
+    city: string;
+    countryArea: string;
+    postalCode: string;
+    streetAddress1: string;
+  }) => Promise<CheckoutError[]>;
 }
 
 export function SavedAddressSelectionList({
@@ -35,9 +47,10 @@ export function SavedAddressSelectionList({
       firstName: address?.firstName,
       lastName: address?.lastName,
       phone: address?.phone || "",
-      country: "PL",
+      country: "US",
       streetAddress1: address.streetAddress1,
       city: address.city,
+      countryArea: address.countryArea,
       postalCode: address.postalCode,
     });
   };

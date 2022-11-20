@@ -72,6 +72,7 @@ function CollectionPage({
           <PageHero
             title={translate(collection, "name")}
             description={translate(collection, "description") || ""}
+            entity={collection}
           />
         </div>
       </header>

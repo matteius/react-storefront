@@ -65,36 +65,33 @@ export function Navbar() {
     <>
       <div className={clsx(styles.navbar)}>
         <div className={clsx(styles.inner)}>
+          <div className="flex-1 flex xs:justify-left">
+            <Stamp />
+          </div>
           <div className="flex-1 h-full hidden xs:flex">
             <Menu />
-          </div>
-          <div className="flex-1 flex xs:justify-center">
-            <Link href={paths.$url()} passHref legacyBehavior>
-              <a href="pass" className={styles.logo}>
-                <Stamp />
-              </a>
-            </Link>
           </div>
           <div className="flex-1 flex justify-end">
             {!authenticated ? (
               <Link href={paths.account.login.$url()} passHref legacyBehavior>
                 <a href="pass" data-testid="userIcon">
-                  <NavIconButton isButton={false} icon="user" aria-hidden="true" />
+                  <NavIconButton isButton={false} icon="user" aria-hidden="true"  alt="Customer Login" />
                 </a>
               </Link>
             ) : (
               <UserMenu />
             )}
             <Link href={externalCheckoutUrl} className="ml-2 hidden xs:flex" data-testid="cartIcon">
-              <NavIconButton isButton={false} icon="bag" aria-hidden="true" counter={counter} />
+              <NavIconButton isButton={false} icon="bag" aria-hidden="true"  alt="Cart" counter={counter} />
             </Link>
             <Link href={paths.search.$url()} passHref legacyBehavior>
               <a href="pass" className="hidden lg:flex ml-2" data-testid="searchIcon">
-                <NavIconButton isButton={false} icon="spyglass" />
+                <NavIconButton isButton={false} icon="spyglass" alt="Search Products" />
               </a>
             </Link>
             <NavIconButton
               icon="menu"
+              alt="Product Categories"
               className="ml-2 lg:hidden"
               onClick={() => setBurgerOpen(true)}
             />

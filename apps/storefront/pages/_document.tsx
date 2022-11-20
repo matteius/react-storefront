@@ -20,6 +20,10 @@ class MyDocument extends Document<{ lang?: string }> {
             href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;800&display=swap"
             rel="stylesheet"
           />
+        <meta
+            name="description"
+            content="MattsCoinage.com is your online shop for buying ancient and modern coins--featuring gold, silver and AE coins."
+          />
         </Head>
         <body spellCheck={false}>
           <Main />

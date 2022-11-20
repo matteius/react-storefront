@@ -67,15 +67,20 @@ export function CheckoutLineItem({ line }: CheckoutLineItemProps) {
   if (!line) return null;
 
   return (
-    <>
-      <div className="flex-shrink-0 bg-white w-32 h-32 sm:w-48 sm:h-48 border object-center object-cover relative">
-        {line.variant.product?.thumbnail && (
-          <Image
-            src={line.variant.product?.thumbnail?.url}
-            alt={line.variant.product?.thumbnail?.alt || ""}
-            layout="fill"
-          />
-        )}
+    <div className="flex grid grid-cols-1 md:grid-cols-2 justify-center">
+      <div className="row-span-2 flex-shrink-0 justify-center">
+        <div className="bg-white w-64 h-64 border bg-white justify-center object-center object-cover relative">
+          {line.variant.product?.thumbnail && (
+            <Image
+              src={line.variant.product?.thumbnail?.url || ""}
+              alt={line.variant.product?.thumbnail?.alt || ""}
+              height="100%"
+              width="100%"
+              layout="responsive"
+              objectFit="contain"
+            />
+          )}
+        </div>
       </div>
 
       <div className="ml-8 flex-1 flex flex-col justify-center">
@@ -154,7 +159,7 @@ export function CheckoutLineItem({ line }: CheckoutLineItemProps) {
                 disabled={loadingLineUpdate}
                 pattern="[0-9]*"
               />
-              <p className="text-md md:text-xl text-gray-900 text-right">
+          <p className="text-base text-slate-900 text-right">
                 {formatPrice(line?.totalPrice?.gross)}
               </p>
             </div>

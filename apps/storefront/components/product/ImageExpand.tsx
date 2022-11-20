@@ -1,6 +1,6 @@
 import { XIcon } from "@heroicons/react/outline";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
 import { ProductMediaFragment } from "@/saleor/api";
 
@@ -9,6 +9,11 @@ interface ImageExpandProps {
   onRemoveExpand: () => void;
 }
 export function ImageExpand({ image, onRemoveExpand }: ImageExpandProps) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    inputRef.current?.focus();
+  });
+
   if (!image) {
     return null;
   }
@@ -18,10 +23,11 @@ export function ImageExpand({ image, onRemoveExpand }: ImageExpandProps) {
       <div
         role="button"
         tabIndex={0}
-        className="absolute grid h-6 justify-end w-full z-40 p-8 lg:px-8 mx-auto"
+        className="absolute grid h-6 justify-end w-full z-40 p-8 lg:px-8 mt-14 mr-10"
+        ref={inputRef}
         onClick={() => onRemoveExpand()}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === "Enter" || e.key === "Escape") {
             onRemoveExpand();
           }
         }}

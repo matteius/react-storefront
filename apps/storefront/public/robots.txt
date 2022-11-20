@@ -4,11 +4,15 @@ Allow: /
 
 # *
 User-agent: *
+Disallow: /cart
 Disallow: /checkout
 Disallow: /account/*
 
 # Host
-Host: https://localhost:3001
+Host: https://www.mattscoinage.com/default-channel/en-US
 
 # Sitemaps
-Sitemap: https://localhost:3001/sitemap.xml
+Sitemap: https://www.mattscoinage.com/default-channel/en-US/sitemap.xml
+Sitemap: https://www.mattscoinage.com/default-channel/en-US/category
+Sitemap: https://www.mattscoinage.com/default-channel/en-US/collection
+Sitemap: https://www.mattscoinage.com/default-channel/en-US/product

@@ -27,7 +27,13 @@ function UserMenu({ className, ...rest }: UserMenuProps) {
             {t.formatMessage(messages.menuAccountPreferences)}
           </a>
         </Link>
-        <button type="button" onClick={onLogout} tabIndex={-1} className={styles["user-menu-item"]}>
+        <button
+          type="button"
+          onClick={onLogout}
+          tabIndex={-1}
+          className={styles["user-menu-item"]}
+          aria-label="Logout"
+        >
           {t.formatMessage(messages.logOut)}
         </button>
       </div>

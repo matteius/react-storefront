@@ -9,6 +9,7 @@ import User from "./userIcon.svg"; // in the final version it should be imported
 
 interface NavIconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon: "user" | "bag" | "spyglass" | "menu" | "close";
+  alt?: string;
   counter?: number;
   isButton?: boolean;
 }
@@ -30,7 +31,7 @@ const getIcon = (iconName: NavIconButtonProps["icon"]) => {
   }
 };
 
-function NavIconButton({ icon, counter, isButton = true, ...rest }: NavIconButtonProps) {
+function NavIconButton({ icon, alt, counter, isButton = true, ...rest }: NavIconButtonProps) {
   const inner = (
     <>
       {getIcon(icon)}
@@ -43,7 +44,7 @@ function NavIconButton({ icon, counter, isButton = true, ...rest }: NavIconButto
   );
   if (isButton) {
     return (
-      <button type="button" className={styles["nav-icon-button"]} {...rest}>
+    <button type="button" className={styles["nav-icon-button"]} aria-label={alt} {...rest}>
         {inner}
       </button>
     );

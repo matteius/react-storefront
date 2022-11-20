@@ -28,6 +28,8 @@ export function Navbar() {
 
   const saleorApiUrl = process.env.NEXT_PUBLIC_API_URI;
   invariant(saleorApiUrl, "Missing NEXT_PUBLIC_API_URI");
+  const checkoutUrl = process.env.NEXT_PUBLIC_CHECKOUT_URL;
+  invariant(checkoutUrl, "Missing NEXT_PUBLIC_CHECKOUT_URL");
   const domain = new URL(saleorApiUrl).hostname;
 
   const checkoutParams = checkout
@@ -43,7 +45,9 @@ export function Navbar() {
       })
     : new URLSearchParams();
 
-  const externalCheckoutUrl = checkout ? `/checkout/?${checkoutParams.toString()}` : "#";
+  const externalCheckoutUrl = checkout
+    ? `${checkoutUrl}/checkout-spa/?${checkoutParams.toString()}`
+    : "#";
 
   useEffect(() => {
     // Close side menu after changing the page
@@ -75,14 +79,25 @@ export function Navbar() {
             {!authenticated ? (
               <Link href={paths.account.login.$url()} passHref legacyBehavior>
                 <a href="pass" data-testid="userIcon">
-                  <NavIconButton isButton={false} icon="user" aria-hidden="true"  alt="Customer Login" />
+                  <NavIconButton
+                    isButton={false}
+                    icon="user"
+                    aria-hidden="true"
+                    alt="Customer Login"
+                  />
                 </a>
               </Link>
             ) : (
               <UserMenu />
             )}
             <Link href={externalCheckoutUrl} className="ml-2 hidden xs:flex" data-testid="cartIcon">
-              <NavIconButton isButton={false} icon="bag" aria-hidden="true"  alt="Cart" counter={counter} />
+              <NavIconButton
+                isButton={false}
+                icon="bag"
+                aria-hidden="true"
+                alt="Cart"
+                counter={counter}
+              />
             </Link>
             <Link href={paths.search.$url()} passHref legacyBehavior>
               <a href="pass" className="hidden lg:flex ml-2" data-testid="searchIcon">

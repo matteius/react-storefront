@@ -53,7 +53,7 @@ export function ProductCard({ product }: ProductCardProps) {
               <div className="bg-white w-full h-full relative object-contain ">
                 {thumbnailUrl ? (
                   <Image
-                    src={product.thumbnail?.url || ""}
+                    src={thumbnailUrl}
                     alt={product.thumbnail?.alt || ""}
                     height="100%"
                     width="100%"

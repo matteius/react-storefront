@@ -1248,12 +1248,12 @@
     "string": "change password visibility"
   },
   "PaymentSection/messages/8YE5b7": {
-    "developer_comment": "payment providers",
-    "string": "Payment providers"
+    "developer_comment": "payment methods selection",
+    "string": "Payment Methods"
   },
   "PaymentSection/messages/FK5Bg/": {
-    "developer_comment": "payment providers accessibility label",
-    "string": "payment providers"
+    "developer_comment": "payment methods selection",
+    "string": "payment Methods"
   },
   "PaymentSection/messages/bFYz7Q": {
     "developer_comment": "dropin",
@@ -1261,7 +1261,7 @@
   },
   "PaymentSection/messages/im88Fe": {
     "developer_comment": "credit card",
-    "string": "Credit card"
+    "string": "Credit card (Stripe Checkout)"
   },
   "PaymentSection/messages/jdRifS": {
     "developer_comment": "paypal",

@@ -1,19 +1,31 @@
-const { withSentryConfig } = require("@sentry/nextjs");
+// const { withSentryConfig } = require("@sentry/nextjs");
+/* eslint @typescript-eslint/no-var-requires: "off" */
+const { withImageLoader } = require("next-image-loader");
+const withPlugins = require("next-compose-plugins");
 const withTM = require("next-transpile-modules")([
   "@saleor/checkout-storefront",
   "checkout-common",
 ]);
 
 const isSentryEnabled = process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN;
+const imageConversionFormats = process.env.NEXT_PUBLIC_IMAGE_CONVERSION_FORMATS
+  ? process.env.NEXT_PUBLIC_IMAGE_CONVERSION_FORMATS.split(",")
+  : [];
 
 const checkoutEmbededInStorefrontPath = "/";
 
 /** @type {import('next').NextConfig} */
-const config = withTM({
+const nextConfig = {
   trailingSlash: true,
   i18n: {
     locales: ["en-US", "pl-PL", "fr-FR", "vi-VN", "ar-AE"],
     defaultLocale: "en-US",
+  },
+  images: {
+    domains: ["cdn.mattscoinage.com"],
+    formats: imageConversionFormats,
+    // loaderFile: './image-loader.js',
+    // loader: 'custom',
   },
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
@@ -69,18 +81,14 @@ const config = withTM({
     // for more information.
     hideSourceMaps: false,
   },
-});
+};
 
-module.exports = isSentryEnabled
-  ? withSentryConfig(config, {
-      // Additional config options for the Sentry Webpack plugin. Keep in mind that
-      // the following options are set automatically, and overriding them is not
-      // recommended:
-      //   release, url, org, project, authToken, configFile, stripPrefix,
-      //   urlPrefix, include, ignore
+const nextPlugins = [
+  (config) => withImageLoader(config),
+  (config) => withTM(config),
+  //(config) => withSentryConfig(config),
+  //(config) => withBundleAnalyzer(config),
+  //(config) => withSentryConfig(config, sentryWebpackPluginOptions),
+];
 
-      silent: true, // Suppresses all logs
-      // For all available options, see:
-      // https://github.com/getsentry/sentry-webpack-plugin#options.
-    })
-  : config;
+module.exports = withPlugins(nextPlugins, nextConfig);

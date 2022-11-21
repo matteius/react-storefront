@@ -1,8 +1,10 @@
+@tailwind base;
 @tailwind components;
+@tailwind utilities;
 
 @layer components {
   .app {
-    @apply min-h-screen bg-background-primary px-4 lg:px-0;
+    @apply min-h-screen bg-yellow-400 px-4 lg:px-0;
   }
 
   .page-horizontal-spacing {
@@ -14,7 +16,7 @@
   }
 
   .page-content {
-    @apply flex flex-col-reverse lg:items-start lg:flex-row w-full box-border;
+    @apply flex flex-col-reverse lg:items-start lg:flex-row w-full box-border bg-orange-100;
   }
 
   .page-divider {

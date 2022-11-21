@@ -100,12 +100,6 @@ export const AddressForm: FC<PropsWithChildren<AddressFormProps>> = ({
     <form>
       <div className="flex flex-row justify-between items-baseline">
         <Title className="flex-1">{title}</Title>
-        <Select
-          classNames={{ container: "flex-1 inline-block !w-auto" }}
-          options={countryOptions}
-          {...getInputProps("countryCode")}
-          autoComplete={autocompleteTags.countryCode}
-        />
       </div>
       <div className="mt-2">
         {orderedAddressFields.map((field: AddressField) => {
@@ -140,6 +134,12 @@ export const AddressForm: FC<PropsWithChildren<AddressFormProps>> = ({
             />
           );
         })}
+        <Select
+          classNames={{ container: "flex-1 inline-block !w-auto" }}
+          options={countryOptions}
+          {...getInputProps("countryCode")}
+          autoComplete={autocompleteTags.countryCode}
+        />
         {children}
       </div>
     </form>

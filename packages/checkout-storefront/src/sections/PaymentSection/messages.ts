@@ -3,15 +3,15 @@ import { defineMessages } from "react-intl";
 
 export const paymentSectionMessages = defineMessages({
   paymentProviders: {
-    defaultMessage: "Payment providers",
+    defaultMessage: "Payment Methods",
     id: "PaymentSection/messages/8YE5b7",
-    description: "payment providers",
+    description: "payment methods selection",
   },
 });
 
 export const paymentMethodsMessages = defineMessages<PaymentMethodID>({
   creditCard: {
-    defaultMessage: "Credit card",
+    defaultMessage: "Credit card (Stripe Checkout)",
     id: "PaymentSection/messages/im88Fe",
     description: "credit card",
   },
@@ -39,8 +39,8 @@ export const paymentMethodsMessages = defineMessages<PaymentMethodID>({
 
 export const paymentSectionLabels = defineMessages({
   paymentProviders: {
-    defaultMessage: "payment providers",
+    defaultMessage: "payment Methods",
     id: "PaymentSection/messages/FK5Bg/",
-    description: "payment providers accessibility label",
+    description: "payment methods selection",
   },
 });

@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import React, { SyntheticEvent } from "react";
 import { useIntl } from "react-intl";
@@ -74,8 +74,8 @@ export function CheckoutLineItem({ line }: CheckoutLineItemProps) {
             <Image
               src={line.variant.product?.thumbnail?.url || ""}
               alt={line.variant.product?.thumbnail?.alt || ""}
-              height="100%"
-              width="100%"
+              // height="100%"
+              // width="100%"
               layout="responsive"
               objectFit="contain"
             />

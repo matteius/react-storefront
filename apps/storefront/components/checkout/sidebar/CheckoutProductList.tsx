@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React from "react";
 import { useIntl } from "react-intl";
 
@@ -31,8 +31,6 @@ export function CheckoutProductList({ lines, token }: CheckoutProductListProps) 
                 <Image
                   src={line.variant.product.thumbnail?.url}
                   alt={line.variant.product.thumbnail?.alt || ""}
-                  height="100%"
-                  width="100%"
                   layout="responsive"
                   objectFit="contain"
                 />

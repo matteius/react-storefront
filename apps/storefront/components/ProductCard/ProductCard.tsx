@@ -1,5 +1,5 @@
 import { PhotographIcon } from "@heroicons/react/outline";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Link from "next/link";
 import React from "react";
 
@@ -55,8 +55,6 @@ export function ProductCard({ product }: ProductCardProps) {
                   <Image
                     src={thumbnailUrl}
                     alt={product.thumbnail?.alt || ""}
-                    height="100%"
-                    width="100%"
                     layout="responsive"
                     objectFit="contain"
                     priority

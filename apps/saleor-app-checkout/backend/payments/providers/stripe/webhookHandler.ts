@@ -128,7 +128,7 @@ export const checkoutSessionToTransactionCreateMutationVariables = async ({
           amount: getAmount("charged"),
           currency: charge.currency.toUpperCase(),
         },
-        availableActions: ["REFUND"],
+        availableActions: ["VOID", "CHARGE"],
       },
       transactionEvent: {
         status: "SUCCESS",

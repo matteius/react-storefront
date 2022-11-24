@@ -6,7 +6,6 @@ import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 
 import { messages } from "@/components/translations";
-import { DEMO_MODE } from "@/lib/const";
 import { usePaths } from "@/lib/paths";
 
 export type OptionalQuery = {
@@ -26,12 +25,7 @@ function LoginPage() {
   const { login } = useAuth();
   const { authenticated } = useAuthState();
 
-  const defaultValues = DEMO_MODE
-    ? {
-        email: "admin@example.com",
-        password: "admin",
-      }
-    : {};
+  const defaultValues = {};
 
   const {
     register: registerForm,

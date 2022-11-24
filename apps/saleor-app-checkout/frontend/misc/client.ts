@@ -40,14 +40,14 @@ export const createGraphqlClient = (apiUrl: string, token: string | undefined) =
   if (!token) {
     console.log("NO TOKEN!");
   }
-  const authState = { token: "WIzw5F9xZ8cx34VvhFEYoMCCqbduVO" };
   console.info(`Using API_URL: ${apiUrl}`);
   return createClient({
     exchanges: [
       dedupExchange,
       cacheExchange,
       authExchange({
-        getAuth: async () => authState,
+        // getAuth: async () => authState,
+        getAuth: async () => (token ? { token } : null),
         willAuthError,
         addAuthToOperation,
       }),

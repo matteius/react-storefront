@@ -57,6 +57,11 @@ const nextConfig = {
           },
         ],
       },
+
+      {
+        source: "/checkout/(.*)",
+        headers: [{ key: "x-frame-options", value: "ALLOWALL" }],
+      },
     ];
   },
   async rewrites() {

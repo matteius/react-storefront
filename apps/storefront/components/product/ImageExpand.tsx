@@ -23,7 +23,7 @@ export function ImageExpand({ image, onRemoveExpand }: ImageExpandProps) {
       <div
         role="button"
         tabIndex={0}
-        className="absolute grid h-6 justify-end w-full z-40 p-8 lg:px-8 mt-14 mr-10"
+        className="absolute grid h-6 content-center justify-center right-0 p-8 h-6 w-6 z-40 mt-18"
         ref={inputRef}
         onClick={() => onRemoveExpand()}
         onKeyDown={(e) => {

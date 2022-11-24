@@ -1,10 +1,24 @@
 import { authExchange } from "@urql/exchange-auth";
 import { multipartFetchExchange } from "@urql/exchange-multipart-fetch";
 import { createClient, makeOperation, cacheExchange, dedupExchange, Operation } from "urql";
+import { useAppContext } from "@/saleor-app-checkout/frontend/components/elements/AppProvider/ClientAppBridgeProvider";
 
 interface AuthState {
   token: string;
 }
+
+const getAuth = async ({ authState }: { authState?: AuthState | null }) => {
+  const { app } = useAppContext();
+  if (!authState) {
+    const token = app?.getState().token;
+
+    if (token) {
+      return { token };
+    }
+  }
+
+  return null;
+};
 
 const addAuthToOperation = ({
   authState,
@@ -43,7 +57,7 @@ export const createGraphqlClient = (apiUrl: string, token: string | undefined) =
       dedupExchange,
       cacheExchange,
       authExchange({
-        getAuth: async () => (token ? { token } : null),
+        getAuth,
         willAuthError,
         addAuthToOperation,
       }),

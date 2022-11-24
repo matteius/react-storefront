@@ -8,7 +8,6 @@ import { useCheckoutCustomerDetachMutation } from "@/checkout-storefront/graphql
 import { useCheckout } from "@/checkout-storefront/hooks/useCheckout";
 import { contactLabels, contactMessages } from "./messages";
 import { useLocale } from "@/checkout-storefront/hooks/useLocale";
-import { localeToLanguageCode } from "@/checkout-storefront/lib/utils";
 
 interface SignedInUserProps extends Pick<SignInFormContainerProps, "onSectionChange"> {
   onSignOutSuccess: () => void;
@@ -28,7 +27,7 @@ export const SignedInUser: React.FC<SignedInUserProps> = ({
   const [, customerDetach] = useCheckoutCustomerDetachMutation();
 
   const handleLogout = async () => {
-    await customerDetach({ languageCode: localeToLanguageCode(locale), checkoutId: checkout.id });
+    await customerDetach({ languageCode: "EN_US", checkoutId: checkout.id });
     await logout();
     onSignOutSuccess();
   };

@@ -1,5 +1,3 @@
-import { LanguageSelect } from "@/checkout-storefront/sections/PageHeader/LanguageSelect";
-
 export const PageHeader = () => {
   return (
     <div className="page-header">
@@ -9,7 +7,6 @@ export const PageHeader = () => {
         className="logo"
       />
       <p className="text-6xl">MattsCoinage Checkout</p>
-      <LanguageSelect />
     </div>
   );
 };

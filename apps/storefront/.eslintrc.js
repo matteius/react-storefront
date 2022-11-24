@@ -6,7 +6,7 @@ module.exports = {
   },
 
   ignorePatterns: ["saleor/api.tsx", "pnpm-lock.yaml", "graphql.schema.json", "lib/$path.ts"],
-
+  plugins: ["formatjs"],
   rules: {
     "import/no-restricted-paths": [
       "error",
@@ -18,5 +18,6 @@ module.exports = {
         ],
       },
     ],
+    "formatjs/no-offset": "error",
   },
 };

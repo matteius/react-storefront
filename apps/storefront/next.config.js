@@ -23,7 +23,7 @@ const nextConfig = {
     // images: { allowFutureImage: true },
   },
   reactStrictMode: true,
-  swcMinify: true,
+  swcMinify: false,
   images: {
     domains: ["cdn.mattscoinage.com"],
     formats: imageConversionFormats,

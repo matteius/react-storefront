@@ -69,9 +69,7 @@ export const Root = ({ env }: RootProps) => {
           <AppConfigProvider env={env}>
             <div className="app">
               <ToastContainer {...alertsContainerProps} />
-              <ErrorBoundary FallbackComponent={PageNotFound}>
-                <RootViews />
-              </ErrorBoundary>
+              <RootViews />
             </div>
           </AppConfigProvider>
         </UrqlProvider>

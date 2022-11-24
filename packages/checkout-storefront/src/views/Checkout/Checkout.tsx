@@ -19,30 +19,5 @@ export const Checkout = () => {
 
   const isEmptyCart = checkout && !checkout.lines.length;
 
-  return isCheckoutInvalid ? (
-    <PageNotFound />
-  ) : isInitiallyAuthenticating ? (
-    <CheckoutSkeleton />
-  ) : (
-    <ErrorBoundary FallbackComponent={PageNotFound}>
-      <div className="page">
-        <PageHeader />
-        <div className="page-content">
-          {isEmptyCart ? (
-            <EmptyCartPage />
-          ) : (
-            <>
-              <Suspense fallback={<CheckoutFormSkeleton />}>
-                <CheckoutForm />
-              </Suspense>
-              <div className="page-divider" />
-              <Suspense fallback={<SummarySkeleton />}>
-                <Summary {...checkout} />
-              </Suspense>
-            </>
-          )}
-        </div>
-      </div>
-    </ErrorBoundary>
-  );
+  return <CheckoutSkeleton />;
 };

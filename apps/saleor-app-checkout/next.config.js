@@ -69,7 +69,7 @@ const nextConfig = {
     externalDir: true,
   },
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   assetPrefix: `${checkoutEmbededInStorefrontPath}`,
   sentry: {

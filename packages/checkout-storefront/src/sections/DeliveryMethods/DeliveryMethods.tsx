@@ -103,7 +103,7 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
       }
 
       const result = await updateDeliveryMethod({
-        languageCode: localeToLanguageCode(locale),
+        languageCode: "EN_US",
         deliveryMethodId: selectedMethodId,
         checkoutId: checkout.id,
       });

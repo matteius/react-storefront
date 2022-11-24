@@ -10,7 +10,6 @@ import { useSetFormErrors } from "@/checkout-storefront/hooks/useSetFormErrors/u
 import { Classes } from "@/checkout-storefront/lib/globalTypes";
 import {
   extractMutationErrors,
-  localeToLanguageCode,
   useValidationResolver,
 } from "@/checkout-storefront/lib/utils";
 import { summaryLabels, summaryMessages } from "./messages";
@@ -46,7 +45,7 @@ export const PromoCodeAdd: FC<Classes> = ({ className }) => {
 
   const onSubmit = async ({ promoCode }: FormData) => {
     const result = await checkoutAddPromoCode({
-      languageCode: localeToLanguageCode(locale),
+      languageCode: "EN_US",
       promoCode,
       checkoutId: checkout.id,
     });

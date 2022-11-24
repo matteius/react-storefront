@@ -9,7 +9,7 @@ import { useAlerts } from "@/checkout-storefront/hooks/useAlerts";
 import { useCheckout } from "@/checkout-storefront/hooks/useCheckout";
 import { useErrors } from "@/checkout-storefront/hooks/useErrors";
 import { useFormattedMessages } from "@/checkout-storefront/hooks/useFormattedMessages";
-import { extractMutationErrors, localeToLanguageCode } from "@/checkout-storefront/lib/utils";
+import { extractMutationErrors } from "@/checkout-storefront/lib/utils";
 import { useAuthState } from "@saleor/sdk";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { GuestAddressSection } from "../GuestAddressSection/GuestAddressSection";
@@ -60,7 +60,7 @@ export const BillingAddressSection = () => {
   const updateBillingAddress = useCallback(
     async ({ autoSave, ...addressInput }: AddressFormData) => {
       const result = await checkoutBillingAddressUpdate({
-        languageCode: localeToLanguageCode(locale),
+        languageCode: "EN_US",
         checkoutId,
         billingAddress: getAddressInputData(addressInput),
         validationRules: getAddressVlidationRulesVariables(autoSave),

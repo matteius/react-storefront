@@ -1,7 +1,6 @@
 import { useCheckoutCustomerAttachMutation } from "@/checkout-storefront/graphql";
 import { useCheckout, useCheckoutUpdateStateTrigger } from "@/checkout-storefront/hooks";
 import { useLocale } from "@/checkout-storefront/hooks/useLocale";
-import { localeToLanguageCode } from "@/checkout-storefront/lib/utils";
 import { useAuthState } from "@saleor/sdk";
 import { useEffect, useCallback } from "react";
 
@@ -21,7 +20,7 @@ export const useCustomerAttach = () => {
 
     await customerAttach({
       checkoutId: checkout.id,
-      languageCode: localeToLanguageCode(locale),
+      languageCode: "EN_US",
     });
   }, [checkout?.user?.id, checkout.id, user?.id, fetching, loading, customerAttach, locale]);
 

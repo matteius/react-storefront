@@ -10,7 +10,6 @@ import { TextInput } from "@/checkout-storefront/components/TextInput";
 
 import {
   extractMutationErrors,
-  localeToLanguageCode,
   useValidationResolver,
 } from "@/checkout-storefront/lib/utils";
 import { useCheckout } from "@/checkout-storefront/hooks/useCheckout";
@@ -77,7 +76,7 @@ export const SummaryItemMoneyEditableSection: React.FC<LineItemQuantitySelectorP
   const getInputProps = useGetInputProps(methods);
 
   const getUpdateLineVars = ({ quantity }: FormData): CheckoutLinesUpdateMutationVariables => ({
-    languageCode: localeToLanguageCode(locale),
+    languageCode: "EN_US",
     checkoutId: checkout.id,
     lines: [
       {
@@ -89,7 +88,7 @@ export const SummaryItemMoneyEditableSection: React.FC<LineItemQuantitySelectorP
 
   const onLineDelete = async () => {
     const result = await deleteLines({
-      languageCode: localeToLanguageCode(locale),
+      languageCode: "EN_US",
       checkoutId: checkout.id,
       lineId: line.id,
     });

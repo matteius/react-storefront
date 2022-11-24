@@ -2,7 +2,6 @@ import { useCheckoutEmailUpdateMutation } from "@/checkout-storefront/graphql";
 import { useFormattedMessages } from "@/checkout-storefront/hooks/useFormattedMessages";
 import {
   extractMutationErrors,
-  localeToLanguageCode,
   useValidationResolver,
 } from "@/checkout-storefront/lib/utils";
 import React, { useCallback, useEffect, useState } from "react";
@@ -92,7 +91,7 @@ export const GuestUserForm: React.FC<AnonymousCustomerFormProps> = ({ onSectionC
       }
 
       const result = await updateEmail({
-        languageCode: localeToLanguageCode(locale),
+        languageCode: "EN_US",
         email,
         checkoutId: checkout.id,
       });

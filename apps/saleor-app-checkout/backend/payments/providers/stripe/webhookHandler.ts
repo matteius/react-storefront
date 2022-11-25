@@ -111,8 +111,8 @@ export const checkoutSessionToTransactionCreateMutationVariables = async ({
     }
 
     const getAmount = getTransactionAmountGetter({
-      authorized: undefined,
-      charged: getSaleorAmountFromInteger(charge.amount),
+      authorized: getSaleorAmountFromInteger(charge.amount),
+      charged: undefined,
       voided: undefined,
       refunded: undefined,
     });
@@ -123,11 +123,11 @@ export const checkoutSessionToTransactionCreateMutationVariables = async ({
         status: checkoutSession.status || "unknown",
         reference: checkoutSession.id,
         type: `${STRIPE_PAYMENT_PREFIX}-${method || "(unknown-payment-method)"}`,
-        amountAuthorized: undefined,
-        amountCharged: {
+        amountAuthorized: {
           amount: getAmount("charged"),
           currency: charge.currency.toUpperCase(),
         },
+        amountCharged: undefined,
         availableActions: ["VOID", "CHARGE"],
       },
       transactionEvent: {

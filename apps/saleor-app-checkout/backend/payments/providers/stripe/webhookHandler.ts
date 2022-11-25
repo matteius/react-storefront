@@ -149,8 +149,18 @@ export const stripeWebhookEventToTransactionCreateMutationVariables = ({
 }) => {
   switch (event.type) {
     case "checkout.session.completed":
+      return checkoutSessionToTransactionCreateMutationVariables({
+        saleorApiUrl,
+        eventType: event.type,
+        checkoutSession: event.data.object,
+      });
     case "checkout.session.async_payment_failed":
     case "checkout.session.async_payment_succeeded":
+      return checkoutSessionToTransactionCreateMutationVariables({
+        saleorApiUrl,
+        eventType: event.type,
+        checkoutSession: event.data.object,
+      });
     case "checkout.session.expired":
       return checkoutSessionToTransactionCreateMutationVariables({
         saleorApiUrl,

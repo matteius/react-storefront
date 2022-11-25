@@ -24,6 +24,7 @@ export const useGetPaymentProviderSettings = <TArgs>(
     args: {
       ...optionalProps?.args,
       saleorApiUrl,
+      token: app.getState().token,
     },
   });
 

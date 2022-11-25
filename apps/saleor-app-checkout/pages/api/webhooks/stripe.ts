@@ -73,6 +73,8 @@ const stripeWebhook: NextApiHandler = async (req, res) => {
   });
 
   if (transactionData?.id) {
+    console.log("transactionData.id");
+    console.log(transactionData?.id)
     const id = transactionData.id;
     await updateOrCreateTransaction({
       saleorApiUrl,

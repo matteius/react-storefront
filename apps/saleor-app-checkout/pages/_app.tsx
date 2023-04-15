@@ -7,8 +7,9 @@ import { useFormattedMessages } from "@/saleor-app-checkout/frontend/hooks/useFo
 import AppContainer from "@/saleor-app-checkout/frontend/components/elements/AppContainer";
 import AppProvider from "@/saleor-app-checkout/frontend/components/elements/AppProvider";
 import PrivateSettingsProvider from "@/saleor-app-checkout/frontend/components/elements/PrivateSettingsProvider";
-import "@saleor/checkout-storefront/dist/esm/index.css";
+import "@saleor/checkout-storefront/dist/index.css";
 import { useEffect } from "react";
+import { RoutePropagator } from "@saleor/app-sdk/app-bridge/next";
 
 declare global {
   // eslint-disable-next-line no-var -- var is required here
@@ -63,6 +64,7 @@ export default function App(props: AppProps) {
           >
             {/* @ts-expect-error React 17 <-> 18 types mismatch */}
             <ThemeProvider ssr={true}>
+              <RoutePropagator />
               <AppContainer>
                 <Component {...pageProps} />
               </AppContainer>

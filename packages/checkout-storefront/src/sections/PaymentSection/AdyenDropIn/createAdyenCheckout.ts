@@ -8,31 +8,38 @@ import {
 } from "checkout-common";
 import { PaymentResponse as AdyenApiPaymentResponse } from "@adyen/api-library/lib/src/typings/checkout/paymentResponse";
 import { replaceUrl } from "@/checkout-storefront/lib/utils/url";
+import { Locale } from "@/checkout-storefront/lib/regions";
 
+export type AdyenCheckoutInstanceState = {
+  isValid?: boolean;
+  data: CardElementData & Record<string, any>;
+};
 export type AdyenCheckoutInstanceOnSubmit = (
-  state: {
-    isValid?: boolean;
-    data: CardElementData & Record<string, any>;
-  },
+  state: AdyenCheckoutInstanceState,
   component: DropinElement
 ) => Promise<void> | void;
 
 export type AdyenCheckoutInstanceOnAdditionalDetails = (
-  state: { isValid?: boolean; data: CardElementData & Record<string, any> },
+  state: AdyenCheckoutInstanceState,
   component: DropinElement
 ) => Promise<void> | void;
+
+type ApplePayCallback = <T>(value: T) => void;
 
 export function createAdyenCheckoutInstance(
   adyenSessionResponse: AdyenDropInCreateSessionResponse,
   {
     onSubmit,
     onAdditionalDetails,
+    locale,
   }: {
     onSubmit: AdyenCheckoutInstanceOnSubmit;
     onAdditionalDetails: AdyenCheckoutInstanceOnAdditionalDetails;
+    locale: Locale;
   }
 ) {
   return AdyenCheckout({
+    locale,
     environment: "test",
     clientKey: adyenSessionResponse.clientKey,
     session: {
@@ -47,7 +54,6 @@ export function createAdyenCheckoutInstance(
     },
     onSubmit,
     onAdditionalDetails,
-    allowPaymentMethods: ["scheme"],
     // Any payment method specific configuration. Find the configuration specific to each payment method: https://docs.adyen.com/payment-methods
     // For example, this is 3D Secure configuration for cards:
     paymentMethodsConfiguration: {
@@ -55,6 +61,22 @@ export function createAdyenCheckoutInstance(
         hasHolderName: true,
         holderNameRequired: true,
         billingAddressRequired: false,
+      },
+      applepay: {
+        buttonType: "plain",
+        buttonColor: "black",
+        onPaymentMethodSelected: (resolve: ApplePayCallback, reject: ApplePayCallback, event) => {
+          console.log({ "event.paymentMethod": event.paymentMethod, event });
+          resolve(event.paymentMethod);
+        },
+        onShippingContactSelected: (resolve: ApplePayCallback, reject: ApplePayCallback, event) => {
+          console.log({ "event.shippingContact": event.shippingContact, event });
+          resolve(event.shippingContact);
+        },
+        onShippingMethodSelected: (resolve: ApplePayCallback, reject: ApplePayCallback, event) => {
+          console.log({ "event.shippingMethod": event.shippingMethod, event });
+          resolve(event.shippingMethod);
+        },
       },
     },
     analytics: {

@@ -120,8 +120,8 @@ const nextConfig = {
               destination: `${cloudDeploymentUrl}/digital-download/:match*`,
             },
             {
-              source: "/thumbnail/:match*",
-              destination: `${cloudDeploymentUrl}/thumbnail/:match*`,
+              source: "/thumbnail/:instance/:size/",
+              destination: `${cloudDeploymentUrl}/thumbnail/:instance/:size/`,
             },
             {
               source: "/.well-known/jwks.json",

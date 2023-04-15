@@ -1,4 +1,3 @@
-import { useAuthState } from "@saleor/sdk";
 import { GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import Image from "next/legacy/image";
 import { ReactElement } from "react";
@@ -7,6 +6,7 @@ import { AccountLayout, Spinner } from "@/components";
 import { AddressDisplay } from "@/components/checkout/AddressDisplay";
 import { useRegions } from "@/components/RegionsProvider";
 import { useOrderDetailsByTokenQuery } from "@/saleor/api";
+import { useUser } from "@/lib/useUser";
 
 export const getStaticProps = async (context: GetStaticPropsContext) => ({
   props: {
@@ -23,10 +23,14 @@ export async function getStaticPaths() {
 
 function OrderDetailsPage({ token }: InferGetStaticPropsType<typeof getStaticProps>) {
   const { formatPrice } = useRegions();
-  const { authenticated } = useAuthState();
+  const { authenticated } = useUser();
   const { loading, error, data } = useOrderDetailsByTokenQuery({
+<<<<<<< HEAD
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     variables: { token: token! },
+=======
+    variables: { token: token as string },
+>>>>>>> canary
     skip: !token || !authenticated,
   });
 

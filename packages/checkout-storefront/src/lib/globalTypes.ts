@@ -23,6 +23,7 @@ export type ErrorCode =
   | "quantityGreaterThanLimit"
   | "insufficientStock"
   | "invalidCredentials"
+  | "emailInvalid"
   | PasswordErrorCode
   | CheckoutFinalizeErrorCode;
 
@@ -30,7 +31,8 @@ export type PasswordErrorCode =
   | "passwordTooShort"
   | "passwordTooSimilar"
   | "passwordTooCommon"
-  | "passwordInvalid";
+  | "passwordInvalid"
+  | "passwordAtLeastCharacters";
 
 export type CheckoutFinalizeErrorCode = "missingFields";
 
@@ -40,23 +42,6 @@ export interface ValidationError<TFormData> {
   message: string;
 }
 
-export type AddressField =
-  | "city"
-  | "firstName"
-  | "lastName"
-  | "countryArea"
-  | "cityArea"
-  | "postalCode"
-  | "countryCode"
-  | "companyName"
-  | "streetAddress1"
-  | "streetAddress2"
-  | "phone";
-
-export type ApiAddressField = AddressField | "name";
-
 export interface CommonSectionProps {
   collapsed: boolean;
 }
-
-export type FormDataBase = Record<string, any>;

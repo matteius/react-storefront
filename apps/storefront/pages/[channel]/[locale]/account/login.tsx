@@ -1,4 +1,3 @@
-import { useAuth, useAuthState } from "@saleor/sdk";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
@@ -7,6 +6,7 @@ import { useIntl } from "react-intl";
 
 import { messages } from "@/components/translations";
 import { usePaths } from "@/lib/paths";
+import { useSaleorAuthContext } from "@/lib/auth";
 
 export type OptionalQuery = {
   next?: string;
@@ -22,8 +22,7 @@ function LoginPage() {
   const paths = usePaths();
   const t = useIntl();
 
-  const { login } = useAuth();
-  const { authenticated } = useAuthState();
+  const { signIn } = useSaleorAuthContext();
 
   const defaultValues = {};
 
@@ -34,32 +33,30 @@ function LoginPage() {
     setError: setErrorForm,
   } = useForm<LoginFormData>({ defaultValues });
 
-  const redirectURL = router.query.next?.toString() || paths.$url();
+  const routerQueryNext = router.query.next?.toString() || "";
+  const isExternalUrl = /^\w+:\/\//.test(routerQueryNext);
+  const redirectURL = !routerQueryNext || isExternalUrl ? paths.$url() : routerQueryNext;
 
   const handleLogin = handleSubmitForm(async (formData: LoginFormData) => {
-    const { data } = await login({
+    const { data } = await signIn({
       email: formData.email,
       password: formData.password,
     });
 
-    if (data?.tokenCreate?.errors[0]) {
-      // Unable to sign in.
+    if (data?.tokenCreate?.errors?.length) {
       setErrorForm("email", { message: "Invalid credentials" });
+      return;
     }
-  });
 
-  if (authenticated) {
-    // User signed in successfully.
     void router.push(redirectURL);
-    return null;
-  }
+  });
 
   return (
     <div className="min-h-screen bg-no-repeat bg-cover bg-center bg-gradient-to-r from-blue-100 to-blue-500">
       <div className="flex justify-end">
         <div className="bg-white min-h-screen w-1/2 flex justify-center items-center">
           <div>
-            <form onSubmit={handleLogin}>
+            <form method="post" onSubmit={handleLogin}>
               <div>
                 <span className="text-sm text-gray-900">
                   {t.formatMessage(messages.loginWelcomeMessage)}

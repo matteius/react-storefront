@@ -1,6 +1,6 @@
 import { ErrorCode } from "@/checkout-storefront/lib/globalTypes";
 
-export type AlertType = "error";
+export type AlertType = "error" | "success";
 
 export interface AlertErrorData {
   scope: CheckoutScope;
@@ -33,6 +33,7 @@ export type CheckoutScope =
   | "userRegister"
   | "requestPasswordReset"
   | "checkoutLinesUpdate"
+  | "checkoutLinesDelete"
   | "checkoutEmailUpdate"
   | "resetPassword"
-  | "login";
+  | "signIn";

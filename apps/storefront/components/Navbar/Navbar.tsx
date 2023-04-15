@@ -1,4 +1,3 @@
-import { useAuthState } from "@saleor/sdk";
 import clsx from "clsx";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -16,15 +15,22 @@ import Stamp from "./Stamp";
 import UserMenu from "./UserMenu";
 import { useRegions } from "@/components/RegionsProvider";
 import { invariant } from "@apollo/client/utilities/globals";
+import { useUser } from "@/lib/useUser";
 
 export function Navbar() {
   const paths = usePaths();
   const router = useRouter();
 
   const [isBurgerOpen, setBurgerOpen] = useState(false);
-  const { authenticated } = useAuthState();
+  const [authenticated, setAuthenticated] = useState(false);
+  const { authenticated: actuallyAuthenticated } = useUser();
   const { checkout } = useCheckout();
   const { currentLocale, currentChannel } = useRegions();
+
+  // Avoid hydration warning by setting authenticated state in useEffect
+  useEffect(() => {
+    setAuthenticated(actuallyAuthenticated);
+  }, [actuallyAuthenticated]);
 
   const saleorApiUrl = process.env.NEXT_PUBLIC_API_URI;
   invariant(saleorApiUrl, "Missing NEXT_PUBLIC_API_URI");

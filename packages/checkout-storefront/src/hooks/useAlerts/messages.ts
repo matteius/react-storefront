@@ -1,6 +1,6 @@
 import { defineMessages } from "react-intl";
 
-export const errorMessages = defineMessages({
+export const apiErrorMessages = defineMessages({
   somethingWentWrong: {
     defaultMessage: "Sorry, something went wrong. Please try again in a moment.",
     id: "useAlerts/messages/7yexjS",
@@ -35,21 +35,6 @@ export const errorMessages = defineMessages({
     defaultMessage: "Provided email is invalid",
     id: "useAlerts/messages/dKzVev",
     description: "checkout email update email invalid error",
-  },
-  checkoutFinalizeEmailRequiredError: {
-    defaultMessage: "Please provide a valid email before finalizing checkout",
-    id: "useAlerts/messages/rVGqj8",
-    description: "checkout finalize email required error",
-  },
-  checkoutFinalizePaymentProviderRequiredError: {
-    defaultMessage: "Please select a payment method before finalizing checkout",
-    id: "useAlerts/messages/b1SQCj",
-    description: "checkout finalize payment provider required error",
-  },
-  checkoutFinalizeShippingAddressInvalidError: {
-    defaultMessage: "Please fill in a valid shipping address before finalizing checkout",
-    id: "useAlerts/messages/Em5uvP",
-    description: "checkout finalize - shipping address invalid error",
   },
   checkoutAddPromoCodePromoCodeInvalidError: {
     defaultMessage: "Invalid promo code provided",
@@ -131,10 +116,15 @@ export const errorMessages = defineMessages({
     id: "useAlerts/messages/oyFho2",
     description: "checkout lines update - insufficient stock error",
   },
-  loginEmailInvalidCredentialsError: {
+  signInEmailInvalidCredentialsError: {
     defaultMessage: "Invalid credentials provided to login",
     id: "useAlerts/messages/nX71XF",
     description: "login - invalid credentials error",
+  },
+  signInEmailInactiveError: {
+    defaultMessage: "The account you're trying to sign in to is inactive",
+    id: "useAlerts/messages/HmxWx+",
+    description: "the account youre trying to sign in to is inactive",
   },
   checkoutShippingUpdatePostalCodeInvalidError: {
     defaultMessage: "Invalid postal code was provided for shipping address",
@@ -151,19 +141,14 @@ export const errorMessages = defineMessages({
     id: "useAlerts/messages/8fk/m5",
     description: "checkout billing update - postal code invalid error",
   },
-  checkoutFinalizeEmailInvalidError: {
-    defaultMessage: "Please provide valid email before finalizing checkout",
-    id: "useAlerts/messages/cRtX18",
-    description: "checkout finalize - email invalid error",
+  checkoutDeliveryMethodUpdatePostalCodeInvalidError: {
+    defaultMessage: "Invalid postal code was provided for shipping address",
+    id: "useAlerts/messages/2leXNc",
+    description: "checkout shipping update - postal code invalid error",
   },
-  checkoutFinalizeShippingAddressRequiredError: {
-    defaultMessage: "Please provide a valid shipping address before finalizing checkout",
-    id: "useAlerts/messages/ow9nan",
-    description: "please provide a valid shipping address before finalizing checkout",
-  },
-  checkoutFinalizeBillingAddressRequiredError: {
-    defaultMessage: "Please provide a valid billing address before finalizing",
-    id: "useAlerts/messages/kiBZQ6",
-    description: "please provide a valid billing address before finalizing",
+  checkoutDeliveryMethodUpdatePromoCodeInvalidError: {
+    defaultMessage: "Please provide a valid discount code.",
+    id: "useAlerts/messages/OUpWUk",
+    description: "please provide a valid discount code",
   },
 });

@@ -1,86 +1,58 @@
 import { Button } from "@/checkout-storefront/components/Button";
 import { TextInput } from "@/checkout-storefront/components/TextInput";
 import { useCheckoutAddPromoCodeMutation } from "@/checkout-storefront/graphql";
-import { useAlerts } from "@/checkout-storefront/hooks/useAlerts";
-import { useCheckout } from "@/checkout-storefront/hooks/useCheckout";
-import { useErrors } from "@/checkout-storefront/hooks/useErrors";
 import { useFormattedMessages } from "@/checkout-storefront/hooks/useFormattedMessages";
-import { useGetInputProps } from "@/checkout-storefront/hooks/useGetInputProps";
-import { useSetFormErrors } from "@/checkout-storefront/hooks/useSetFormErrors/useSetFormErrors";
 import { Classes } from "@/checkout-storefront/lib/globalTypes";
-import {
-  extractMutationErrors,
-  useValidationResolver,
-} from "@/checkout-storefront/lib/utils";
 import { summaryLabels, summaryMessages } from "./messages";
 import clsx from "clsx";
 import React, { FC } from "react";
-import { useForm } from "react-hook-form";
-import { object, string } from "yup";
-import { useLocale } from "@/checkout-storefront/hooks/useLocale";
+import { useFormSubmit } from "@/checkout-storefront/hooks/useFormSubmit";
+import { FormProvider } from "@/checkout-storefront/providers/FormProvider";
+import { useForm } from "@/checkout-storefront/hooks/useForm";
 
-interface FormData {
+interface PromoCodeFormData {
   promoCode: string;
 }
 
 export const PromoCodeAdd: FC<Classes> = ({ className }) => {
-  const { locale } = useLocale();
-  const { checkout } = useCheckout();
   const formatMessage = useFormattedMessages();
-  const { setApiErrors, errors } = useErrors<FormData>();
-  const { showErrors } = useAlerts("checkoutAddPromoCode");
-
-  const schema = object({
-    code: string(),
-  });
-  const resolver = useValidationResolver(schema);
-
   const [, checkoutAddPromoCode] = useCheckoutAddPromoCodeMutation();
 
-  const formProps = useForm<FormData>({ resolver, defaultValues: { promoCode: "" } });
-  const { handleSubmit, watch, setError, reset } = formProps;
-  const getInputProps = useGetInputProps(formProps);
-
-  const showApplyButton = !!watch("promoCode");
-
-  const onSubmit = async ({ promoCode }: FormData) => {
-    const result = await checkoutAddPromoCode({
-      languageCode: "EN_US",
+  const onSubmit = useFormSubmit<PromoCodeFormData, typeof checkoutAddPromoCode>({
+    scope: "checkoutAddPromoCode",
+    onSubmit: checkoutAddPromoCode,
+    parse: ({ promoCode, languageCode, checkoutId }) => ({
       promoCode,
-      checkoutId: checkout.id,
-    });
-    const [hasErrors, apiErrors] = extractMutationErrors(result);
-
-    if (hasErrors) {
-      setApiErrors(apiErrors);
-      showErrors(apiErrors);
-      return;
-    }
-
-    reset();
-  };
-
-  useSetFormErrors<FormData>({
-    setError,
-    errors,
+      checkoutId,
+      languageCode,
+    }),
+    onSuccess: ({ formHelpers: { resetForm } }) => resetForm(),
   });
 
+  const form = useForm<PromoCodeFormData>({
+    onSubmit,
+    initialValues: { promoCode: "" },
+  });
+  const {
+    values: { promoCode },
+  } = form;
+
+  const showApplyButton = promoCode.length > 0;
+
   return (
-    <div className={clsx("relative px-4 pt-4", className)}>
-      <TextInput
-        label={formatMessage(summaryMessages.addDiscount)}
-        {...getInputProps("promoCode")}
-        optional
-      />
-      {showApplyButton && (
-        <Button
-          className="absolute right-7 top-7"
-          variant="tertiary"
-          ariaLabel={formatMessage(summaryLabels.apply)}
-          label={formatMessage(summaryMessages.apply)}
-          onClick={handleSubmit(onSubmit)}
-        />
-      )}
-    </div>
+    <FormProvider form={form}>
+      <div className={clsx("relative px-4 pt-4", className)}>
+        <TextInput optional name="promoCode" label={formatMessage(summaryMessages.addDiscount)} />
+        {showApplyButton && (
+          <Button
+            className="absolute right-7 top-7"
+            variant="tertiary"
+            ariaLabel={formatMessage(summaryLabels.apply)}
+            label={formatMessage(summaryMessages.apply)}
+            type="submit"
+          />
+        )}
+      </div>
+    </FormProvider>
   );
 };

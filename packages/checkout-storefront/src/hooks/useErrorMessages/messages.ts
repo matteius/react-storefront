@@ -1,7 +1,7 @@
 import { ErrorCode } from "@/checkout-storefront/lib/globalTypes";
 import { defineMessages } from "react-intl";
 
-export const errorMessages = defineMessages<ErrorCode>({
+export const fieldErrorMessages = defineMessages<ErrorCode>({
   invalid: {
     defaultMessage: "Invalid value",
     id: "useErrorMessages/messages/ebt/9V",
@@ -16,6 +16,16 @@ export const errorMessages = defineMessages<ErrorCode>({
     defaultMessage: "Value must be unique",
     id: "useErrorMessages/messages/GrUSxl",
     description: "value must be unique",
+  },
+  emailInvalid: {
+    defaultMessage: "Email must be a valid email",
+    id: "useErrorMessages/messages/y5NEQs",
+    description: "email must be a valid email",
+  },
+  passwordAtLeastCharacters: {
+    defaultMessage: "Password must be at least 8 characters",
+    id: "useErrorMessages/messages/Hz38OL",
+    description: "password must be at least 8 characters",
   },
   passwordTooShort: {
     defaultMessage: "Provided password is too short. Minimum length is 8 characters.",

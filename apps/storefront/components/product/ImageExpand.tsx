@@ -22,6 +22,7 @@ export function ImageExpand({ image, onRemoveExpand }: ImageExpandProps) {
     <div className="min-h-screen absolute overflow-hidden grid grid-cols-1 mx-auto px-8 md:h-full w-full bg-gray-100">
       <div
         role="button"
+        aria-label="Close"
         tabIndex={0}
         className="absolute grid h-6 content-center justify-center right-0 p-8 h-6 w-6 z-40 mt-18"
         ref={inputRef}

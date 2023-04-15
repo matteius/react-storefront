@@ -1,109 +1,37 @@
 import { Text } from "@saleor/ui-kit";
-import {
-  CheckoutLineFragment,
-  CheckoutLinesUpdateMutationVariables,
-  useCheckoutLineDeleteMutation,
-  useCheckoutLinesUpdateMutation,
-} from "@/checkout-storefront/graphql";
+import { CheckoutLineFragment } from "@/checkout-storefront/graphql";
 import { useFormattedMessages } from "@/checkout-storefront/hooks/useFormattedMessages";
 import { TextInput } from "@/checkout-storefront/components/TextInput";
-
-import {
-  extractMutationErrors,
-  useValidationResolver,
-} from "@/checkout-storefront/lib/utils";
-import { useCheckout } from "@/checkout-storefront/hooks/useCheckout";
-import { useAlerts } from "@/checkout-storefront/hooks/useAlerts";
-import { object, string } from "yup";
-import { useForm } from "react-hook-form";
-import { useGetInputProps } from "@/checkout-storefront/hooks/useGetInputProps";
-import { useErrors } from "@/checkout-storefront/hooks/useErrors";
 import { Skeleton } from "@/checkout-storefront/components";
-import { useErrorMessages } from "@/checkout-storefront/hooks";
 import { SummaryItemMoneyInfo } from "@/checkout-storefront/sections/Summary/SummaryItemMoneyInfo";
 import { summaryMessages } from "./messages";
-import { useLocale } from "@/checkout-storefront/hooks/useLocale";
+import { FormProvider } from "@/checkout-storefront/providers/FormProvider";
+import { useSummaryItemForm } from "@/checkout-storefront/sections/Summary/useSummaryItemForm";
+import { useMemo } from "react";
 
-interface LineItemQuantitySelectorProps {
+interface SummaryItemMoneyEditableSectionProps {
   line: CheckoutLineFragment;
 }
 
-export interface FormData {
-  quantity: string;
-}
-
-export const SummaryItemMoneyEditableSection: React.FC<LineItemQuantitySelectorProps> = ({
+export const SummaryItemMoneyEditableSection: React.FC<SummaryItemMoneyEditableSectionProps> = ({
   line,
 }) => {
-  const { locale } = useLocale();
-  const [{ fetching: updating }, updateLines] = useCheckoutLinesUpdateMutation();
-  const [, deleteLines] = useCheckoutLineDeleteMutation();
-  const { checkout } = useCheckout();
-  const { showErrors } = useAlerts("checkoutLinesUpdate");
-  const { setApiErrors, clearErrors } = useErrors<FormData>();
-  const { errorMessages } = useErrorMessages();
   const formatMessage = useFormattedMessages();
+  const { form, onLineDelete } = useSummaryItemForm({ line });
 
-  const schema = object({
-    quantity: string().required(errorMessages.required),
-  });
+  const {
+    handleBlur,
+    setFieldValue,
+    handleSubmit,
+    isSubmitting,
+    values: { quantity: quantityString },
+  } = form;
 
-  const resolver = useValidationResolver(schema);
-  const methods = useForm<FormData>({
-    resolver,
-    defaultValues: { quantity: line.quantity.toString() },
-  });
+  const quantity = useMemo(() => parseInt(quantityString), [quantityString]);
 
-  const { watch, setValue } = methods;
+  const handleQuantityInputBlur = (event: React.FocusEvent<any, Element>) => {
+    handleBlur(event);
 
-  const quantityString = watch("quantity");
-  const quantity = Number(quantityString);
-
-  const onLineQuantityUpdate = async ({ quantity }: FormData) => {
-    const result = await updateLines(getUpdateLineVars({ quantity }));
-    const [hasMutationErrors, errors] = extractMutationErrors(result);
-
-    if (!hasMutationErrors) {
-      clearErrors();
-      return;
-    }
-
-    setValue("quantity", line.quantity.toString());
-    setApiErrors(errors);
-    showErrors(errors);
-  };
-
-  const getInputProps = useGetInputProps(methods);
-
-  const getUpdateLineVars = ({ quantity }: FormData): CheckoutLinesUpdateMutationVariables => ({
-    languageCode: "EN_US",
-    checkoutId: checkout.id,
-    lines: [
-      {
-        quantity: Number(quantity),
-        variantId: line.variant.id,
-      },
-    ],
-  });
-
-  const onLineDelete = async () => {
-    const result = await deleteLines({
-      languageCode: "EN_US",
-      checkoutId: checkout.id,
-      lineId: line.id,
-    });
-    const [hasMutationErrors, errors] = extractMutationErrors(result);
-
-    if (!hasMutationErrors) {
-      clearErrors();
-      return;
-    }
-
-    setApiErrors(errors);
-    showErrors(errors);
-  };
-
-  const handleQuantityInputBlur = () => {
     if (quantity === line.quantity) {
       return;
     }
@@ -111,7 +39,7 @@ export const SummaryItemMoneyEditableSection: React.FC<LineItemQuantitySelectorP
     const isQuantityValid = !Number.isNaN(quantity) && quantity >= 0;
 
     if (quantityString === "" || !isQuantityValid) {
-      setValue("quantity", String(line.quantity));
+      void setFieldValue("quantity", String(line.quantity));
       return;
     }
 
@@ -120,7 +48,7 @@ export const SummaryItemMoneyEditableSection: React.FC<LineItemQuantitySelectorP
       return;
     }
 
-    void onLineQuantityUpdate({ quantity: quantityString });
+    void handleSubmit();
   };
 
   return (
@@ -129,13 +57,16 @@ export const SummaryItemMoneyEditableSection: React.FC<LineItemQuantitySelectorP
         <Text size="xs" className="mr-2">
           {formatMessage(summaryMessages.quantity)}:
         </Text>
-        <TextInput
-          classNames={{ container: "!w-13 !mb-0", input: "text-center !h-8" }}
-          label=""
-          {...getInputProps("quantity", { onBlur: handleQuantityInputBlur })}
-        />
+        <FormProvider form={form}>
+          <TextInput
+            onBlur={handleQuantityInputBlur}
+            name="quantity"
+            classNames={{ container: "!w-13 !mb-0", input: "text-center !h-8" }}
+            label=""
+          />
+        </FormProvider>
       </div>
-      {updating ? (
+      {isSubmitting ? (
         <div className="flex flex-col items-end mt-3 w-full">
           <Skeleton className="w-full" />
           <Skeleton className="w-2/3" />

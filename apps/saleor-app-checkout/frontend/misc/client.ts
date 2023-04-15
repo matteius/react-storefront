@@ -37,16 +37,12 @@ const addAuthToOperation = ({
 const willAuthError = ({ authState }: { authState?: AuthState | null }) => !authState?.token;
 
 export const createGraphqlClient = (apiUrl: string, token: string | undefined) => {
-  if (!token) {
-    console.log("NO TOKEN!");
-  }
   console.info(`Using API_URL: ${apiUrl}`);
   return createClient({
     exchanges: [
       dedupExchange,
       cacheExchange,
       authExchange({
-        // getAuth: async () => authState,
         getAuth: async () => (token ? { token } : null),
         willAuthError,
         addAuthToOperation,

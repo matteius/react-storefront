@@ -117,12 +117,6 @@ export const AddressForm: FC<PropsWithChildren<AddressFormProps>> = ({
 
           return <TextInput {...commonProps} type={typeTags[field] || "text"} />;
         })}
-        <Select
-          classNames={{ container: "flex-1 inline-block !w-auto" }}
-          options={countryOptions}
-          {...getInputProps("countryCode")}
-          autoComplete={autocompleteTags.countryCode}
-        />
         {children}
       </div>
     </>

@@ -11,7 +11,7 @@ import React, { ReactElement, ReactNode, useEffect } from "react";
 
 import { RegionsProvider } from "@/components/RegionsProvider";
 import { BaseSeo } from "@/components/seo/BaseSeo";
-import { API_URI, DEMO_MODE } from "@/lib/const";
+import { API_URI } from "@/lib/const";
 import { CheckoutProvider } from "@/lib/providers/CheckoutProvider";
 import { useAuthenticatedApolloClient } from "@/lib/auth/useAuthenticatedApolloClient";
 import { SaleorAuthProvider, useAuthChange, useSaleorAuthClient } from "@/lib/auth";
@@ -72,7 +72,6 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
             <RegionsProvider>
               <BaseSeo />
               <NextNProgress color="#5B68E4" options={{ showSpinner: false }} />
-              {DEMO_MODE && <DemoBanner />}
               {getLayout(<Component {...pageProps} />)}
             </RegionsProvider>
           </CheckoutProvider>

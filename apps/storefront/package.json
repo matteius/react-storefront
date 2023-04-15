@@ -38,11 +38,8 @@
     "graphql": "16.6.0",
     "graphql-tag": "2.12.6",
     "next": "13.0.4",
-<<<<<<< HEAD
     "next-compose-plugins": "^2.2.1",
     "next-image-loader": "^3.0.0",
-=======
->>>>>>> canary
     "next-seo": "5.8.0",
     "next-sitemap": "3.1.29",
     "next-usequerystate": "1.7.2",

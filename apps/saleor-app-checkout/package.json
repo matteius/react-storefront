@@ -32,6 +32,7 @@
     "@saleor/checkout-storefront": "workspace:*",
     "@saleor/macaw-ui": "0.6.7",
     "@sentry/nextjs": "7.32.0",
+    "@urql/core": "3.0.5",
     "@urql/exchange-auth": "1.0.0",
     "@urql/exchange-multipart-fetch": "1.0.1",
     "checkout-common": "workspace:*",

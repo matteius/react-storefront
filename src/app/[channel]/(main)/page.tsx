@@ -5,9 +5,9 @@ import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 import { NewsletterSignup } from "@/ui/components/NewsletterSignup";
 
 export const metadata = {
-	title: "Matt's Coinage - Premium Collectible Coins & Currency",
+	title: "Matt's Coinage - Premium Collectible Coins & Bullion",
 	description:
-		"Discover rare and collectible coins, currency, and numismatic treasures at Matt's Coinage. Your trusted source for premium collectibles.",
+		"Discover rare and collectible coins, bullion, and numismatic treasures at Matt's Coinage. Your trusted source for premium collectibles.",
 };
 
 export default async function Page(props: { params: Promise<{ channel: string }> }) {
@@ -52,12 +52,12 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 				<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<div className="text-center">
 						<h1 className="gradient-text mb-8 text-5xl font-bold md:text-7xl lg:text-8xl">
-							Premium Collectible Coins
+							Premium Collectibles
 						</h1>
 						<p className="mx-auto mb-12 max-w-4xl text-xl leading-relaxed text-amber-800 md:text-2xl">
 							Discover exceptional deals on <span className="font-semibold text-gold-700">rare coins</span>,
 							<span className="font-semibold text-gold-700"> ancient treasures</span>, and
-							<span className="font-semibold text-gold-700"> collectible currency</span>. Hand-selected pieces
+							<span className="font-semibold text-gold-700"> collectible bullion</span>. Hand-selected pieces
 							at competitive prices with new sale items added regularly.
 						</p>
 						<div className="flex flex-col justify-center gap-6 sm:flex-row">

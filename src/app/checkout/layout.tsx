@@ -4,7 +4,7 @@ import { ReactQueryProvider } from "@/checkout/providers/ReactQueryProvider";
 
 export const metadata = {
 	title: "Checkout - Matt's Coinage",
-	description: "Complete your purchase at Matt's Coinage - Premium collectible coins and currency.",
+	description: "Complete your purchase at Matt's Coinage - Premium collectible coins and bullion.",
 };
 
 export default function RootLayout(props: { children: ReactNode }) {

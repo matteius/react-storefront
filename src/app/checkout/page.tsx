@@ -5,7 +5,7 @@ import { RootWrapper } from "./pageWrapper";
 
 export const metadata = {
 	title: "Checkout - Matt's Coinage",
-	description: "Complete your purchase at Matt's Coinage - Premium collectible coins and currency.",
+	description: "Complete your purchase at Matt's Coinage - Premium collectible coins and bullion.",
 };
 
 export default async function CheckoutPage(props: {

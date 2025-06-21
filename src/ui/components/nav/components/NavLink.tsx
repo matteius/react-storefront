@@ -15,7 +15,7 @@ export function NavLink({ href, children }: { href: string; children: ReactEleme
 				<LinkWithChannel
 					href={href}
 					className={clsx(
-						"flex h-full items-center px-4 text-center text-md font-bold hover:text-brand",
+						"flex h-full items-center px-2 text-center text-sm font-semibold hover:text-brand lg:px-4",
 						isActive ? "text-brand" : "text-main",
 					)}
 				>

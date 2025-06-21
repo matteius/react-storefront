@@ -8,8 +8,8 @@ export const Logo = () => {
 	const pathname = usePathname();
 
 	const logoContent = (
-		<div className="group relative mt-px block h-24 w-24 hover:text-brand">
-			<Image src="/logo.png" alt="www.MattsCoinage.com" fill />
+		<div className="group relative mt-px block h-16 w-16 hover:text-brand lg:h-20 lg:w-20">
+			<Image src="/logo.png" alt="www.MattsCoinage.com" fill style={{ objectFit: "contain" }} priority />
 		</div>
 	);
 

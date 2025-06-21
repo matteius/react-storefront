@@ -7,12 +7,12 @@ export function Header({ channel }: { channel: string }) {
 			<div className="absolute inset-0 bg-gradient-to-r from-gold-400/95 via-yellow-400/95 to-gold-500/95"></div>
 			<div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/5"></div>
 			<div className="container relative flex h-20 flex-nowrap items-center lg:h-24">
-				<div className="xs:justify-left flex flex-1">
+				<div className="flex flex-1">
 					<div className="floating-animation pulse-glow rounded-lg">
 						<Logo />
 					</div>
 				</div>
-				<div className="hidden h-full flex-1 xs:flex">
+				<div className="h-full flex-1">
 					<Nav channel={channel} />
 				</div>
 			</div>

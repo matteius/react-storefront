@@ -222,8 +222,8 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						</svg>
 					</div>
 
-					<h2 className="mb-6 text-4xl font-bold text-white md:text-5xl">Stay in the Loop</h2>
-					<p className="mx-auto mb-12 max-w-2xl text-lg leading-relaxed text-white/90 md:text-xl">
+					<h2 className="mb-6 text-2xl font-bold text-white md:text-3xl">Stay in the Loop</h2>
+					<p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-white/90 md:text-lg">
 						Get notified about new arrivals, exclusive sale items, and expert collecting insights delivered
 						directly to your inbox.
 					</p>

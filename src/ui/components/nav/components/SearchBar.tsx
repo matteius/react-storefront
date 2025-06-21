@@ -13,7 +13,7 @@ export const SearchBar = ({ channel }: { channel: string }) => {
 	return (
 		<form
 			action={onSubmit}
-			className="group relative my-2 flex w-full items-center justify-items-center text-sm lg:w-80"
+			className="group relative my-2 flex w-full items-center justify-items-center text-sm"
 		>
 			<label className="w-full">
 				<span className="sr-only">search for products</span>

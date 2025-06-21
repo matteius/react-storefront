@@ -7,35 +7,52 @@ import { SearchBar } from "./components/SearchBar";
 
 export const Nav = ({ channel }: { channel: string }) => {
 	return (
-		<nav className="hidden h-full pl-0.5 lg:flex" aria-label="Main navigation">
-			<ol className="flex h-full list-none items-center gap-1">
-				<NavLinks channel={channel} />
-			</ol>
-			<div className="flex flex-1 items-center justify-end gap-3">
+		<>
+			{/* Desktop Navigation */}
+			<nav className="hidden h-full pl-0.5 lg:flex" aria-label="Main navigation">
+				<ol className="flex h-full list-none items-center gap-1">
+					<NavLinks channel={channel} />
+				</ol>
+				<div className="flex flex-1 items-center justify-end gap-3">
+					<div className="max-w-xs flex-1">
+						<SearchBar channel={channel} />
+					</div>
+					<Suspense fallback={<div className="w-8" />}>
+						<div className="nav-icon-container">
+							<UserMenuContainer />
+						</div>
+					</Suspense>
+					<div className="hidden xs:flex">
+						<Suspense fallback={<div className="w-6" />}>
+							<div className="nav-icon-container">
+								<CartNavItem channel={channel} />
+							</div>
+						</Suspense>
+					</div>
+				</div>
+			</nav>
+
+			{/* Mobile Menu */}
+			<div className="flex items-center justify-end gap-3 lg:hidden">
 				<Suspense fallback={<div className="w-8" />}>
 					<div className="nav-icon-container">
 						<UserMenuContainer />
 					</div>
 				</Suspense>
-				<div className="hidden xs:flex">
+				<div className="flex xs:hidden">
 					<Suspense fallback={<div className="w-6" />}>
 						<div className="nav-icon-container">
 							<CartNavItem channel={channel} />
 						</div>
 					</Suspense>
 				</div>
-				<div className="hidden lg:flex">
-					<div className="nav-search-container">
+				<Suspense>
+					<MobileMenu>
 						<SearchBar channel={channel} />
-					</div>
-				</div>
+						<NavLinks channel={channel} />
+					</MobileMenu>
+				</Suspense>
 			</div>
-			<Suspense>
-				<MobileMenu>
-					<SearchBar channel={channel} />
-					<NavLinks channel={channel} />
-				</MobileMenu>
-			</Suspense>
-		</nav>
+		</>
 	);
 };

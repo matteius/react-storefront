@@ -16,7 +16,7 @@ type Props = {
 export function UserMenu({ user }: Props) {
 	return (
 		<Menu as="div" className="relative">
-			<Menu.Button className="relative flex rounded-full bg-neutral-200 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-neutral-800">
+			<Menu.Button className="relative flex rounded-full bg-white/20 text-sm backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white/30 hover:shadow-lg hover:shadow-gold-400/20 focus:outline-none focus:ring-2 focus:ring-white/50 focus:ring-offset-2 focus:ring-offset-transparent">
 				<span className="sr-only">Open user menu</span>
 				<UserAvatar user={user} />
 			</Menu.Button>

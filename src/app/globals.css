@@ -55,6 +55,32 @@
 	.pulse-glow {
 		animation: pulse-glow 2s ease-in-out infinite alternate;
 	}
+
+	.nav-icon-container {
+		@apply flex items-center justify-center rounded-lg p-2 transition-all duration-300 ease-in-out;
+		@apply hover:bg-white/10 hover:shadow-lg hover:shadow-gold-400/20 hover:backdrop-blur-sm;
+	}
+
+	.nav-search-container {
+		@apply flex items-center justify-center transition-all duration-300 ease-in-out;
+		@apply hover:shadow-lg hover:shadow-gold-400/20;
+	}
+
+	.nav-enhanced {
+		position: relative;
+	}
+
+	.nav-enhanced::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+		border-radius: inherit;
+		pointer-events: none;
+	}
 }
 
 @keyframes shimmer {

@@ -3,6 +3,10 @@
 @import "@adyen/adyen-web/dist/adyen.css";
 @import "./sections/PaymentSection/AdyenDropIn/adyenDropin.css";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @layer components {
 	.checkout-section-container {
 		@apply rounded border bg-white p-4;

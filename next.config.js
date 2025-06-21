@@ -34,8 +34,6 @@ const config = {
 			},
 		];
 	},
-	// Disable minification and show detailed errors for debugging
-	swcMinify: false,
 	productionBrowserSourceMaps: true,
 	compiler: {
 		removeConsole: false,

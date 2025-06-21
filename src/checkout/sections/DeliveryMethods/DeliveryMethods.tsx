@@ -27,7 +27,7 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
 		return `${min}-${max} business days`;
 	};
 
-	// Get order total in cents for comparison
+	// Get order total for comparison
 	const orderTotal = totalPrice?.gross?.amount || 0;
 
 	// Dynamically determine free shipping threshold based on available shipping methods
@@ -36,8 +36,8 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
 	// If there are free shipping methods available, user already qualifies
 	const qualifiesForFreeShipping = freeShippingMethods.length > 0;
 
-	// For the message, we'll use a reasonable threshold (like $20 = 2000 cents) if no free shipping is available
-	const defaultFreeShippingThreshold = 2000; // $20.00 in cents
+	// For the message, we'll use a reasonable threshold (like $20.00) if no free shipping is available
+	const defaultFreeShippingThreshold = 20; // $20.00
 	const amountNeededForFreeShipping = qualifiesForFreeShipping
 		? 0
 		: Math.max(0, defaultFreeShippingThreshold - orderTotal);

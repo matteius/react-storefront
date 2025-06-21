@@ -8,6 +8,10 @@
 @tailwind utilities;
 
 @layer components {
+	.page {
+		@apply min-h-screen bg-main-5 font-sans;
+	}
+
 	.checkout-section-container {
 		@apply rounded border bg-white p-4;
 	}

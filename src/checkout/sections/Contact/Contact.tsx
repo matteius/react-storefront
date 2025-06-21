@@ -66,7 +66,7 @@ export const Contact: FC<ContactProps> = ({ setShowOnlyContact }) => {
 	}, [authenticated, currentSection]);
 
 	return (
-		<div>
+		<div className="checkout-section-container">
 			{isCurrentSection("guestUser") && (
 				<GuestUser onSectionChange={handleChangeSection("signIn")} onEmailChange={setEmail} email={email} />
 			)}

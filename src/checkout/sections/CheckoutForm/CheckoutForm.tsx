@@ -28,8 +28,8 @@ export const CheckoutForm = () => {
 	usePreloadShippingMethods();
 
 	return (
-		<div className="flex flex-col items-end">
-			<div className="flex w-full flex-col rounded">
+		<section className="flex flex-auto flex-col space-y-4 overflow-y-auto px-4 pb-4 pt-4">
+			<div className="flex w-full flex-col">
 				<ErrorBoundary
 					FallbackComponent={({ error }) => {
 						console.error("Contact section error:", error);
@@ -83,6 +83,6 @@ export const CheckoutForm = () => {
 					</ErrorBoundary>
 				</>
 			</div>
-		</div>
+		</section>
 	);
 };

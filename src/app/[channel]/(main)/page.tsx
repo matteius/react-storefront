@@ -235,15 +235,15 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					<div className="mt-8 flex flex-col items-center justify-center gap-4 text-white/80 sm:flex-row sm:gap-8">
 						<div className="flex items-center gap-2 text-sm">
 							<div className="h-2 w-2 rounded-full bg-white/60"></div>
-							<span>10,000+ collectors trust us</span>
-						</div>
-						<div className="flex items-center gap-2 text-sm">
-							<div className="h-2 w-2 rounded-full bg-white/60"></div>
 							<span>No spam, unsubscribe anytime</span>
 						</div>
 						<div className="flex items-center gap-2 text-sm">
 							<div className="h-2 w-2 rounded-full bg-white/60"></div>
-							<span>Weekly expert insights</span>
+							<span>Trusted since 2022</span>
+						</div>
+						<div className="flex items-center gap-2 text-sm">
+							<div className="h-2 w-2 rounded-full bg-white/60"></div>
+							<span>Premium collectibles updates</span>
 						</div>
 					</div>
 				</div>

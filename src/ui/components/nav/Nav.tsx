@@ -21,7 +21,7 @@ export const Nav = ({ channel }: { channel: string }) => {
 			{/* Right side items */}
 			<div className="flex flex-1 items-center justify-end gap-3">
 				{/* Search bar - tablet and desktop */}
-				<div className="hidden w-80 md:flex">
+				<div className="hidden w-64 md:flex lg:w-80">
 					<SearchBar channel={channel} />
 				</div>
 

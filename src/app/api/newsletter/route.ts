@@ -37,18 +37,10 @@ export async function POST(request: NextRequest) {
 
 		if (listId) {
 			// Add to specific list if LIST_ID is provided
-			await mailjet
-				.post("contactslist", { version: "v3" })
-				.id(listId)
-				.action("managecontact")
-				.request({
-					Email: email,
-					Action: "addnoforce", // Won't add if already exists
-					Properties: {
-						source: "website_newsletter",
-						signup_date: new Date().toISOString(),
-					},
-				});
+			await mailjet.post("contactslist", { version: "v3" }).id(listId).action("managecontact").request({
+				Email: email,
+				Action: "addnoforce", // Won't add if already exists
+			});
 		} else {
 			// Just add as a contact if no specific list
 			await mailjet.post("contact", { version: "v3" }).request({

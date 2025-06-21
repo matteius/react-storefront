@@ -19,6 +19,21 @@ const config = {
 			: process.env.NEXT_OUTPUT === "export"
 				? "export"
 				: undefined,
+	// Add redirects for old URLs
+	async redirects() {
+		return [
+			{
+				source: "/default-channel/en-US",
+				destination: "/default-channel",
+				permanent: true,
+			},
+			{
+				source: "/default-channel/en-US/:path*",
+				destination: "/default-channel/:path*",
+				permanent: true,
+			},
+		];
+	},
 	// Disable minification and show detailed errors for debugging
 	swcMinify: false,
 	productionBrowserSourceMaps: true,

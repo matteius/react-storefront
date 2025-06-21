@@ -1,10 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
 import Mailjet from "node-mailjet";
 
-const mailjet = new Mailjet({
-	apiKey: process.env.MAILJET_API_KEY || "",
-	apiSecret: process.env.MAILJET_SECRET_KEY || "",
-});
+function getMailjetClient() {
+	return new Mailjet({
+		apiKey: process.env.MAILJET_API_KEY || "",
+		apiSecret: process.env.MAILJET_SECRET_KEY || "",
+	});
+}
 
 export async function POST(request: NextRequest) {
 	try {
@@ -26,6 +28,9 @@ export async function POST(request: NextRequest) {
 			console.error("Mailjet credentials not configured");
 			return NextResponse.json({ error: "Newsletter service not configured" }, { status: 500 });
 		}
+
+		// Initialize Mailjet client
+		const mailjet = getMailjetClient();
 
 		// Add contact to Mailjet contact list
 		const listId = process.env.MAILJET_LIST_ID;

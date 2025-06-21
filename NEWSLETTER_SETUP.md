@@ -159,6 +159,50 @@ For production:
 3. Test the newsletter signup thoroughly
 4. Monitor the Mailjet dashboard for delivery statistics
 
+### Docker Deployment
+
+The Dockerfile has been updated to include Mailjet environment variables. When building the Docker image, you need to pass the Mailjet variables as build arguments:
+
+```bash
+docker build \
+  --build-arg NEXT_PUBLIC_SALEOR_API_URL=your_saleor_url \
+  --build-arg NEXT_PUBLIC_STOREFRONT_URL=your_storefront_url \
+  --build-arg MAILJET_API_KEY=your_mailjet_api_key \
+  --build-arg MAILJET_SECRET_KEY=your_mailjet_secret_key \
+  --build-arg MAILJET_LIST_ID=your_mailjet_list_id \
+  --build-arg MAILJET_FROM_EMAIL=your_from_email \
+  --build-arg MAILJET_SEND_WELCOME=true \
+  -t your-app-name .
+```
+
+### CI/CD Configuration
+
+For GitHub Actions or other CI/CD platforms, ensure you have the following secrets configured:
+
+- `MAILJET_API_KEY`
+- `MAILJET_SECRET_KEY`
+- `MAILJET_LIST_ID` (optional)
+- `MAILJET_FROM_EMAIL`
+- `MAILJET_SEND_WELCOME`
+
+### Vercel Deployment
+
+If deploying to Vercel, add the environment variables in your Vercel dashboard:
+
+1. Go to your project settings
+2. Navigate to "Environment Variables"
+3. Add all the Mailjet variables listed above
+4. Redeploy your application
+
+### Build-time vs Runtime
+
+The newsletter API route now uses lazy initialization of the Mailjet client, which means:
+
+- **Build time**: Environment variables are available but the Mailjet client is not instantiated
+- **Runtime**: The Mailjet client is created only when the API endpoint is called
+
+This prevents build failures when environment variables are not available during the build process.
+
 ## Support
 
 For Mailjet-specific issues, consult the [Mailjet Documentation](https://dev.mailjet.com/).

@@ -46,3 +46,4 @@ next-env.d.ts
 stripe/
 saleor/
 saleor-marketplace/
+react-storefront-old/

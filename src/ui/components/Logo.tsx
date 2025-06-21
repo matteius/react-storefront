@@ -1,25 +1,24 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Image from "next/image";
 import { LinkWithChannel } from "../atoms/LinkWithChannel";
-
-const companyName = "ACME";
 
 export const Logo = () => {
 	const pathname = usePathname();
 
+	const logoContent = (
+		<div className="group relative mt-px block h-24 w-24 hover:text-brand">
+			<Image src="/logo.png" alt="www.MattsCoinage.com" fill />
+		</div>
+	);
+
 	if (pathname === "/") {
-		return (
-			<h1 className="flex items-center font-bold" aria-label="homepage">
-				{companyName}
-			</h1>
-		);
+		return <h1 aria-label="homepage">{logoContent}</h1>;
 	}
 	return (
-		<div className="flex items-center font-bold">
-			<LinkWithChannel aria-label="homepage" href="/">
-				{companyName}
-			</LinkWithChannel>
-		</div>
+		<LinkWithChannel aria-label="homepage" href="/">
+			{logoContent}
+		</LinkWithChannel>
 	);
 };

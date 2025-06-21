@@ -1,7 +1,40 @@
+@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+	.btn-blue {
+		@apply rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+	}
+
+	.checkout-section-container {
+		@apply rounded border bg-white p-4;
+	}
+
+	.checkout-section-header-active {
+		@apply text-lg font-medium text-gray-900;
+	}
+	.checkout-section-header-disabled {
+		@apply text-lg font-medium text-gray-400;
+	}
+
+	.btn-checkout-section {
+		@apply w-full rounded-md border border-blue-300 bg-blue-100 px-4 py-2 text-base font-medium shadow-sm hover:bg-blue-200;
+	}
+}
+
+.dropdown:focus-within .dropdown-menu {
+	opacity: 1;
+	transform: translate(0) scale(1);
+	visibility: visible;
+}
+
 body {
 	overflow-x: hidden;
+}
+
+html {
+	font-size: 100%;
 }

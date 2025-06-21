@@ -10,16 +10,18 @@ export function NavLink({ href, children }: { href: string; children: ReactEleme
 	const isActive = pathname === href;
 
 	return (
-		<li className="inline-flex">
-			<LinkWithChannel
-				href={href}
-				className={clsx(
-					isActive ? "border-neutral-900 text-neutral-900" : "border-transparent text-neutral-500",
-					"inline-flex items-center border-b-2 pt-px text-sm font-medium hover:text-neutral-700",
-				)}
-			>
-				{children}
-			</LinkWithChannel>
+		<li className="h-full">
+			<div className="flex h-full items-center">
+				<LinkWithChannel
+					href={href}
+					className={clsx(
+						"flex h-full items-center px-4 text-center text-md font-bold hover:text-brand",
+						isActive ? "text-brand" : "text-main",
+					)}
+				>
+					{children}
+				</LinkWithChannel>
+			</div>
 		</li>
 	);
 }

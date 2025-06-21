@@ -133,7 +133,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 							</li>
 							<li>
 								<LinkWithChannel
-									href="/collections/featured-products"
+									href="/products"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>

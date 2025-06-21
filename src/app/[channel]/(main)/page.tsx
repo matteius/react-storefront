@@ -61,14 +61,14 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						</p>
 						<div className="flex flex-col justify-center gap-6 sm:flex-row">
 							<LinkWithChannel
-								href="/collections/sale-items"
+								href="/products/sale-items"
 								className="pulse-glow group relative overflow-hidden rounded-xl bg-gradient-to-r from-gold-600 to-amber-600 px-10 py-4 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-gold-500/25"
 							>
 								<span className="relative z-10">Shop Sale Items</span>
 								<div className="absolute inset-0 bg-gradient-to-r from-gold-700 to-amber-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 							</LinkWithChannel>
 							<LinkWithChannel
-								href="/collections"
+								href="/products"
 								className="border-3 group relative overflow-hidden rounded-xl border-gold-600 bg-white/80 px-10 py-4 font-bold text-gold-700 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gold-600 hover:text-white"
 							>
 								<span className="relative z-10">Browse All Collections</span>
@@ -135,7 +135,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						<ProductList products={products} />
 						<div className="mt-12 text-center">
 							<LinkWithChannel
-								href="/collections/featured-products"
+								href="products"
 								className="inline-block rounded-lg bg-amber-600 px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-amber-700"
 							>
 								View All Featured Items

@@ -27,7 +27,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
 					{/* Customer Support */}
 					<div className="group">
-						<h3 className="mb-6 font-serif text-xl font-bold text-amber-900">Customer Support</h3>
+						<h3 className="mb-6 text-xl font-bold text-amber-900">Customer Support</h3>
 						<ul className="space-y-3">
 							<li>
 								<LinkWithChannel
@@ -61,7 +61,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 
 					{/* Payments & Security */}
 					<div className="group">
-						<h3 className="mb-6 font-serif text-xl font-bold text-amber-900">Payments</h3>
+						<h3 className="mb-6 text-xl font-bold text-amber-900">Payments</h3>
 						<ul className="space-y-3">
 							<li>
 								<LinkWithChannel
@@ -86,7 +86,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 
 					{/* Shipping */}
 					<div className="group">
-						<h3 className="mb-6 font-serif text-xl font-bold text-amber-900">Shipping</h3>
+						<h3 className="mb-6 text-xl font-bold text-amber-900">Shipping</h3>
 						<ul className="space-y-3">
 							<li>
 								<LinkWithChannel
@@ -111,7 +111,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 
 					{/* Shop */}
 					<div className="group">
-						<h3 className="mb-6 font-serif text-xl font-bold text-amber-900">Shop</h3>
+						<h3 className="mb-6 text-xl font-bold text-amber-900">Shop</h3>
 						<ul className="space-y-3">
 							<li>
 								<LinkWithChannel
@@ -145,7 +145,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 
 					{/* About */}
 					<div className="group">
-						<h3 className="mb-6 font-serif text-xl font-bold text-amber-900">About</h3>
+						<h3 className="mb-6 text-xl font-bold text-amber-900">About</h3>
 						<ul className="space-y-3">
 							<li>
 								<LinkWithChannel
@@ -198,7 +198,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 					<div className="mt-4 flex items-center space-x-4 sm:mt-0">
 						<div className="flex items-center space-x-2">
 							<div className="h-2 w-2 animate-pulse rounded-full bg-gold-500"></div>
-							<span className="text-sm font-medium text-amber-600">Trusted since 2020</span>
+							<span className="text-sm font-medium text-amber-600">Trusted since 2022</span>
 						</div>
 						<span className="text-amber-400">•</span>
 						<div className="flex items-center space-x-2">

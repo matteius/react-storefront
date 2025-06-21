@@ -50,7 +50,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 
 				<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<div className="text-center">
-						<h1 className="gradient-text mb-8 font-serif text-5xl font-bold md:text-7xl lg:text-8xl">
+						<h1 className="gradient-text mb-8 text-5xl font-bold md:text-7xl lg:text-8xl">
 							Premium Collectible Coins
 						</h1>
 						<p className="mx-auto mb-12 max-w-4xl text-xl leading-relaxed text-amber-800 md:text-2xl">
@@ -82,12 +82,12 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			<section className="bg-gradient-to-b from-white to-gray-50 py-20">
 				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<div className="mb-16 text-center">
-						<h2 className="gradient-text mb-4 font-serif text-4xl font-bold">Shop by Category</h2>
+						<h2 className="gradient-text mb-4 text-4xl font-bold">Shop by Category</h2>
 						<p className="mx-auto max-w-2xl text-lg text-gray-600">
 							Explore our carefully curated collections of premium collectibles
 						</p>
 					</div>
-					<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
+					<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
 						<div className="group transform cursor-pointer transition-all duration-300 hover:scale-105">
 							<div className="coin-shimmer relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-100 via-gold-100 to-yellow-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
 								<div className="floating-animation mb-6 text-6xl">🪙</div>
@@ -116,16 +116,6 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 								<h3 className="mb-3 text-xl font-bold text-yellow-800">Gold Coins</h3>
 								<p className="leading-relaxed text-gray-700">Rare gold coins and investment pieces</p>
 								<div className="absolute inset-0 bg-gradient-to-br from-gold-400/20 to-yellow-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-							</div>
-						</div>
-						<div className="group transform cursor-pointer transition-all duration-300 hover:scale-105">
-							<div className="coin-shimmer relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-100 via-green-100 to-teal-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
-								<div className="floating-animation mb-6 text-6xl" style={{ animationDelay: "3s" }}>
-									💵
-								</div>
-								<h3 className="mb-3 text-xl font-bold text-emerald-800">Currency</h3>
-								<p className="leading-relaxed text-gray-700">Collectible paper money and notes</p>
-								<div className="absolute inset-0 bg-gradient-to-br from-emerald-400/20 to-green-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 							</div>
 						</div>
 					</div>
@@ -159,9 +149,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			<section className="bg-gradient-to-b from-gray-50 to-white py-20">
 				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<div className="mb-16 text-center">
-						<h2 className="gradient-text mb-4 font-serif text-4xl font-bold">
-							Why Choose Matt&apos;s Coinage?
-						</h2>
+						<h2 className="gradient-text mb-4 text-4xl font-bold">Why Choose Matt&apos;s Coinage?</h2>
 						<p className="mx-auto max-w-2xl text-lg text-gray-600">
 							Your trusted partner in numismatic excellence
 						</p>
@@ -177,9 +165,9 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 									/>
 								</svg>
 							</div>
-							<h3 className="mb-4 text-2xl font-bold text-amber-800">Authenticity Guaranteed</h3>
+							<h3 className="mb-4 text-2xl font-bold text-amber-800">Quality Assured</h3>
 							<p className="leading-relaxed text-gray-600">
-								Every item comes with a certificate of authenticity and our lifetime guarantee
+								Every item is carefully inspected and comes with our satisfaction guarantee
 							</p>
 						</div>
 						<div className="group transform text-center transition-all duration-300 hover:scale-105">
@@ -221,7 +209,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 				</div>
 
 				<div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-					<h2 className="mb-6 font-serif text-4xl font-bold text-white">Stay in the Loop</h2>
+					<h2 className="mb-6 text-4xl font-bold text-white">Stay in the Loop</h2>
 					<p className="mx-auto mb-12 max-w-2xl text-xl leading-relaxed text-amber-100">
 						Get notified about new arrivals, exclusive sale items, and expert collecting insights delivered
 						directly to your inbox.

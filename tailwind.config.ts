@@ -71,9 +71,7 @@ const config: Config = {
 				DEFAULT: "1px",
 			},
 			fontFamily: {
-				sans: ["Inter", "system-ui", "sans-serif"],
-				serif: ["Playfair Display", "Georgia", "serif"],
-				mono: ["Inconsolata", "monospace"],
+				sans: ["Inconsolata", "monospace"],
 			},
 			fontWeight: {
 				normal: "400",

@@ -23,12 +23,12 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 				<div className="absolute bottom-10 left-10 h-24 w-24 rounded-full bg-amber-400 blur-2xl"></div>
 			</div>
 
-			<div className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5">
+			<div className="relative z-10 mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-5">
 					{/* Customer Support */}
 					<div className="group">
-						<h3 className="mb-6 text-xl font-bold text-amber-900">Customer Support</h3>
-						<ul className="space-y-3">
+						<h3 className="mb-3 text-base font-semibold text-amber-900">Customer Support</h3>
+						<ul className="space-y-2">
 							<li>
 								<LinkWithChannel
 									href="/customer-support"
@@ -61,8 +61,8 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 
 					{/* Payments & Security */}
 					<div className="group">
-						<h3 className="mb-6 text-xl font-bold text-amber-900">Payments</h3>
-						<ul className="space-y-3">
+						<h3 className="mb-3 text-base font-semibold text-amber-900">Payments</h3>
+						<ul className="space-y-2">
 							<li>
 								<LinkWithChannel
 									href="/secure-payments"
@@ -86,8 +86,8 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 
 					{/* Shipping */}
 					<div className="group">
-						<h3 className="mb-6 text-xl font-bold text-amber-900">Shipping</h3>
-						<ul className="space-y-3">
+						<h3 className="mb-3 text-base font-semibold text-amber-900">Shipping</h3>
+						<ul className="space-y-2">
 							<li>
 								<LinkWithChannel
 									href="/shipping-delivery"
@@ -111,8 +111,8 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 
 					{/* Shop */}
 					<div className="group">
-						<h3 className="mb-6 text-xl font-bold text-amber-900">Shop</h3>
-						<ul className="space-y-3">
+						<h3 className="mb-3 text-base font-semibold text-amber-900">Shop</h3>
+						<ul className="space-y-2">
 							<li>
 								<LinkWithChannel
 									href="/products"
@@ -145,8 +145,8 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 
 					{/* About */}
 					<div className="group">
-						<h3 className="mb-6 text-xl font-bold text-amber-900">About</h3>
-						<ul className="space-y-3">
+						<h3 className="mb-3 text-base font-semibold text-amber-900">About</h3>
+						<ul className="space-y-2">
 							<li>
 								<LinkWithChannel
 									href="/about"
@@ -179,7 +179,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 				</div>
 
 				{channels?.channels && (
-					<div className="mt-12 border-t border-gold-200/50 pt-8">
+					<div className="mt-6 border-t border-gold-200/50 pt-4">
 						<div className="flex flex-col items-center justify-between sm:flex-row">
 							<div className="mb-4 sm:mb-0">
 								<label className="font-medium text-amber-700">
@@ -191,7 +191,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 					</div>
 				)}
 
-				<div className="mt-12 flex flex-col items-center justify-between border-t border-gold-200/50 pt-8 sm:flex-row">
+				<div className="mt-6 flex flex-col items-center justify-between border-t border-gold-200/50 pt-4 sm:flex-row">
 					<p className="font-medium text-amber-700">
 						Copyright &copy; {currentYear} Matt&apos;s Coinage. All rights reserved.
 					</p>

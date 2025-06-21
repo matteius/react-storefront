@@ -2,6 +2,7 @@ import { ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import { ProductList } from "@/ui/components/ProductList";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
+import { NewsletterSignup } from "@/ui/components/NewsletterSignup";
 
 export const metadata = {
 	title: "Matt's Coinage - Premium Collectible Coins & Currency",
@@ -228,34 +229,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					</p>
 
 					{/* Newsletter Form */}
-					<div className="mx-auto max-w-lg">
-						<div className="flex flex-col gap-4 sm:flex-row">
-							<input
-								type="email"
-								placeholder="Enter your email address"
-								className="flex-1 rounded-xl border-0 bg-white/95 px-6 py-4 text-lg text-gray-800 placeholder-gray-500 shadow-lg backdrop-blur-sm transition-all duration-300 focus:bg-white focus:outline-none focus:ring-4 focus:ring-white/40"
-							/>
-							<button className="group relative overflow-hidden rounded-xl bg-white px-8 py-4 font-bold text-amber-600 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl">
-								<span className="relative z-10 flex items-center justify-center gap-2">
-									Subscribe Now
-									<svg
-										className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-										fill="none"
-										stroke="currentColor"
-										viewBox="0 0 24 24"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											strokeWidth={2}
-											d="M13 7l5 5m0 0l-5 5m5-5H6"
-										/>
-									</svg>
-								</span>
-								<div className="absolute inset-0 bg-gradient-to-r from-amber-50 to-gold-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-							</button>
-						</div>
-					</div>
+					<NewsletterSignup />
 
 					{/* Trust indicators */}
 					<div className="mt-8 flex flex-col items-center justify-center gap-4 text-white/80 sm:flex-row sm:gap-8">

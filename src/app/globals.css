@@ -107,6 +107,34 @@
 			overflow-x: auto;
 		}
 	}
+
+	/* Enhanced navigation layout for better space management */
+	@media (min-width: 1024px) {
+		.nav-links-container {
+			/* Add subtle fade effect at edges when scrolling */
+			mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+			-webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
+		}
+
+		/* Remove mask when not overflowing */
+		.nav-links-container:not([data-overflowing="true"]) {
+			mask-image: none;
+			-webkit-mask-image: none;
+		}
+	}
+
+	/* Improved responsive navigation spacing */
+	@media (min-width: 768px) and (max-width: 1023px) {
+		.nav-link-item {
+			margin-right: 0.25rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.nav-link-item {
+			margin-right: 0.125rem;
+		}
+	}
 }
 
 @keyframes shimmer {

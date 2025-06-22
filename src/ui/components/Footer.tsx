@@ -32,7 +32,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						<ul className="space-y-2">
 							<li>
 								<Link
-									href="/customer-support"
+									href="/default-channel/customer-support"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
@@ -41,7 +41,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 							</li>
 							<li>
 								<Link
-									href="/customer-support#contact"
+									href="/default-channel/customer-support#contact"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
@@ -50,7 +50,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 							</li>
 							<li>
 								<Link
-									href="/customer-support#faq"
+									href="/default-channel/customer-support#faq"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
@@ -66,7 +66,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						<ul className="space-y-2">
 							<li>
 								<Link
-									href="/secure-payments"
+									href="/default-channel/secure-payments"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
@@ -75,7 +75,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 							</li>
 							<li>
 								<Link
-									href="/sales-tax"
+									href="/default-channel/sales-tax"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
@@ -91,7 +91,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						<ul className="space-y-2">
 							<li>
 								<Link
-									href="/shipping-delivery"
+									href="/default-channel/shipping-delivery"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
@@ -100,7 +100,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 							</li>
 							<li>
 								<Link
-									href="/return-policy"
+									href="/default-channel/return-policy"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
@@ -116,7 +116,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						<ul className="space-y-2">
 							<li>
 								<LinkWithChannel
-									href="/products"
+									href="/default-channel/products"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
@@ -140,40 +140,6 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Featured Items
 								</LinkWithChannel>
-							</li>
-						</ul>
-					</div>
-
-					{/* About */}
-					<div className="group">
-						<h3 className="mb-3 text-base font-semibold text-amber-900">About</h3>
-						<ul className="space-y-2">
-							<li>
-								<Link
-									href="/about"
-									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
-								>
-									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
-									About Matt&apos;s Coinage
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/privacy"
-									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
-								>
-									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
-									Privacy Policy
-								</Link>
-							</li>
-							<li>
-								<Link
-									href="/terms"
-									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
-								>
-									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
-									Terms of Service
-								</Link>
 							</li>
 						</ul>
 					</div>

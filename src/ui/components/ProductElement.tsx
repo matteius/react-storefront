@@ -1,5 +1,5 @@
 import { LinkWithChannel } from "../atoms/LinkWithChannel";
-import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
+import { ProductImageCarousel } from "./ProductImageCarousel";
 
 import type { ProductListItemFragment } from "@/gql/graphql";
 import { formatMoneyRange } from "@/lib/utils";
@@ -26,20 +26,12 @@ export function ProductElement({
 			data-testid="ProductElement"
 		>
 			<LinkWithChannel href={`/products/${product.slug}`}>
-				<div className="flex h-60 w-full flex-col rounded bg-gray-200">
-					{product?.thumbnail?.url && (
-						<ProductImageWrapper
-							loading={loading}
-							src={product.thumbnail.url}
-							alt={product.thumbnail.alt ?? ""}
-							width={512}
-							height={512}
-							sizes={"512px"}
-							priority={priority}
-							className="object-contain"
-						/>
-					)}
-				</div>
+				<ProductImageCarousel
+					images={product.media || []}
+					productName={product.name}
+					loading={loading}
+					priority={priority}
+				/>
 				<div className="border-t border-gray-100 bg-gray-50 px-4 py-2">
 					<p className="block text-base text-slate-800">{product.name}</p>
 					{!!product.category && (

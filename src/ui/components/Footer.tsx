@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { LinkWithChannel } from "../atoms/LinkWithChannel";
 import { ChannelSelect } from "./ChannelSelect";
 import { ChannelsListDocument } from "@/gql/graphql";
@@ -30,31 +31,31 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						<h3 className="mb-3 text-base font-semibold text-amber-900">Customer Support</h3>
 						<ul className="space-y-2">
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/customer-support"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Help Center
-								</LinkWithChannel>
+								</Link>
 							</li>
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/customer-support#contact"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Contact Us
-								</LinkWithChannel>
+								</Link>
 							</li>
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/customer-support#faq"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									FAQ
-								</LinkWithChannel>
+								</Link>
 							</li>
 						</ul>
 					</div>
@@ -64,22 +65,22 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						<h3 className="mb-3 text-base font-semibold text-amber-900">Payments</h3>
 						<ul className="space-y-2">
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/secure-payments"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Secure Payments
-								</LinkWithChannel>
+								</Link>
 							</li>
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/sales-tax"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Sales Tax
-								</LinkWithChannel>
+								</Link>
 							</li>
 						</ul>
 					</div>
@@ -89,22 +90,22 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						<h3 className="mb-3 text-base font-semibold text-amber-900">Shipping</h3>
 						<ul className="space-y-2">
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/shipping-delivery"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Shipping & Delivery
-								</LinkWithChannel>
+								</Link>
 							</li>
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/return-policy"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Return Policy
-								</LinkWithChannel>
+								</Link>
 							</li>
 						</ul>
 					</div>
@@ -148,31 +149,31 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						<h3 className="mb-3 text-base font-semibold text-amber-900">About</h3>
 						<ul className="space-y-2">
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/about"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									About Matt&apos;s Coinage
-								</LinkWithChannel>
+								</Link>
 							</li>
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/privacy"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Privacy Policy
-								</LinkWithChannel>
+								</Link>
 							</li>
 							<li>
-								<LinkWithChannel
+								<Link
 									href="/terms"
 									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
 								>
 									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
 									Terms of Service
-								</LinkWithChannel>
+								</Link>
 							</li>
 						</ul>
 					</div>

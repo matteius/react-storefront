@@ -10,6 +10,12 @@ query ProductDetails($slug: String!, $channel: String!) {
 			url
 			alt
 		}
+		media {
+			id
+			url(size: 2048, format: WEBP)
+			alt
+			type
+		}
 		category {
 			id
 			name

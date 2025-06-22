@@ -15,9 +15,9 @@ export function Header({ channel }: { channel: string }) {
 						<div className="floating-animation pulse-glow rounded-lg">
 							<Logo />
 						</div>
-						{/* Website URL - Desktop only */}
-						<div className="hidden lg:block">
-							<span className="gradient-text text-lg font-semibold tracking-wide drop-shadow-sm">
+						{/* Website URL - Desktop and tablet */}
+						<div className="hidden md:block">
+							<span className="gradient-text text-base font-semibold tracking-wide drop-shadow-sm lg:text-lg">
 								www.MattsCoinage.com
 							</span>
 						</div>

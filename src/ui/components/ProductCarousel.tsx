@@ -42,12 +42,12 @@ export const ProductCarousel = ({ products }: { products: readonly ProductListIt
 		return null;
 	}
 
-	// Show 3 products at a time on desktop, 2 on tablet, 1 on mobile
+	// Show up to 3 products at a time, but don't duplicate if we have fewer products
 	const getVisibleProducts = () => {
-		const visibleCount = 3; // We'll handle responsive behavior with CSS
+		const maxVisibleCount = Math.min(3, products.length);
 		const visibleProducts = [];
 
-		for (let i = 0; i < visibleCount; i++) {
+		for (let i = 0; i < maxVisibleCount; i++) {
 			const index = (currentIndex + i) % products.length;
 			visibleProducts.push(products[index]);
 		}
@@ -60,7 +60,15 @@ export const ProductCarousel = ({ products }: { products: readonly ProductListIt
 			{/* Carousel Container */}
 			<div className="relative">
 				{/* Products Grid */}
-				<div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+				<div
+					className={`grid gap-6 ${
+						getVisibleProducts().length === 1
+							? "grid-cols-1 justify-items-center"
+							: getVisibleProducts().length === 2
+								? "grid-cols-1 md:grid-cols-2"
+								: "grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+					}`}
+				>
 					{getVisibleProducts().map((product, index) => (
 						<div
 							key={`${product.id}-${currentIndex}-${index}`}

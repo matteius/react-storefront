@@ -4,8 +4,14 @@ import { useState, useEffect } from "react";
 import { ProductElement } from "./ProductElement";
 import { type ProductListItemFragment } from "@/gql/graphql";
 
-export const ProductCarousel = ({ products }: { products: readonly ProductListItemFragment[] }) => {
-	const [currentIndex, setCurrentIndex] = useState(0);
+export const ProductCarousel = ({
+	products,
+	initialIndex = 0,
+}: {
+	products: readonly ProductListItemFragment[];
+	initialIndex?: number;
+}) => {
+	const [currentIndex, setCurrentIndex] = useState(initialIndex);
 	const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
 	// Auto-advance carousel every 5 seconds
@@ -61,7 +67,7 @@ export const ProductCarousel = ({ products }: { products: readonly ProductListIt
 			<div className="relative">
 				{/* Products Grid */}
 				<div
-					className={`grid gap-6 ${
+					className={`grid gap-4 ${
 						getVisibleProducts().length === 1
 							? "grid-cols-1 justify-items-center"
 							: getVisibleProducts().length === 2
@@ -110,7 +116,7 @@ export const ProductCarousel = ({ products }: { products: readonly ProductListIt
 
 			{/* Dots Indicator */}
 			{products.length > 3 && (
-				<div className="mt-8 flex justify-center space-x-2">
+				<div className="mt-6 flex justify-center space-x-2">
 					{Array.from({ length: Math.ceil(products.length / 3) }).map((_, index) => (
 						<button
 							key={index}
@@ -128,7 +134,7 @@ export const ProductCarousel = ({ products }: { products: readonly ProductListIt
 
 			{/* Auto-play indicator */}
 			{products.length > 3 && (
-				<div className="mt-4 flex justify-center">
+				<div className="mt-3 flex justify-center">
 					<button
 						onClick={() => setIsAutoPlaying(!isAutoPlaying)}
 						className="flex items-center space-x-2 rounded-full bg-gray-100 px-4 py-2 text-sm text-gray-600 transition-colors duration-200 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gold-500 focus:ring-offset-2"

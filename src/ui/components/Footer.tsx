@@ -1,19 +1,7 @@
 import Link from "next/link";
 import { LinkWithChannel } from "../atoms/LinkWithChannel";
-import { ChannelSelect } from "./ChannelSelect";
-import { ChannelsListDocument } from "@/gql/graphql";
-import { executeGraphQL } from "@/lib/graphql";
 
 export async function Footer({ channel: _channel }: { channel: string }) {
-	const channels = process.env.SALEOR_APP_TOKEN
-		? await executeGraphQL(ChannelsListDocument, {
-				withAuth: false, // disable cookie-based auth for this call
-				headers: {
-					// and use app token instead
-					Authorization: `Bearer ${process.env.SALEOR_APP_TOKEN}`,
-				},
-			})
-		: null;
 	const currentYear = new Date().getFullYear();
 
 	return (
@@ -144,19 +132,6 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						</ul>
 					</div>
 				</div>
-
-				{channels?.channels && (
-					<div className="mt-6 border-t border-gold-200/50 pt-4">
-						<div className="flex flex-col items-center justify-between sm:flex-row">
-							<div className="mb-4 sm:mb-0">
-								<label className="font-medium text-amber-700">
-									<span className="text-sm">Change currency:</span>{" "}
-									<ChannelSelect channels={channels.channels} />
-								</label>
-							</div>
-						</div>
-					</div>
-				)}
 
 				<div className="mt-6 flex flex-col items-center justify-between border-t border-gold-200/50 pt-4 sm:flex-row">
 					<p className="font-medium text-amber-700">

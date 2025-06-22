@@ -44,9 +44,9 @@ export default function ShippingDeliveryPage() {
 					<div className="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-6">
 						<h3 className="mb-3 text-lg font-semibold text-yellow-800">Shipping Restrictions:</h3>
 						<ul className="space-y-2 text-gray-700">
-							<li>• International shipping not currently available</li>
-							<li>• PO Box addresses not accepted</li>
-							<li>• Shipping address must match billing address exactly</li>
+							<li>International shipping not currently available</li>
+							<li>PO Box addresses not accepted</li>
+							<li>Shipping address must match billing address exactly</li>
 						</ul>
 					</div>
 

@@ -83,10 +83,10 @@ export default function ReturnPolicyPage() {
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Return Requirements</h2>
 					<ul className="mb-8 space-y-2 text-gray-700">
-						<li>• Items must be returned in identical condition to when shipped</li>
-						<li>• Original packaging and materials must be included</li>
-						<li>• Return tracking information must be provided</li>
-						<li>• Items must be securely packaged to prevent damage in transit</li>
+						<li>Items must be returned in identical condition to when shipped</li>
+						<li>Original packaging and materials must be included</li>
+						<li>Return tracking information must be provided</li>
+						<li>Items must be securely packaged to prevent damage in transit</li>
 					</ul>
 
 					<div className="mb-8 rounded-lg border border-gray-200 bg-gray-50 p-6">

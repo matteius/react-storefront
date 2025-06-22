@@ -86,6 +86,7 @@
 	.nav-links-container {
 		scrollbar-width: none; /* Firefox */
 		-ms-overflow-style: none; /* Internet Explorer 10+ */
+		max-width: 100%;
 	}
 
 	.nav-links-container::-webkit-scrollbar {
@@ -96,6 +97,15 @@
 	.nav-link-item {
 		flex-shrink: 0;
 		white-space: nowrap;
+		min-width: fit-content;
+	}
+
+	/* Prevent navigation items from wrapping */
+	@media (min-width: 768px) {
+		.nav-links-container {
+			flex-wrap: nowrap;
+			overflow-x: auto;
+		}
 	}
 }
 

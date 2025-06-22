@@ -35,6 +35,9 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 	const products = featuredData.collection?.products?.edges.map(({ node: product }) => product) || [];
 	const saleProducts = saleData.collection?.products?.edges.map(({ node: product }) => product) || [];
 
+	// Pick a random starting index for sale products to show variety
+	const randomStartIndex = saleProducts.length > 0 ? Math.floor(Math.random() * saleProducts.length) : 0;
+
 	return (
 		<div className="min-h-screen">
 			{/* News Bar */}
@@ -94,7 +97,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 
 			{/* Sale Products Carousel */}
 			{saleProducts.length > 0 && (
-				<section className="relative overflow-hidden bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 py-20">
+				<section className="relative overflow-hidden bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 py-12">
 					{/* Background decorative elements */}
 					<div className="absolute inset-0 opacity-10">
 						<div className="absolute left-20 top-20 h-40 w-40 animate-pulse rounded-full bg-red-400 blur-3xl"></div>
@@ -103,8 +106,8 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					</div>
 
 					<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-						<div className="mb-16 text-center">
-							<div className="mb-4 flex items-center justify-center">
+						<div className="mb-8 text-center">
+							<div className="mb-3 flex items-center justify-center">
 								<span className="mr-3 animate-bounce text-4xl">🔥</span>
 								<h2 className="text-4xl font-bold text-red-800 md:text-5xl">Hot Sale Items</h2>
 								<span className="ml-3 animate-bounce text-4xl">🔥</span>
@@ -114,9 +117,9 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 							</p>
 						</div>
 
-						<ProductCarousel products={saleProducts} />
+						<ProductCarousel products={saleProducts} initialIndex={randomStartIndex} />
 
-						<div className="mt-16 text-center">
+						<div className="mt-8 text-center">
 							<LinkWithChannel
 								href="/categories/sale-items"
 								className="group relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-red-600 to-rose-600 px-10 py-4 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-red-500/25"
@@ -146,7 +149,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			<section className="bg-gradient-to-b from-white to-gray-50 py-20">
 				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<div className="mb-16 text-center">
-						<h2 className="gradient-text mb-4 text-4xl font-bold">Shop by Category</h2>
+						<h2 className="gradient-text mb-4 text-4xl font-bold">Populare Product Categories</h2>
 						<p className="mx-auto max-w-2xl text-lg text-gray-600">
 							Explore our carefully curated collections of premium collectibles
 						</p>

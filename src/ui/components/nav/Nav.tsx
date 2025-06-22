@@ -9,14 +9,14 @@ export const Nav = ({ channel }: { channel: string }) => {
 	return (
 		<nav className="flex h-full w-full items-center pl-0.5" aria-label="Main navigation">
 			{/* Desktop Navigation Links */}
-			<div className="hidden min-w-0 flex-1 lg:flex">
+			<div className="hidden min-w-0 flex-1 lg:mr-4 lg:flex">
 				<ol className="nav-links-container flex h-full list-none items-center gap-1 overflow-x-auto">
 					<NavLinks channel={channel} />
 				</ol>
 			</div>
 
 			{/* Tablet Navigation Links */}
-			<div className="hidden min-w-0 flex-1 md:flex lg:hidden">
+			<div className="hidden min-w-0 flex-1 md:mr-3 md:flex lg:hidden">
 				<ol className="nav-links-container flex h-full list-none items-center gap-1 overflow-x-auto">
 					<NavLinks channel={channel} />
 				</ol>
@@ -25,7 +25,7 @@ export const Nav = ({ channel }: { channel: string }) => {
 			{/* Right side items */}
 			<div className="flex flex-shrink-0 items-center gap-2 lg:gap-3">
 				{/* Search bar - tablet and desktop */}
-				<div className="hidden w-48 md:flex lg:w-64 xl:w-80">
+				<div className="hidden w-40 md:flex lg:w-48 xl:w-56">
 					<SearchBar channel={channel} />
 				</div>
 

@@ -22,10 +22,10 @@ export default function SecurePaymentsPage() {
 					</p>
 					<ul className="mb-6 space-y-2 text-gray-700">
 						<li>
-							• <strong>Payment Processing:</strong> Stripe (secure payment handling)
+							<strong>Payment Processing:</strong> Stripe (secure payment handling)
 						</li>
 						<li>
-							• <strong>Shipping Services:</strong> PirateShip (shipping label generation only)
+							<strong>Shipping Services:</strong> PirateShip (shipping label generation only)
 						</li>
 					</ul>
 					<p className="mb-8 text-gray-700">
@@ -39,8 +39,8 @@ export default function SecurePaymentsPage() {
 						accepted payment methods include:
 					</p>
 					<ul className="mb-4 space-y-2 text-gray-700">
-						<li>• All major credit cards (Visa, MasterCard, American Express, Discover)</li>
-						<li>• Debit cards with major network logos</li>
+						<li>All major credit cards (Visa, MasterCard, American Express, Discover)</li>
+						<li>Debit cards with major network logos</li>
 					</ul>
 					<div className="mb-8 rounded-lg border border-blue-200 bg-blue-50 p-4">
 						<p className="text-blue-800">

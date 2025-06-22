@@ -10,7 +10,7 @@ export function NavLink({ href, children }: { href: string; children: ReactEleme
 	const isActive = pathname === href;
 
 	return (
-		<li className="h-full">
+		<li className="nav-link-item h-full">
 			<div className="flex h-full items-center">
 				<LinkWithChannel
 					href={href}

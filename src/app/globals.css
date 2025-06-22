@@ -81,6 +81,22 @@
 		border-radius: inherit;
 		pointer-events: none;
 	}
+
+	/* Navigation overflow handling */
+	.nav-links-container {
+		scrollbar-width: none; /* Firefox */
+		-ms-overflow-style: none; /* Internet Explorer 10+ */
+	}
+
+	.nav-links-container::-webkit-scrollbar {
+		display: none; /* WebKit */
+	}
+
+	/* Ensure nav items don't shrink too much */
+	.nav-link-item {
+		flex-shrink: 0;
+		white-space: nowrap;
+	}
 }
 
 @keyframes shimmer {

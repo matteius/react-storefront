@@ -1,6 +1,7 @@
 import { ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import { ProductList } from "@/ui/components/ProductList";
+import { ProductCarousel } from "@/ui/components/ProductCarousel";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 import { NewsletterSignup } from "@/ui/components/NewsletterSignup";
 
@@ -12,7 +13,9 @@ export const metadata = {
 
 export default async function Page(props: { params: Promise<{ channel: string }> }) {
 	const params = await props.params;
-	const data = await executeGraphQL(ProductListByCollectionDocument, {
+
+	// Fetch featured products
+	const featuredData = await executeGraphQL(ProductListByCollectionDocument, {
 		variables: {
 			slug: "featured-products",
 			channel: params.channel,
@@ -20,7 +23,17 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 		revalidate: 60,
 	});
 
-	const products = data.collection?.products?.edges.map(({ node: product }) => product) || [];
+	// Fetch sale products
+	const saleData = await executeGraphQL(ProductListByCollectionDocument, {
+		variables: {
+			slug: "sale-items",
+			channel: params.channel,
+		},
+		revalidate: 60,
+	});
+
+	const products = featuredData.collection?.products?.edges.map(({ node: product }) => product) || [];
+	const saleProducts = saleData.collection?.products?.edges.map(({ node: product }) => product) || [];
 
 	return (
 		<div className="min-h-screen">
@@ -78,6 +91,73 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					</div>
 				</div>
 			</section>
+
+			{/* Sale Products Carousel */}
+			{saleProducts.length > 0 && (
+				<section className="relative overflow-hidden bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 py-20">
+					{/* Background decorative elements */}
+					<div className="absolute inset-0 opacity-10">
+						<div className="absolute left-20 top-20 h-40 w-40 animate-pulse rounded-full bg-red-400 blur-3xl"></div>
+						<div className="absolute right-10 top-60 h-32 w-32 animate-pulse rounded-full bg-rose-400 blur-2xl delay-1000"></div>
+						<div className="delay-2000 absolute bottom-10 left-1/2 h-36 w-36 animate-pulse rounded-full bg-pink-400 blur-3xl"></div>
+					</div>
+
+					<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+						<div className="mb-16 text-center">
+							<div className="mb-4 flex items-center justify-center">
+								<span className="mr-3 animate-bounce text-4xl">🔥</span>
+								<h2 className="text-4xl font-bold text-red-800 md:text-5xl">Hot Sale Items</h2>
+								<span className="ml-3 animate-bounce text-4xl">🔥</span>
+							</div>
+							<p className="mx-auto max-w-3xl text-lg text-red-700 md:text-xl">
+								Don&apos;t miss out on these incredible deals! Limited-time offers on premium collectibles,
+								updated regularly with fresh finds and exceptional values.
+							</p>
+							<div className="mt-6 inline-flex items-center rounded-full bg-red-100 px-6 py-2 text-sm font-medium text-red-800">
+								<svg
+									className="mr-2 h-4 w-4 animate-spin"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+									/>
+								</svg>
+								Updated Monthly
+							</div>
+						</div>
+
+						<ProductCarousel products={saleProducts} />
+
+						<div className="mt-16 text-center">
+							<LinkWithChannel
+								href="/products/categories/sale-items"
+								className="group relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-red-600 to-rose-600 px-10 py-4 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-red-500/25"
+							>
+								<span className="relative z-10 mr-2">View All Sale Items</span>
+								<svg
+									className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M13 7l5 5m0 0l-5 5m5-5H6"
+									/>
+								</svg>
+								<div className="absolute inset-0 bg-gradient-to-r from-red-700 to-rose-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+							</LinkWithChannel>
+						</div>
+					</div>
+				</section>
+			)}
 
 			{/* Featured Categories */}
 			<section className="bg-gradient-to-b from-white to-gray-50 py-20">

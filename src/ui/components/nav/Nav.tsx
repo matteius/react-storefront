@@ -7,21 +7,25 @@ import { SearchBar } from "./components/SearchBar";
 
 export const Nav = ({ channel }: { channel: string }) => {
 	return (
-		<nav className="flex h-full pl-0.5" aria-label="Main navigation">
+		<nav className="flex h-full w-full items-center justify-between pl-0.5" aria-label="Main navigation">
 			{/* Desktop Navigation Links */}
-			<ol className="hidden h-full list-none items-center gap-1 lg:flex">
-				<NavLinks channel={channel} />
-			</ol>
+			<div className="hidden flex-1 lg:flex">
+				<ol className="nav-links-container flex h-full list-none items-center gap-1 overflow-x-auto">
+					<NavLinks channel={channel} />
+				</ol>
+			</div>
 
 			{/* Tablet Navigation Links */}
-			<ol className="hidden h-full list-none items-center gap-1 md:flex lg:hidden">
-				<NavLinks channel={channel} />
-			</ol>
+			<div className="hidden flex-1 md:flex lg:hidden">
+				<ol className="nav-links-container flex h-full list-none items-center gap-1 overflow-x-auto">
+					<NavLinks channel={channel} />
+				</ol>
+			</div>
 
 			{/* Right side items */}
-			<div className="flex flex-1 items-center justify-end gap-3">
+			<div className="flex items-center gap-2 lg:gap-3">
 				{/* Search bar - tablet and desktop */}
-				<div className="hidden w-64 md:flex lg:w-80">
+				<div className="hidden w-48 md:flex lg:w-64 xl:w-80">
 					<SearchBar channel={channel} />
 				</div>
 

@@ -62,7 +62,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						</p>
 						<div className="flex flex-col justify-center gap-6 sm:flex-row">
 							<LinkWithChannel
-								href="/products/sale-items"
+								href="/products/categories/sale-items"
 								className="pulse-glow group relative overflow-hidden rounded-xl bg-gradient-to-r from-gold-600 to-amber-600 px-10 py-4 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-gold-500/25"
 							>
 								<span className="relative z-10">Shop Sale Items</span>

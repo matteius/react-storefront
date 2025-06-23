@@ -4,7 +4,7 @@ import { type Metadata } from "next";
 import { DraftModeNotification } from "@/ui/components/DraftModeNotification";
 import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import { CookieConsent } from "@/ui/components/CookieConsent";
-import GoogleAnalyticsWrapper from "@/ui/components/GoogleAnalyticsWrapper";
+import { GoogleAnalyticsWrapper } from "@/ui/components/GoogleAnalyticsWrapper";
 
 export const metadata: Metadata = {
 	title: "Matt's Coinage - Premium Collectible Coins & Currency",

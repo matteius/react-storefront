@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import { useCookieConsent } from '@/contexts/CookieConsentContext';
 import { GoogleAnalytics, consent } from 'nextjs-google-analytics';
+import { useCookieConsent } from '@/contexts/CookieConsentContext';
 
-export default function GoogleAnalyticsWrapper() {
+export function GoogleAnalyticsWrapper() {
   const { consent: cookieConsent, isLoaded } = useCookieConsent();
 
   // Set default consent state (denied by default for GDPR compliance)

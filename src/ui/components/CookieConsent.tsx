@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import { useCookieConsent } from '@/contexts/CookieConsentContext';
 
 export function CookieConsent() {
@@ -69,12 +70,12 @@ export function CookieConsent() {
                 </h3>
                 <p className="text-sm text-gray-600 leading-relaxed">
                   We use cookies to enhance your experience and analyze site usage. 
-                  <a 
+                  <Link 
                     href="/privacy-policy" 
                     className="text-blue-600 hover:text-blue-700 underline ml-1 font-medium"
                   >
                     Learn more
-                  </a>
+                  </Link>
                 </p>
               </div>
             </div>
@@ -102,5 +103,3 @@ export function CookieConsent() {
     </div>
   );
 }
-
-export default CookieConsent;

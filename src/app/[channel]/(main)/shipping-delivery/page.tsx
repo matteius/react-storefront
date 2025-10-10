@@ -29,10 +29,9 @@ export default function ShippingDeliveryPage() {
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Secure Delivery Process</h2>
 					<p className="mb-6 text-gray-700">
-						Every order is carefully packaged and shipped with full insurance coverage up to the purchase
-						amount. We use trusted carriers (USPS and UPS) to ensure safe delivery to your door. Tracking
-						information is provided for all shipments, and high-value orders require signature confirmation
-						for added security.
+						Every order is carefully packaged and shipped using trusted carriers (USPS and UPS) to ensure safe
+						delivery to your door. All shipments include detailed tracking information, and we require
+						signature confirmation for delivery to provide maximum security for your valuable collectibles.
 					</p>
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Shipping Locations</h2>
@@ -96,8 +95,8 @@ export default function ShippingDeliveryPage() {
 
 					<div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
 						<p className="text-center font-medium text-gray-700">
-							All shipments include tracking information and full insurance coverage. You&apos;ll receive
-							tracking details via email once your order ships.
+							All shipments include detailed tracking information and require signature confirmation.
+							You&apos;ll receive tracking details via email once your order ships.
 						</p>
 					</div>
 				</div>

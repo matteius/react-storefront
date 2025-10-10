@@ -30,12 +30,6 @@ export default function CustomerSupportPage() {
 						<h3 className="mb-4 text-xl font-semibold text-amber-800">Email Support:</h3>
 						<ul className="space-y-2">
 							<li>
-								<strong>General inquiries:</strong>{" "}
-								<a href="mailto:sales@mattscoinage.com" className="text-amber-700 hover:text-amber-900">
-									sales@mattscoinage.com
-								</a>
-							</li>
-							<li>
 								<strong>Direct support:</strong>{" "}
 								<a href="mailto:matt@mattscoinage.com" className="text-amber-700 hover:text-amber-900">
 									matt@mattscoinage.com

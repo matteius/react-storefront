@@ -187,12 +187,6 @@ export default function TermsOfServicePage() {
 					<div className="mb-8 rounded-lg border border-amber-200 bg-amber-50 p-6">
 						<ul className="space-y-2 text-gray-700">
 							<li>
-								<strong>Email:</strong>{" "}
-								<a href="mailto:legal@mattscoinage.com" className="text-amber-700 hover:text-amber-900">
-									legal@mattscoinage.com
-								</a>
-							</li>
-							<li>
 								<strong>General Support:</strong>{" "}
 								<a href="mailto:matt@mattscoinage.com" className="text-amber-700 hover:text-amber-900">
 									matt@mattscoinage.com

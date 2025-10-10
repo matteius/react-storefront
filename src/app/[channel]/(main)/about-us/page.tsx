@@ -175,12 +175,6 @@ export default function AboutUsPage() {
 								</a>
 							</li>
 							<li>
-								<strong>Sales Inquiries:</strong>{" "}
-								<a href="mailto:sales@mattscoinage.com" className="text-blue-700 hover:text-blue-900">
-									sales@mattscoinage.com
-								</a>
-							</li>
-							<li>
 								<strong>Facebook:</strong>{" "}
 								<a
 									href="https://facebook.com/MattsCoinage"

@@ -174,6 +174,9 @@ export function CheckoutForm() {
 			},
 		};
 
+		// Show payment processing screen
+		setIsProcessingPayment(true);
+
 		// Use React Query mutation to confirm payment
 		confirmPaymentMutation.mutate(
 			{
@@ -191,6 +194,7 @@ export function CheckoutForm() {
 						result.paymentIntent?.status === "requires_capture"
 					) {
 						console.log("React Query: Payment successful, initiating checkout completion");
+						// Keep processing screen visible during checkout completion
 						completeCheckoutMutation.mutate();
 					} else {
 						// Payment may require additional authentication or processing
@@ -239,8 +243,21 @@ export function CheckoutForm() {
 				id="submit"
 			>
 				<span className="button-text">
-					{isLoading || confirmPaymentMutation.isPending || completeCheckoutMutation.isPending ? (
-						<Loader />
+					{confirmPaymentMutation.isPending ? (
+						<div className="flex items-center justify-center">
+							<Loader />
+							<span className="ml-2">Processing Payment...</span>
+						</div>
+					) : completeCheckoutMutation.isPending ? (
+						<div className="flex items-center justify-center">
+							<Loader />
+							<span className="ml-2">Completing Order...</span>
+						</div>
+					) : isLoading ? (
+						<div className="flex items-center justify-center">
+							<Loader />
+							<span className="ml-2">Please Wait...</span>
+						</div>
 					) : (
 						"Pay now"
 					)}

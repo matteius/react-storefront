@@ -131,6 +131,40 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 							</li>
 						</ul>
 					</div>
+
+					{/* Company & Legal */}
+					<div className="group">
+						<h3 className="mb-3 text-base font-semibold text-amber-900">Company</h3>
+						<ul className="space-y-2">
+							<li>
+								<Link
+									href="/default-channel/about"
+									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
+								>
+									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
+									About Us
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/default-channel/privacy-policy"
+									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
+								>
+									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
+									Privacy Policy
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/default-channel/terms-of-service"
+									className="group flex items-center text-amber-700 transition-all duration-300 hover:translate-x-1 hover:text-amber-900"
+								>
+									<span className="mr-3 h-2 w-2 rounded-full bg-gold-400 transition-all duration-300 group-hover:bg-gold-600"></span>
+									Terms of Service
+								</Link>
+							</li>
+						</ul>
+					</div>
 				</div>
 
 				<div className="mt-6 flex flex-col items-center justify-between border-t border-gold-200/50 pt-4 sm:flex-row">

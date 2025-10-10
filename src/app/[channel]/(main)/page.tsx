@@ -166,42 +166,62 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			<section className="bg-gradient-to-b from-white to-gray-50 py-20">
 				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<div className="mb-16 text-center">
-						<h2 className="gradient-text mb-4 text-4xl font-bold">Populare Product Categories</h2>
+						<h2 className="gradient-text mb-4 text-4xl font-bold">Popular Product Categories</h2>
 						<p className="mx-auto max-w-2xl text-lg text-gray-600">
 							Explore our carefully curated collections of premium collectibles
 						</p>
 					</div>
 					<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-						<div className="group transform cursor-pointer transition-all duration-300 hover:scale-105">
-							<div className="coin-shimmer relative overflow-hidden rounded-2xl bg-gradient-to-br from-amber-100 via-gold-100 to-yellow-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
-								<div className="floating-animation mb-6 text-6xl">🪙</div>
-								<h3 className="mb-3 text-xl font-bold text-amber-800">Ancient Coins</h3>
+						{/* Ancient Coins Category */}
+						<LinkWithChannel
+							href="/categories/ancient-coins"
+							className="group transform transition-all duration-300 hover:scale-105"
+						>
+							<div className="coin-shimmer relative flex h-full min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-amber-100 via-gold-100 to-yellow-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
+								<div className="flex flex-col items-center">
+									<div className="floating-animation mb-6 text-6xl">🪙</div>
+									<h3 className="mb-4 text-xl font-bold text-amber-800">Ancient Coins</h3>
+								</div>
 								<p className="leading-relaxed text-gray-700">
 									Historical treasures from ancient civilizations
 								</p>
 								<div className="absolute inset-0 bg-gradient-to-br from-gold-400/20 to-amber-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 							</div>
-						</div>
-						<div className="group transform cursor-pointer transition-all duration-300 hover:scale-105">
-							<div className="coin-shimmer relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 via-gray-100 to-zinc-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
-								<div className="floating-animation mb-6 text-6xl" style={{ animationDelay: "1s" }}>
-									🥈
+						</LinkWithChannel>
+
+						{/* Silver Coins Category */}
+						<LinkWithChannel
+							href="/categories/silver"
+							className="group transform transition-all duration-300 hover:scale-105"
+						>
+							<div className="coin-shimmer relative flex h-full min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 via-gray-100 to-zinc-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
+								<div className="flex flex-col items-center">
+									<div className="floating-animation mb-6 text-6xl" style={{ animationDelay: "1s" }}>
+										🥈
+									</div>
+									<h3 className="mb-4 text-xl font-bold text-slate-800">Silver Coins</h3>
 								</div>
-								<h3 className="mb-3 text-xl font-bold text-slate-800">Silver Coins</h3>
 								<p className="leading-relaxed text-gray-700">Premium silver collectibles and bullion</p>
 								<div className="absolute inset-0 bg-gradient-to-br from-slate-400/20 to-gray-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 							</div>
-						</div>
-						<div className="group transform cursor-pointer transition-all duration-300 hover:scale-105">
-							<div className="coin-shimmer relative overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-100 via-gold-100 to-amber-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
-								<div className="floating-animation mb-6 text-6xl" style={{ animationDelay: "2s" }}>
-									🥇
+						</LinkWithChannel>
+
+						{/* Gold Coins Category */}
+						<LinkWithChannel
+							href="/categories/gold"
+							className="group transform transition-all duration-300 hover:scale-105"
+						>
+							<div className="coin-shimmer relative flex h-full min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-100 via-gold-100 to-amber-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
+								<div className="flex flex-col items-center">
+									<div className="floating-animation mb-6 text-6xl" style={{ animationDelay: "2s" }}>
+										🥇
+									</div>
+									<h3 className="mb-4 text-xl font-bold text-yellow-800">Gold Coins</h3>
 								</div>
-								<h3 className="mb-3 text-xl font-bold text-yellow-800">Gold Coins</h3>
 								<p className="leading-relaxed text-gray-700">Rare gold coins and investment pieces</p>
 								<div className="absolute inset-0 bg-gradient-to-br from-gold-400/20 to-yellow-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 							</div>
-						</div>
+						</LinkWithChannel>
 					</div>
 				</div>
 			</section>

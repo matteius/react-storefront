@@ -190,6 +190,7 @@ export function CheckoutForm() {
 						result.paymentIntent?.status === "succeeded" ||
 						result.paymentIntent?.status === "requires_capture"
 					) {
+						console.log("React Query: Payment successful, initiating checkout completion");
 						completeCheckoutMutation.mutate();
 					} else {
 						// Payment may require additional authentication or processing
@@ -198,12 +199,14 @@ export function CheckoutForm() {
 							result.paymentIntent?.status,
 						);
 						setIsLoading(false);
+						setIsProcessingPayment(false);
 					}
 				},
 				onError: (error) => {
 					console.error("React Query: Payment confirmation failed:", error);
 					setIsLoading(false);
 					setIsProcessingPayment(false);
+					setSubmitInProgress(false);
 				},
 			},
 		);

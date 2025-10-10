@@ -50,7 +50,7 @@ export const getRawQueryParams = () => {
 export const getQueryParams = (): QueryParams => {
 	const params = getRawQueryParams();
 
-	return Object.entries(params).reduce((result, entry) => {
+	const result = Object.entries(params).reduce((result, entry) => {
 		const [paramName, paramValue] = entry as [UnmappedQueryParam, ParamBasicValue];
 		const mappedParamName = queryParamsMap[paramName];
 		const mappedParamValue = paramValue;
@@ -60,6 +60,13 @@ export const getQueryParams = (): QueryParams => {
 			[mappedParamName]: mappedParamValue,
 		};
 	}, {}) as QueryParams;
+
+	// Debug logging for order parameter
+	if (result.orderId) {
+		console.log("URL Utils: Found orderId in params:", result.orderId);
+	}
+
+	return result;
 };
 
 export const clearQueryParams = (...keys: QueryParam[]) => {

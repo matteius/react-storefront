@@ -167,19 +167,40 @@ export const useCompleteCheckout = () => {
 			queryClient.removeQueries({ queryKey: ["paymentIntent"] });
 			queryClient.removeQueries({ queryKey: ["checkout"] });
 
-			// Redirect to order confirmation - construct URL manually for reliable navigation
-			const baseUrl = window.location.origin + window.location.pathname;
-			const orderConfirmationUrl = `${baseUrl}?order=${order.id}`;
+			console.log("React Query: Checkout completed successfully, redirecting to order confirmation");
 
-			console.log("React Query: Redirecting to order confirmation:", orderConfirmationUrl);
+			// Use a more reliable redirect method with timeout fallback
+			try {
+				// Construct the order confirmation URL
+				const baseUrl = window.location.origin + window.location.pathname;
+				const orderConfirmationUrl = `${baseUrl}?order=${order.id}`;
 
-			// Use window.location.href for immediate navigation
-			window.location.href = orderConfirmationUrl;
+				console.log("React Query: Redirecting to:", orderConfirmationUrl);
+
+				// Use window.location.replace for immediate navigation without back button issues
+				window.location.replace(orderConfirmationUrl);
+
+				// Fallback timeout in case replace doesn't work immediately
+				setTimeout(() => {
+					if (window.location.href !== orderConfirmationUrl) {
+						console.log("React Query: Fallback redirect triggered");
+						window.location.href = orderConfirmationUrl;
+					}
+				}, 1000);
+			} catch (error) {
+				console.error("React Query: Redirect failed, trying fallback:", error);
+				// Last resort fallback
+				window.location.href = `${window.location.origin}${window.location.pathname}?order=${order.id}`;
+			}
 		},
 		onError: (error) => {
 			console.error("React Query: Checkout completion failed", error);
+			// Show user-friendly error message
+			alert(
+				"There was an issue completing your order. Please refresh the page or contact support if the problem persists.",
+			);
 		},
-		retry: 1,
+		retry: 2, // Increase retry attempts for checkout completion
 	});
 };
 

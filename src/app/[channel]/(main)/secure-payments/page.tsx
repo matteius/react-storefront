@@ -2,7 +2,7 @@ import { type Metadata } from "next";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 
 export const metadata: Metadata = {
-	title: "Secure Payments - Matt's Coinage",
+	title: "Secure Payments - Matt&apos;s Coinage",
 	description: "Learn about our secure payment methods and protection for your collectible coin purchases.",
 };
 

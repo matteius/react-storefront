@@ -1,7 +1,7 @@
 import { type Metadata } from "next";
 
 export const metadata: Metadata = {
-	title: "Shipping & Delivery - Matt's Coinage",
+	title: "Shipping & Delivery - Matt&apos;s Coinage",
 	description:
 		"Learn about our shipping methods, delivery times, and packaging for collectible coins and currency.",
 };

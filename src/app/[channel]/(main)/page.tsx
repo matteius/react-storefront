@@ -1,6 +1,7 @@
 import { ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import { ProductList } from "@/ui/components/ProductList";
+import { ProductElement } from "@/ui/components/ProductElement";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 import { NewsletterSignup } from "@/ui/components/NewsletterSignup";
 
@@ -113,7 +114,27 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 							</p>
 						</div>
 
-						<ProductList products={saleProducts} />
+						{/* Custom grid for sale items - optimized for 3 items */}
+						<div
+							className={`mx-auto grid gap-6 ${
+								saleProducts.length === 1
+									? "max-w-sm grid-cols-1"
+									: saleProducts.length === 2
+										? "max-w-2xl grid-cols-1 sm:grid-cols-2"
+										: saleProducts.length === 3
+											? "max-w-5xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+											: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+							}`}
+						>
+							{saleProducts.map((product, index) => (
+								<ProductElement
+									key={product.id}
+									product={product}
+									priority={index < 2}
+									loading={index < 3 ? "eager" : "lazy"}
+								/>
+							))}
+						</div>
 
 						<div className="mt-8 text-center">
 							<LinkWithChannel

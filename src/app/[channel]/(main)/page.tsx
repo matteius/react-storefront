@@ -1,7 +1,6 @@
 import { ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import { ProductList } from "@/ui/components/ProductList";
-import { ProductCarousel } from "@/ui/components/ProductCarousel";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 import { NewsletterSignup } from "@/ui/components/NewsletterSignup";
 
@@ -34,9 +33,6 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 
 	const products = featuredData.collection?.products?.edges.map(({ node: product }) => product) || [];
 	const saleProducts = saleData.collection?.products?.edges.map(({ node: product }) => product) || [];
-
-	// Pick a random starting index for sale products to show variety
-	const randomStartIndex = saleProducts.length > 0 ? Math.floor(Math.random() * saleProducts.length) : 0;
 
 	return (
 		<div className="min-h-screen">
@@ -117,7 +113,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 							</p>
 						</div>
 
-						<ProductCarousel products={saleProducts} initialIndex={randomStartIndex} />
+						<ProductList products={saleProducts} />
 
 						<div className="mt-8 text-center">
 							<LinkWithChannel

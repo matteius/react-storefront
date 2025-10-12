@@ -4,6 +4,7 @@ import { ProductList } from "@/ui/components/ProductList";
 import { ProductElement } from "@/ui/components/ProductElement";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 import { NewsletterSignup } from "@/ui/components/NewsletterSignup";
+import { TrustPilotWidget } from "@/ui/components/TrustPilot";
 
 export const metadata = {
 	title: "Matt's Coinage - Premium Collectible Coins & Bullion",
@@ -257,6 +258,16 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						<p className="mx-auto max-w-2xl text-lg text-gray-600">
 							Your trusted partner in numismatic excellence
 						</p>
+
+						{/* TrustPilot Reviews Widget */}
+						<div className="mx-auto mt-8 max-w-md">
+							<TrustPilotWidget
+								businessunitId="68e97c5feaeab4d0f7b9e85e"
+								domain="mattscoinage.com"
+								variant="standard"
+								className="rounded-lg"
+							/>
+						</div>
 					</div>
 					<div className="grid grid-cols-1 gap-12 md:grid-cols-3">
 						<div className="group transform text-center transition-all duration-300 hover:scale-105">

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { LinkWithChannel } from "../atoms/LinkWithChannel";
+import { TrustPilotBadge } from "./TrustPilot";
 
 export async function Footer({ channel: _channel }: { channel: string }) {
 	const currentYear = new Date().getFullYear();
@@ -168,9 +169,19 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 				</div>
 
 				<div className="mt-6 flex flex-col items-center justify-between border-t border-gold-200/50 pt-4 sm:flex-row">
-					<p className="font-medium text-amber-700">
-						Copyright &copy; {currentYear} Matt&apos;s Coinage. All rights reserved.
-					</p>
+					<div className="flex flex-col items-center sm:items-start">
+						<p className="font-medium text-amber-700">
+							Copyright &copy; {currentYear} Matt&apos;s Coinage. All rights reserved.
+						</p>
+						{/* TrustPilot Badge */}
+						<div className="mt-2">
+							<TrustPilotBadge
+								businessunitId="68e97c5feaeab4d0f7b9e85e"
+								domain="mattscoinage.com"
+								className="scale-90"
+							/>
+						</div>
+					</div>
 					<div className="mt-4 flex items-center space-x-4 sm:mt-0">
 						<div className="flex items-center space-x-2">
 							<div className="h-2 w-2 animate-pulse rounded-full bg-gold-500"></div>

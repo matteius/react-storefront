@@ -20,6 +20,15 @@ export default function RootLayout(props: { children: ReactNode }) {
 
 	return (
 		<html lang="en" className="min-h-dvh">
+			<head>
+				{/* TrustBox script */}
+				<script
+					type="text/javascript"
+					src="//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+					async
+				></script>
+				{/* End TrustBox script */}
+			</head>
 			<body className="min-h-dvh font-sans">
 				<CookieConsentProvider>
 					<GoogleAnalyticsWrapper />

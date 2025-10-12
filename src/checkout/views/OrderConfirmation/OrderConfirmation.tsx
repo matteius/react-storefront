@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { Summary, SummarySkeleton } from "@/checkout/sections/Summary";
 import { OrderInfo } from "@/checkout/sections/OrderInfo";
 import { useOrder } from "@/checkout/hooks/useOrder";
+import { TrustPilotReviewCollector } from "@/ui/components/TrustPilot";
 
 export const OrderConfirmation = () => {
 	const { order } = useOrder();
@@ -19,6 +20,20 @@ export const OrderConfirmation = () => {
 					</p>
 				</header>
 				<OrderInfo />
+
+				{/* TrustPilot Review Collector */}
+				<div className="mt-8">
+					<div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
+						<h3 className="mb-4 text-lg font-semibold text-amber-900">
+							Help Other Collectors - Share Your Experience!
+						</h3>
+						<p className="mb-4 text-sm text-amber-700">
+							Your feedback helps fellow coin enthusiasts make informed decisions. Please take a moment to
+							review your experience with Matt&apos;s Coinage.
+						</p>
+						<TrustPilotReviewCollector className="mt-4" />
+					</div>
+				</div>
 			</div>
 			<Suspense fallback={<SummarySkeleton />}>
 				<Summary

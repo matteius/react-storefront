@@ -13,6 +13,7 @@ import { formatMoney, formatMoneyRange } from "@/lib/utils";
 import { CheckoutAddLineDocument, ProductDetailsDocument, ProductListDocument } from "@/gql/graphql";
 import * as Checkout from "@/lib/checkout";
 import { AvailabilityMessage } from "@/ui/components/AvailabilityMessage";
+import { TrustPilotReviewInvite } from "@/ui/components/TrustPilot";
 
 export async function generateMetadata(
 	props: {
@@ -213,6 +214,11 @@ export default async function Page(props: {
 								))}
 							</div>
 						)}
+
+						{/* TrustPilot Review Invitation */}
+						<div className="mt-8">
+							<TrustPilotReviewInvite businessunitId="68e97c5feaeab4d0f7b9e85e" domain="mattscoinage.com" />
+						</div>
 					</div>
 				</div>
 			</form>

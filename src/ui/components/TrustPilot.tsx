@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { initializeTrustPilotWidgets } from "@/lib/trustpilot";
 
 interface TrustPilotWidgetProps {
 	businessunitId: string;
@@ -22,35 +23,7 @@ export const TrustPilotWidget = ({
 	className = "",
 }: TrustPilotWidgetProps) => {
 	useEffect(() => {
-		// Load TrustPilot script if not already loaded
-		if (typeof window !== "undefined") {
-			if (!window.Trustpilot) {
-				const script = document.createElement("script");
-				script.src = "//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js";
-				script.async = true;
-				document.head.appendChild(script);
-
-				script.onload = () => {
-					// Wait a bit for the script to initialize, then load all widgets
-					setTimeout(() => {
-						if (window.Trustpilot) {
-							const widgets = document.querySelectorAll(".trustpilot-widget");
-							widgets.forEach((widget) => {
-								window.Trustpilot.loadFromElement(widget);
-							});
-						}
-					}, 100);
-				};
-			} else {
-				// If script is already loaded, load all widgets
-				setTimeout(() => {
-					const widgets = document.querySelectorAll(".trustpilot-widget");
-					widgets.forEach((widget) => {
-						window.Trustpilot.loadFromElement(widget);
-					});
-				}, 100);
-			}
-		}
+		void initializeTrustPilotWidgets();
 	}, []);
 
 	const widgetProps = {
@@ -67,6 +40,10 @@ export const TrustPilotWidget = ({
 
 	const widgetId = `trustpilot-widget-${Math.random().toString(36).substr(2, 9)}`;
 
+	const handleManualLoad = () => {
+		void initializeTrustPilotWidgets();
+	};
+
 	return (
 		<div id={widgetId} className={`trustpilot-widget ${className}`} {...widgetProps}>
 			{/* Fallback content while loading */}
@@ -79,6 +56,12 @@ export const TrustPilotWidget = ({
 					))}
 				</div>
 				<span className="text-sm">Loading reviews...</span>
+				<button
+					onClick={handleManualLoad}
+					className="ml-2 rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600"
+				>
+					Load
+				</button>
 			</div>
 		</div>
 	);
@@ -152,33 +135,7 @@ export const TrustPilotReviewInvite = ({
 // TrustPilot Review Collector Widget (for checkout confirmation)
 export const TrustPilotReviewCollector = ({ className = "" }: { className?: string }) => {
 	useEffect(() => {
-		// Load TrustPilot script if not already loaded
-		if (typeof window !== "undefined") {
-			if (!window.Trustpilot) {
-				const script = document.createElement("script");
-				script.src = "//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js";
-				script.async = true;
-				document.head.appendChild(script);
-
-				script.onload = () => {
-					setTimeout(() => {
-						if (window.Trustpilot) {
-							const widgets = document.querySelectorAll(".trustpilot-widget");
-							widgets.forEach((widget) => {
-								window.Trustpilot.loadFromElement(widget);
-							});
-						}
-					}, 100);
-				};
-			} else {
-				setTimeout(() => {
-					const widgets = document.querySelectorAll(".trustpilot-widget");
-					widgets.forEach((widget) => {
-						window.Trustpilot.loadFromElement(widget);
-					});
-				}, 100);
-			}
-		}
+		void initializeTrustPilotWidgets();
 	}, []);
 
 	const widgetId = `trustpilot-collector-${Math.random().toString(36).substr(2, 9)}`;

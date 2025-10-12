@@ -5,6 +5,7 @@ import { ProductElement } from "@/ui/components/ProductElement";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 import { NewsletterSignup } from "@/ui/components/NewsletterSignup";
 import { TrustPilotWidget } from "@/ui/components/TrustPilot";
+import { TrustPilotDebug } from "@/ui/components/TrustPilotDebug";
 
 export const metadata = {
 	title: "Matt's Coinage - Premium Collectible Coins & Bullion",
@@ -362,6 +363,9 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					</div>
 				</div>
 			</section>
+
+			{/* TrustPilot Debug - Remove after testing */}
+			<TrustPilotDebug />
 		</div>
 	);
 }

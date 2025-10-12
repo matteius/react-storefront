@@ -23,20 +23,33 @@ export const TrustPilotWidget = ({
 }: TrustPilotWidgetProps) => {
 	useEffect(() => {
 		// Load TrustPilot script if not already loaded
-		if (!window.Trustpilot) {
-			const script = document.createElement("script");
-			script.src = "//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js";
-			script.async = true;
-			document.head.appendChild(script);
+		if (typeof window !== "undefined") {
+			if (!window.Trustpilot) {
+				const script = document.createElement("script");
+				script.src = "//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js";
+				script.async = true;
+				document.head.appendChild(script);
 
-			script.onload = () => {
-				if (window.Trustpilot) {
-					window.Trustpilot.loadFromElement(document.querySelector(".trustpilot-widget"));
-				}
-			};
-		} else {
-			// If script is already loaded, just load the widget
-			window.Trustpilot.loadFromElement(document.querySelector(".trustpilot-widget"));
+				script.onload = () => {
+					// Wait a bit for the script to initialize, then load all widgets
+					setTimeout(() => {
+						if (window.Trustpilot) {
+							const widgets = document.querySelectorAll(".trustpilot-widget");
+							widgets.forEach((widget) => {
+								window.Trustpilot.loadFromElement(widget);
+							});
+						}
+					}, 100);
+				};
+			} else {
+				// If script is already loaded, load all widgets
+				setTimeout(() => {
+					const widgets = document.querySelectorAll(".trustpilot-widget");
+					widgets.forEach((widget) => {
+						window.Trustpilot.loadFromElement(widget);
+					});
+				}, 100);
+			}
 		}
 	}, []);
 
@@ -52,8 +65,10 @@ export const TrustPilotWidget = ({
 		"data-domain": domain,
 	};
 
+	const widgetId = `trustpilot-widget-${Math.random().toString(36).substr(2, 9)}`;
+
 	return (
-		<div className={`trustpilot-widget ${className}`} {...widgetProps}>
+		<div id={widgetId} className={`trustpilot-widget ${className}`} {...widgetProps}>
 			{/* Fallback content while loading */}
 			<div className="flex items-center justify-center space-x-2 text-gray-600">
 				<div className="flex space-x-1">
@@ -138,13 +153,39 @@ export const TrustPilotReviewInvite = ({
 export const TrustPilotReviewCollector = ({ className = "" }: { className?: string }) => {
 	useEffect(() => {
 		// Load TrustPilot script if not already loaded
-		if (typeof window !== "undefined" && window.Trustpilot) {
-			window.Trustpilot.loadFromElement(document.querySelector(".trustpilot-widget"));
+		if (typeof window !== "undefined") {
+			if (!window.Trustpilot) {
+				const script = document.createElement("script");
+				script.src = "//widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js";
+				script.async = true;
+				document.head.appendChild(script);
+
+				script.onload = () => {
+					setTimeout(() => {
+						if (window.Trustpilot) {
+							const widgets = document.querySelectorAll(".trustpilot-widget");
+							widgets.forEach((widget) => {
+								window.Trustpilot.loadFromElement(widget);
+							});
+						}
+					}, 100);
+				};
+			} else {
+				setTimeout(() => {
+					const widgets = document.querySelectorAll(".trustpilot-widget");
+					widgets.forEach((widget) => {
+						window.Trustpilot.loadFromElement(widget);
+					});
+				}, 100);
+			}
 		}
 	}, []);
 
+	const widgetId = `trustpilot-collector-${Math.random().toString(36).substr(2, 9)}`;
+
 	return (
 		<div
+			id={widgetId}
 			className={`trustpilot-widget ${className}`}
 			data-locale="en-US"
 			data-template-id="56278e9abfbbba0bdcd568bc"

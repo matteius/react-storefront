@@ -176,7 +176,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 						{/* TrustPilot Badge */}
 						<div className="mt-2">
 							<TrustPilotBadge
-								businessunitId="68e97c5feaeab4d0f7b9e85e"
+								businessunitId="68e97c5f13f7f55ed9aad8c3"
 								domain="mattscoinage.com"
 								className="scale-90"
 							/>

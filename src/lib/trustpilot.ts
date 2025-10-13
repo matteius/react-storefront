@@ -75,7 +75,7 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 	const waitForTrustPilot = (): Promise<void> => {
 		return new Promise((resolve) => {
 			const checkTrustPilot = () => {
-				if (window.Trustpilot && window.Trustpilot.loadFromElement) {
+				if (window.Trustpilot && typeof window.Trustpilot.loadFromElement === "function") {
 					resolve();
 				} else {
 					setTimeout(checkTrustPilot, 100);
@@ -91,7 +91,9 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 	const widgets = document.querySelectorAll(".trustpilot-widget");
 	widgets.forEach((widget) => {
 		try {
-			window.Trustpilot.loadFromElement(widget);
+			if (window.Trustpilot && typeof window.Trustpilot.loadFromElement === "function") {
+				window.Trustpilot.loadFromElement(widget);
+			}
 		} catch (error) {
 			console.error("Error loading TrustPilot widget:", error);
 		}

@@ -73,13 +73,20 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 
 	await loadTrustPilotScript();
 
-	// Wait for TrustPilot to be available
-	const waitForTrustPilot = (): Promise<void> => {
+	// Wait for TrustPilot to be available with timeout
+	const waitForTrustPilot = (): Promise<boolean> => {
 		return new Promise((resolve) => {
+			let attempts = 0;
+			const maxAttempts = 50; // 5 seconds max wait
+
 			const checkTrustPilot = () => {
 				if (window.Trustpilot?.loadFromElement) {
-					resolve();
+					resolve(true);
+				} else if (attempts >= maxAttempts) {
+					console.warn("TrustPilot script failed to load after 5 seconds");
+					resolve(false);
 				} else {
+					attempts++;
 					setTimeout(checkTrustPilot, 100);
 				}
 			};
@@ -87,13 +94,33 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 		});
 	};
 
-	await waitForTrustPilot();
+	const isAvailable = await waitForTrustPilot();
+	if (!isAvailable) return;
 
 	// Initialize all widgets
 	const widgets = document.querySelectorAll(".trustpilot-widget");
+
+	if (widgets.length === 0) {
+		console.warn("No TrustPilot widgets found on page");
+		return;
+	}
+
 	widgets.forEach((widget) => {
 		try {
 			if (window.Trustpilot?.loadFromElement) {
+				// Check if widget has required attributes
+				const businessunitId = widget.getAttribute("data-businessunit-id");
+				const templateId = widget.getAttribute("data-template-id");
+
+				if (!businessunitId || !templateId) {
+					console.error("TrustPilot widget missing required attributes:", {
+						businessunitId,
+						templateId,
+						widget,
+					});
+					return;
+				}
+
 				window.Trustpilot.loadFromElement(widget);
 			}
 		} catch (error) {

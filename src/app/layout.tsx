@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Suspense, type ReactNode } from "react";
 import { type Metadata } from "next";
+import Script from "next/script";
 import { DraftModeNotification } from "@/ui/components/DraftModeNotification";
 import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import { CookieConsent } from "@/ui/components/CookieConsent";
@@ -20,6 +21,13 @@ export default function RootLayout(props: { children: ReactNode }) {
 
 	return (
 		<html lang="en" className="min-h-dvh">
+			<head>
+				{/* Trustpilot Widget Script */}
+				<Script
+					src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
+					strategy="lazyOnload"
+				/>
+			</head>
 			<body className="min-h-dvh font-sans">
 				<CookieConsentProvider>
 					<GoogleAnalyticsWrapper />

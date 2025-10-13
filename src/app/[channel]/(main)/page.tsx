@@ -316,7 +316,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			</section>
 
 			{/* Newsletter Signup */}
-			<section className="relative overflow-hidden bg-gradient-to-r from-gold-600 via-amber-600 to-yellow-600 py-20">
+			<section className="relative overflow-hidden bg-gradient-to-r from-gold-600 via-amber-600 to-yellow-600 py-12">
 				{/* Background decorative elements */}
 				<div className="absolute inset-0 opacity-20">
 					<div className="absolute left-0 top-0 h-64 w-64 rounded-full bg-white blur-3xl"></div>
@@ -325,8 +325,8 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 
 				<div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
 					{/* Icon */}
-					<div className="mx-auto mb-8 flex h-16 w-16 items-center justify-center rounded-full bg-white/20 shadow-lg backdrop-blur-sm">
-						<svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+					<div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 shadow-lg backdrop-blur-sm">
+						<svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 							<path
 								strokeLinecap="round"
 								strokeLinejoin="round"
@@ -336,8 +336,8 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						</svg>
 					</div>
 
-					<h2 className="mb-6 text-2xl font-bold text-white md:text-3xl">Stay in the Loop</h2>
-					<p className="mx-auto mb-8 max-w-2xl text-base leading-relaxed text-white/90 md:text-lg">
+					<h2 className="mb-3 text-xl font-bold text-white md:text-2xl">Stay in the Loop</h2>
+					<p className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
 						Get notified about new arrivals, exclusive sale items, and expert collecting insights delivered
 						directly to your inbox.
 					</p>
@@ -346,17 +346,17 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					<NewsletterSignup />
 
 					{/* Trust indicators */}
-					<div className="mt-8 flex flex-col items-center justify-center gap-4 text-white/80 sm:flex-row sm:gap-8">
-						<div className="flex items-center gap-2 text-sm">
-							<div className="h-2 w-2 rounded-full bg-white/60"></div>
+					<div className="mt-6 flex flex-col items-center justify-center gap-3 text-white/80 sm:flex-row sm:gap-6">
+						<div className="flex items-center gap-2 text-xs">
+							<div className="h-1.5 w-1.5 rounded-full bg-white/60"></div>
 							<span>No spam, unsubscribe anytime</span>
 						</div>
-						<div className="flex items-center gap-2 text-sm">
-							<div className="h-2 w-2 rounded-full bg-white/60"></div>
+						<div className="flex items-center gap-2 text-xs">
+							<div className="h-1.5 w-1.5 rounded-full bg-white/60"></div>
 							<span>Trusted since 2022</span>
 						</div>
-						<div className="flex items-center gap-2 text-sm">
-							<div className="h-2 w-2 rounded-full bg-white/60"></div>
+						<div className="flex items-center gap-2 text-xs">
+							<div className="h-1.5 w-1.5 rounded-full bg-white/60"></div>
 							<span>Premium collectibles updates</span>
 						</div>
 					</div>

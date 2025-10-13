@@ -1,10 +1,12 @@
 // TrustPilot script loader utility
 
+interface TrustPilotAPI {
+	loadFromElement: (element: Element | null) => void;
+}
+
 declare global {
 	interface Window {
-		Trustpilot: {
-			loadFromElement: (element: Element | null) => void;
-		};
+		Trustpilot?: TrustPilotAPI;
 	}
 }
 
@@ -75,7 +77,7 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 	const waitForTrustPilot = (): Promise<void> => {
 		return new Promise((resolve) => {
 			const checkTrustPilot = () => {
-				if (window.Trustpilot && typeof window.Trustpilot.loadFromElement === "function") {
+				if (window.Trustpilot?.loadFromElement) {
 					resolve();
 				} else {
 					setTimeout(checkTrustPilot, 100);
@@ -91,7 +93,7 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 	const widgets = document.querySelectorAll(".trustpilot-widget");
 	widgets.forEach((widget) => {
 		try {
-			if (window.Trustpilot && typeof window.Trustpilot.loadFromElement === "function") {
+			if (window.Trustpilot?.loadFromElement) {
 				window.Trustpilot.loadFromElement(widget);
 			}
 		} catch (error) {

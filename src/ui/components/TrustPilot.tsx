@@ -186,12 +186,3 @@ function getStyleHeight(variant: string): string {
 			return "150px";
 	}
 }
-
-// Extend Window interface for TypeScript
-declare global {
-	interface Window {
-		Trustpilot: {
-			loadFromElement: (element: Element | null) => void;
-		};
-	}
-}

@@ -251,16 +251,16 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			)}
 
 			{/* Why Choose Us */}
-			<section className="bg-gradient-to-b from-gray-50 to-white py-12">
+			<section className="bg-gradient-to-b from-gray-50 to-white py-8">
 				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-					<div className="mb-8 text-center">
-						<h2 className="gradient-text mb-2 text-3xl font-bold">Why Choose Matt&apos;s Coinage?</h2>
-						<p className="mx-auto max-w-2xl text-base text-gray-600">
+					<div className="mb-6 text-center">
+						<h2 className="gradient-text mb-1 text-2xl font-bold">Why Choose Matt&apos;s Coinage?</h2>
+						<p className="mx-auto max-w-2xl text-sm text-gray-600">
 							Your trusted partner in numismatic excellence
 						</p>
 
 						{/* TrustPilot Reviews Widget */}
-						<div className="mx-auto mt-6 max-w-md">
+						<div className="mx-auto mt-4 max-w-md">
 							<TrustPilotWidget
 								businessunitId="68e97c5f13f7f55ed9aad8c3"
 								domain="mattscoinage.com"
@@ -269,10 +269,10 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 							/>
 						</div>
 					</div>
-					<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+					<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
 						<div className="group transform text-center transition-all duration-300 hover:scale-105">
-							<div className="pulse-glow mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-gold-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
-								<svg className="h-8 w-8 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+							<div className="pulse-glow mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-gold-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+								<svg className="h-7 w-7 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
 									<path
 										fillRule="evenodd"
 										d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
@@ -280,25 +280,25 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 									/>
 								</svg>
 							</div>
-							<h3 className="mb-2 text-xl font-bold text-amber-800">Quality Assured</h3>
-							<p className="text-sm leading-relaxed text-gray-600">
+							<h3 className="mb-1.5 text-lg font-bold text-amber-800">Quality Assured</h3>
+							<p className="text-xs leading-relaxed text-gray-600">
 								Every item is carefully inspected and comes with our satisfaction guarantee
 							</p>
 						</div>
 						<div className="group transform text-center transition-all duration-300 hover:scale-105">
-							<div className="pulse-glow mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-indigo-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
-								<svg className="h-8 w-8 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+							<div className="pulse-glow mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-indigo-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+								<svg className="h-7 w-7 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
 									<path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
 								</svg>
 							</div>
-							<h3 className="mb-2 text-xl font-bold text-blue-800">Secure Shipping</h3>
-							<p className="text-sm leading-relaxed text-gray-600">
+							<h3 className="mb-1.5 text-lg font-bold text-blue-800">Secure Shipping</h3>
+							<p className="text-xs leading-relaxed text-gray-600">
 								Professional packaging with full insurance and real-time tracking
 							</p>
 						</div>
 						<div className="group transform text-center transition-all duration-300 hover:scale-105">
-							<div className="pulse-glow mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-green-100 to-emerald-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
-								<svg className="h-8 w-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+							<div className="pulse-glow mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-100 to-emerald-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+								<svg className="h-7 w-7 text-green-600" fill="currentColor" viewBox="0 0 20 20">
 									<path
 										fillRule="evenodd"
 										d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
@@ -306,8 +306,8 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 									/>
 								</svg>
 							</div>
-							<h3 className="mb-2 text-xl font-bold text-green-800">Expert Support</h3>
-							<p className="text-sm leading-relaxed text-gray-600">
+							<h3 className="mb-1.5 text-lg font-bold text-green-800">Expert Support</h3>
+							<p className="text-xs leading-relaxed text-gray-600">
 								Knowledgeable customer service and professional collecting guidance
 							</p>
 						</div>

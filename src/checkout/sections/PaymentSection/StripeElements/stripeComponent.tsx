@@ -37,16 +37,18 @@ const StripeComponentClient = ({ config }: StripeComponentProps) => {
 	// Get the Stripe publishable key from the config
 	const stripePublishableKey = config.data?.stripePublishableKey;
 
-	// Prepare payment intent parameters
+	// Prepare payment intent parameters - memoize to prevent unnecessary re-creation
+	// Only include checkout.id and config.id, NOT the total price amount
+	// This prevents re-creating payment intent when cart updates
 	const paymentIntentParams = useMemo(() => {
-		if (!checkout?.id || !config.id || !checkout?.totalPrice?.gross?.amount) {
+		if (!checkout?.id || !config.id) {
 			return null;
 		}
 		return {
 			checkoutId: checkout.id,
 			gatewayId: config.id,
 		};
-	}, [checkout?.id, config.id, checkout?.totalPrice?.gross?.amount]);
+	}, [checkout?.id, config.id]);
 
 	// Use React Query to manage payment intent
 	const {
@@ -75,7 +77,7 @@ const StripeComponentClient = ({ config }: StripeComponentProps) => {
 		return (
 			<div className="rounded border border-red-300 bg-red-50 p-4">
 				<p className="text-red-800">Payment initialization failed:</p>
-				<p className="mt-2 text-red-700">{(paymentIntentError ).message}</p>
+				<p className="mt-2 text-red-700">{paymentIntentError.message}</p>
 			</div>
 		);
 	}

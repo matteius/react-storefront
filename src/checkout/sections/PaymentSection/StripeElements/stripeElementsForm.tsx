@@ -34,6 +34,7 @@ const paymentElementOptions: StripePaymentElementOptions = {
 
 export function CheckoutForm() {
 	const [isLoading, setIsLoading] = useState(false);
+	const [hasSubmitted, setHasSubmitted] = useState(false);
 	const stripe = useStripe();
 	const elements = useElements();
 	const { checkout } = useCheckout();
@@ -58,14 +59,15 @@ export function CheckoutForm() {
 	const onSubmitInitialize: FormEventHandler<HTMLFormElement> = useEvent(async (e) => {
 		e.preventDefault();
 
-		// Only prevent if already loading
-		if (isLoading) {
+		// Prevent duplicate submissions
+		if (isLoading || hasSubmitted || confirmPaymentMutation.isPending || completeCheckoutMutation.isPending) {
 			console.log("React Query: Payment already in progress, skipping duplicate attempt");
 			return;
 		}
 
 		console.log("React Query: Starting payment submission");
 		setIsLoading(true);
+		setHasSubmitted(true);
 		validateAllForms(authenticated);
 		setShouldRegisterUser(true);
 		setSubmitInProgress(true);
@@ -81,8 +83,9 @@ export function CheckoutForm() {
 
 		console.log("React Query: Handling redirect with payment intent:", paymentIntent);
 		setIsProcessingPayment(true);
+		setHasSubmitted(true); // Prevent form resubmission
 
-		if (!completeCheckoutMutation.isPending && stripe) {
+		if (!completeCheckoutMutation.isPending && !retrievePaymentIntentMutation.isPending && stripe) {
 			// Use React Query mutation to retrieve payment intent
 			retrievePaymentIntentMutation.mutate(
 				{
@@ -99,16 +102,25 @@ export function CheckoutForm() {
 							paymentIntent?.status === "requires_capture"
 						) {
 							console.log("React Query: Payment successful, completing checkout");
-							completeCheckoutMutation.mutate();
+							completeCheckoutMutation.mutate(undefined, {
+								onError: () => {
+									// Reset states on error
+									setIsLoading(false);
+									setHasSubmitted(false);
+									setIsProcessingPayment(false);
+								},
+							});
 						} else {
 							console.log("React Query: Payment not successful, status:", paymentIntent?.status);
 							setIsLoading(false);
+							setHasSubmitted(false);
 							setIsProcessingPayment(false);
 						}
 					},
 					onError: (error) => {
 						console.error("React Query: Error retrieving payment intent:", error);
 						setIsLoading(false);
+						setHasSubmitted(false);
 						setIsProcessingPayment(false);
 					},
 				},
@@ -154,6 +166,7 @@ export function CheckoutForm() {
 		// - stop the submission altogether
 		if (!finishedApiChangesWithNoError || !allFormsValid) {
 			setIsLoading(false);
+			setHasSubmitted(false);
 			return;
 		}
 
@@ -195,7 +208,14 @@ export function CheckoutForm() {
 					) {
 						console.log("React Query: Payment successful, initiating checkout completion");
 						// Keep processing screen visible during checkout completion
-						completeCheckoutMutation.mutate();
+						completeCheckoutMutation.mutate(undefined, {
+							onError: () => {
+								// Reset states on checkout completion error
+								setIsLoading(false);
+								setHasSubmitted(false);
+								setIsProcessingPayment(false);
+							},
+						});
 					} else {
 						// Payment may require additional authentication or processing
 						console.log(
@@ -203,12 +223,14 @@ export function CheckoutForm() {
 							result.paymentIntent?.status,
 						);
 						setIsLoading(false);
+						setHasSubmitted(false);
 						setIsProcessingPayment(false);
 					}
 				},
 				onError: (error) => {
 					console.error("React Query: Payment confirmation failed:", error);
 					setIsLoading(false);
+					setHasSubmitted(false);
 					setIsProcessingPayment(false);
 					setSubmitInProgress(false);
 				},

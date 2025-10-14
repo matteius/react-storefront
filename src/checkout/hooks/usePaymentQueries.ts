@@ -80,9 +80,12 @@ export const usePaymentIntent = (params: PaymentIntentParams | null) => {
 			return data;
 		},
 		enabled: !!params?.checkoutId && !!params?.gatewayId,
-		staleTime: 5 * 60 * 1000, // 5 minutes
+		staleTime: Infinity, // Never refetch automatically - payment intent should be created once
 		gcTime: 10 * 60 * 1000, // 10 minutes
 		retry: 1,
+		refetchOnMount: false,
+		refetchOnWindowFocus: false,
+		refetchOnReconnect: false,
 	});
 };
 
@@ -130,7 +133,11 @@ export const useConfirmPayment = () => {
 				showCustomErrors([{ message: "An unexpected error occurred." }]);
 			}
 		},
-		retry: false, // Don't retry payment confirmations
+		retry: false, // Don't retry payment confirmations - prevents duplicate charges
+		// Prevent multiple simultaneous payment confirmations
+		onMutate: () => {
+			console.log("React Query: Payment confirmation started - blocking duplicate attempts");
+		},
 	});
 };
 
@@ -169,29 +176,15 @@ export const useCompleteCheckout = () => {
 
 			console.log("React Query: Checkout completed successfully, redirecting to order confirmation");
 
-			// Use a more reliable redirect method with timeout fallback
-			try {
-				// Construct the order confirmation URL
-				const baseUrl = window.location.origin + window.location.pathname;
-				const orderConfirmationUrl = `${baseUrl}?order=${order.id}`;
+			// Construct the order confirmation URL
+			const baseUrl = window.location.origin + window.location.pathname;
+			const orderConfirmationUrl = `${baseUrl}?order=${order.id}`;
 
-				console.log("React Query: Redirecting to:", orderConfirmationUrl);
+			console.log("React Query: Redirecting to:", orderConfirmationUrl);
 
-				// Use window.location.replace for immediate navigation without back button issues
-				window.location.replace(orderConfirmationUrl);
-
-				// Fallback timeout in case replace doesn't work immediately
-				setTimeout(() => {
-					if (window.location.href !== orderConfirmationUrl) {
-						console.log("React Query: Fallback redirect triggered");
-						window.location.href = orderConfirmationUrl;
-					}
-				}, 1000);
-			} catch (error) {
-				console.error("React Query: Redirect failed, trying fallback:", error);
-				// Last resort fallback
-				window.location.href = `${window.location.origin}${window.location.pathname}?order=${order.id}`;
-			}
+			// Use window.location.replace for immediate navigation without back button issues
+			// This prevents the user from going back to the checkout page and re-submitting
+			window.location.replace(orderConfirmationUrl);
 		},
 		onError: (error) => {
 			console.error("React Query: Checkout completion failed", error);
@@ -200,7 +193,11 @@ export const useCompleteCheckout = () => {
 				"There was an issue completing your order. Please refresh the page or contact support if the problem persists.",
 			);
 		},
-		retry: 2, // Increase retry attempts for checkout completion
+		retry: 2, // Retry checkout completion to handle transient errors
+		// Prevent multiple simultaneous checkout completions
+		onMutate: () => {
+			console.log("React Query: Checkout completion started - blocking duplicate attempts");
+		},
 	});
 };
 

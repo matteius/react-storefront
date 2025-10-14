@@ -51,24 +51,33 @@ export function NewsletterSignup({ className = "" }: NewsletterSignupProps) {
 	return (
 		<div className={className}>
 			<form onSubmit={handleSubmit} className="mx-auto max-w-lg">
-				<div className="flex flex-col gap-4 sm:flex-row">
-					<input
-						type="email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-						placeholder="Enter your email address"
-						disabled={status === "loading"}
-						className="flex-1 rounded-xl border-0 bg-white/95 px-6 py-4 text-lg text-gray-800 placeholder-gray-500 shadow-lg backdrop-blur-sm transition-all duration-300 focus:bg-white focus:outline-none focus:ring-4 focus:ring-white/40 disabled:opacity-50"
-					/>
+				<div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+					<div className="group relative flex-1">
+						{/* Input field with enhanced styling */}
+						<input
+							type="email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+							placeholder="Enter your email address"
+							disabled={status === "loading"}
+							className="w-full rounded-xl border-2 border-white/20 bg-white/95 px-6 py-4 text-base text-gray-800 placeholder-gray-500 shadow-xl backdrop-blur-sm transition-all duration-300 focus:border-white focus:bg-white focus:shadow-2xl focus:outline-none focus:ring-4 focus:ring-white/50 disabled:cursor-not-allowed disabled:opacity-50 sm:text-lg"
+						/>
+						{/* Subtle glow effect on focus */}
+						<div className="pointer-events-none absolute inset-0 rounded-xl opacity-0 shadow-[0_0_20px_rgba(255,255,255,0.5)] transition-opacity duration-300 group-focus-within:opacity-100"></div>
+					</div>
 					<button
 						type="submit"
 						disabled={status === "loading"}
-						className="group relative overflow-hidden rounded-xl bg-white px-8 py-4 font-bold text-amber-600 shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl disabled:opacity-50 disabled:hover:scale-100"
+						className="group relative overflow-hidden rounded-xl bg-white px-8 py-4 font-bold text-amber-600 shadow-xl transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-white hover:to-amber-50 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
 					>
-						<span className="relative z-10 flex items-center justify-center gap-2">
+						{/* Animated gradient background on hover */}
+						<div className="absolute inset-0 bg-gradient-to-r from-amber-100 via-gold-100 to-yellow-100 opacity-0 transition-opacity duration-300 group-hover:opacity-30"></div>
+
+						{/* Button content */}
+						<span className="relative z-10 flex items-center justify-center gap-2 whitespace-nowrap text-sm sm:text-base">
 							{status === "loading" ? (
 								<>
-									<svg className="h-4 w-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<svg className="h-5 w-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path
 											strokeLinecap="round"
 											strokeLinejoin="round"
@@ -76,13 +85,14 @@ export function NewsletterSignup({ className = "" }: NewsletterSignupProps) {
 											d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
 										/>
 									</svg>
-									Subscribing...
+									<span className="hidden sm:inline">Subscribing...</span>
+									<span className="sm:hidden">Wait...</span>
 								</>
 							) : (
 								<>
-									Subscribe Now
+									<span>Subscribe Now</span>
 									<svg
-										className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+										className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
 										fill="none"
 										stroke="currentColor"
 										viewBox="0 0 24 24"
@@ -97,41 +107,53 @@ export function NewsletterSignup({ className = "" }: NewsletterSignupProps) {
 								</>
 							)}
 						</span>
-						<div className="absolute inset-0 bg-gradient-to-r from-amber-50 to-gold-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+
+						{/* Shine effect on hover */}
+						<div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-700 group-hover:translate-x-full"></div>
 					</button>
 				</div>
 			</form>
 
-			{/* Status Messages */}
+			{/* Status Messages with enhanced animations */}
 			{message && (
 				<div
-					className={`mt-4 rounded-lg p-4 text-center ${
+					className={`animate-in fade-in slide-in-from-top-2 mt-4 rounded-xl p-4 text-center shadow-lg backdrop-blur-sm duration-300 ${
 						status === "success"
-							? "border border-green-400/30 bg-green-100/20 text-green-100"
+							? "border-2 border-green-400/40 bg-green-100/30 text-white shadow-green-500/20"
 							: status === "error"
-								? "border border-red-400/30 bg-red-100/20 text-red-100"
+								? "border-2 border-red-400/40 bg-red-100/30 text-white shadow-red-500/20"
 								: ""
 					}`}
 				>
 					{status === "success" && (
-						<div className="flex items-center justify-center gap-2">
-							<svg className="h-5 w-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+						<div className="flex items-center justify-center gap-2 font-medium">
+							<svg
+								className="animate-in zoom-in h-6 w-6 text-green-300 duration-500"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
 							</svg>
-							{message}
+							<span className="text-sm sm:text-base">{message}</span>
 						</div>
 					)}
 					{status === "error" && (
-						<div className="flex items-center justify-center gap-2">
-							<svg className="h-5 w-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<div className="flex items-center justify-center gap-2 font-medium">
+							<svg
+								className="animate-in zoom-in h-6 w-6 text-red-300 duration-500"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
 								<path
 									strokeLinecap="round"
 									strokeLinejoin="round"
-									strokeWidth={2}
+									strokeWidth={2.5}
 									d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
 								/>
 							</svg>
-							{message}
+							<span className="text-sm sm:text-base">{message}</span>
 						</div>
 					)}
 				</div>

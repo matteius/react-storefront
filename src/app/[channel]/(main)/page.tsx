@@ -251,16 +251,16 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			)}
 
 			{/* Why Choose Us */}
-			<section className="bg-gradient-to-b from-gray-50 to-white py-8">
+			<section className="bg-gradient-to-b from-gray-50 to-white py-6">
 				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-					<div className="mb-6 text-center">
+					<div className="mb-4 text-center">
 						<h2 className="gradient-text mb-1 text-2xl font-bold">Why Choose Matt&apos;s Coinage?</h2>
 						<p className="mx-auto max-w-2xl text-sm text-gray-600">
 							Your trusted partner in numismatic excellence
 						</p>
 
 						{/* TrustPilot Reviews Widget */}
-						<div className="mx-auto mt-4 max-w-md">
+						<div className="mx-auto mt-3 max-w-md">
 							<TrustPilotWidget
 								businessunitId="68e97c5f13f7f55ed9aad8c3"
 								domain="mattscoinage.com"
@@ -269,9 +269,9 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 							/>
 						</div>
 					</div>
-					<div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+					<div className="grid grid-cols-1 gap-5 md:grid-cols-3">
 						<div className="group transform text-center transition-all duration-300 hover:scale-105">
-							<div className="pulse-glow mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-gold-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+							<div className="pulse-glow mx-auto mb-2.5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-gold-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
 								<svg className="h-7 w-7 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
 									<path
 										fillRule="evenodd"
@@ -280,24 +280,24 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 									/>
 								</svg>
 							</div>
-							<h3 className="mb-1.5 text-lg font-bold text-amber-800">Quality Assured</h3>
+							<h3 className="mb-1 text-lg font-bold text-amber-800">Quality Assured</h3>
 							<p className="text-xs leading-relaxed text-gray-600">
 								Every item is carefully inspected and comes with our satisfaction guarantee
 							</p>
 						</div>
 						<div className="group transform text-center transition-all duration-300 hover:scale-105">
-							<div className="pulse-glow mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-indigo-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+							<div className="pulse-glow mx-auto mb-2.5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-indigo-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
 								<svg className="h-7 w-7 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
 									<path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
 								</svg>
 							</div>
-							<h3 className="mb-1.5 text-lg font-bold text-blue-800">Secure Shipping</h3>
+							<h3 className="mb-1 text-lg font-bold text-blue-800">Secure Shipping</h3>
 							<p className="text-xs leading-relaxed text-gray-600">
 								Professional packaging with full insurance and real-time tracking
 							</p>
 						</div>
 						<div className="group transform text-center transition-all duration-300 hover:scale-105">
-							<div className="pulse-glow mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-100 to-emerald-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+							<div className="pulse-glow mx-auto mb-2.5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-100 to-emerald-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
 								<svg className="h-7 w-7 text-green-600" fill="currentColor" viewBox="0 0 20 20">
 									<path
 										fillRule="evenodd"
@@ -306,7 +306,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 									/>
 								</svg>
 							</div>
-							<h3 className="mb-1.5 text-lg font-bold text-green-800">Expert Support</h3>
+							<h3 className="mb-1 text-lg font-bold text-green-800">Expert Support</h3>
 							<p className="text-xs leading-relaxed text-gray-600">
 								Knowledgeable customer service and professional collecting guidance
 							</p>
@@ -324,20 +324,27 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 				</div>
 
 				<div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-					{/* Icon */}
-					<div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 shadow-lg backdrop-blur-sm">
-						<svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-							/>
-						</svg>
+					{/* Enhanced Icon with animation */}
+					<div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-white/30 shadow-2xl ring-4 ring-white/20 backdrop-blur-md transition-transform duration-300 hover:scale-110">
+						<div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/40">
+							<svg
+								className="h-7 w-7 text-white drop-shadow-lg"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2.5}
+									d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+								/>
+							</svg>
+						</div>
 					</div>
 
-					<h2 className="mb-3 text-xl font-bold text-white md:text-2xl">Stay in the Loop</h2>
-					<p className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
+					<h2 className="mb-3 text-xl font-bold text-white drop-shadow-md md:text-2xl">Stay in the Loop</h2>
+					<p className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed text-white/95 drop-shadow-sm md:text-base">
 						Get notified about new arrivals, exclusive sale items, and expert collecting insights delivered
 						directly to your inbox.
 					</p>
@@ -345,18 +352,18 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					{/* Newsletter Form */}
 					<NewsletterSignup />
 
-					{/* Trust indicators */}
-					<div className="mt-6 flex flex-col items-center justify-center gap-3 text-white/80 sm:flex-row sm:gap-6">
-						<div className="flex items-center gap-2 text-xs">
-							<div className="h-1.5 w-1.5 rounded-full bg-white/60"></div>
+					{/* Trust indicators with enhanced styling */}
+					<div className="mt-6 flex flex-col items-center justify-center gap-3 text-white/90 sm:flex-row sm:gap-6">
+						<div className="flex items-center gap-2 text-xs font-medium">
+							<div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/80 shadow-sm shadow-white/50"></div>
 							<span>No spam, unsubscribe anytime</span>
 						</div>
-						<div className="flex items-center gap-2 text-xs">
-							<div className="h-1.5 w-1.5 rounded-full bg-white/60"></div>
+						<div className="flex items-center gap-2 text-xs font-medium">
+							<div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/80 shadow-sm shadow-white/50"></div>
 							<span>Trusted since 2022</span>
 						</div>
-						<div className="flex items-center gap-2 text-xs">
-							<div className="h-1.5 w-1.5 rounded-full bg-white/60"></div>
+						<div className="flex items-center gap-2 text-xs font-medium">
+							<div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/80 shadow-sm shadow-white/50"></div>
 							<span>Premium collectibles updates</span>
 						</div>
 					</div>

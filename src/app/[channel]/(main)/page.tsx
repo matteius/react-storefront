@@ -55,7 +55,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			</div>
 
 			{/* Hero Section */}
-			<section className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-gold-50 to-yellow-50 py-20">
+			<section className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-gold-50 to-yellow-50 py-12">
 				{/* Background decorative elements */}
 				<div className="absolute inset-0 opacity-10">
 					<div className="absolute left-10 top-10 h-32 w-32 animate-pulse rounded-full bg-gold-400 blur-3xl"></div>
@@ -65,26 +65,26 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 
 				<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 					<div className="text-center">
-						<h1 className="gradient-text mb-8 text-5xl font-bold md:text-7xl lg:text-8xl">
+						<h1 className="gradient-text mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
 							Premium Collectibles
 						</h1>
-						<p className="mx-auto mb-12 max-w-4xl text-xl leading-relaxed text-amber-800 md:text-2xl">
+						<p className="mx-auto mb-8 max-w-4xl text-base leading-relaxed text-amber-800 md:text-lg">
 							Discover exceptional deals on <span className="font-semibold text-gold-700">rare coins</span>,
 							<span className="font-semibold text-gold-700"> ancient treasures</span>, and
 							<span className="font-semibold text-gold-700"> collectible bullion</span>. Hand-selected pieces
 							at competitive prices with new sale items added regularly.
 						</p>
-						<div className="flex flex-col justify-center gap-6 sm:flex-row">
+						<div className="flex flex-col justify-center gap-4 sm:flex-row">
 							<LinkWithChannel
 								href="/categories/sale-items"
-								className="pulse-glow group relative overflow-hidden rounded-xl bg-gradient-to-r from-gold-600 to-amber-600 px-10 py-4 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-gold-500/25"
+								className="pulse-glow group relative overflow-hidden rounded-xl bg-gradient-to-r from-gold-600 to-amber-600 px-8 py-3 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-gold-500/25"
 							>
 								<span className="relative z-10">Shop Sale Items</span>
 								<div className="absolute inset-0 bg-gradient-to-r from-gold-700 to-amber-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
 							</LinkWithChannel>
 							<LinkWithChannel
 								href="/products"
-								className="border-3 group relative overflow-hidden rounded-xl border-gold-600 bg-white/80 px-10 py-4 font-bold text-gold-700 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gold-600 hover:text-white"
+								className="border-3 group relative overflow-hidden rounded-xl border-gold-600 bg-white/80 px-8 py-3 font-bold text-gold-700 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gold-600 hover:text-white"
 							>
 								<span className="relative z-10">Browse All Collections</span>
 							</LinkWithChannel>
@@ -104,13 +104,13 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					</div>
 
 					<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-						<div className="mb-8 text-center">
-							<div className="mb-3 flex items-center justify-center">
-								<span className="mr-3 animate-bounce text-4xl">🔥</span>
-								<h2 className="text-4xl font-bold text-red-800 md:text-5xl">Hot Sale Items</h2>
-								<span className="ml-3 animate-bounce text-4xl">🔥</span>
+						<div className="mb-6 text-center">
+							<div className="mb-2 flex items-center justify-center">
+								<span className="mr-2 animate-bounce text-3xl">🔥</span>
+								<h2 className="text-3xl font-bold text-red-800 md:text-4xl">Hot Sale Items</h2>
+								<span className="ml-2 animate-bounce text-3xl">🔥</span>
 							</div>
-							<p className="mx-auto max-w-3xl text-lg text-red-700 md:text-xl">
+							<p className="mx-auto max-w-3xl text-base text-red-700 md:text-lg">
 								Don&apos;t miss out on these incredible deals!
 							</p>
 						</div>

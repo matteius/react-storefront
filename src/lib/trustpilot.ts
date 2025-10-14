@@ -71,6 +71,8 @@ export const loadTrustPilotScript = (): Promise<void> => {
 export const initializeTrustPilotWidgets = async (): Promise<void> => {
 	if (typeof window === "undefined") return;
 
+	console.log("[TrustPilot] Initializing widgets...");
+
 	await loadTrustPilotScript();
 
 	// Wait for TrustPilot to be available with timeout
@@ -81,9 +83,10 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 
 			const checkTrustPilot = () => {
 				if (window.Trustpilot?.loadFromElement) {
+					console.log("[TrustPilot] API available");
 					resolve(true);
 				} else if (attempts >= maxAttempts) {
-					console.warn("TrustPilot script failed to load after 5 seconds");
+					console.warn("[TrustPilot] Script failed to load after 5 seconds");
 					resolve(false);
 				} else {
 					attempts++;
@@ -95,25 +98,36 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 	};
 
 	const isAvailable = await waitForTrustPilot();
-	if (!isAvailable) return;
+	if (!isAvailable) {
+		console.error("[TrustPilot] API not available");
+		return;
+	}
 
 	// Initialize all widgets
 	const widgets = document.querySelectorAll(".trustpilot-widget");
 
+	console.log(`[TrustPilot] Found ${widgets.length} widgets`);
+
 	if (widgets.length === 0) {
-		console.warn("No TrustPilot widgets found on page");
+		console.warn("[TrustPilot] No widgets found on page");
 		return;
 	}
 
-	widgets.forEach((widget) => {
+	widgets.forEach((widget, index) => {
 		try {
 			if (window.Trustpilot?.loadFromElement) {
 				// Check if widget has required attributes
 				const businessunitId = widget.getAttribute("data-businessunit-id");
 				const templateId = widget.getAttribute("data-template-id");
 
+				console.log(`[TrustPilot] Widget ${index}:`, {
+					businessunitId,
+					templateId,
+					element: widget,
+				});
+
 				if (!businessunitId || !templateId) {
-					console.error("TrustPilot widget missing required attributes:", {
+					console.error("[TrustPilot] Widget missing required attributes:", {
 						businessunitId,
 						templateId,
 						widget,
@@ -121,10 +135,12 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 					return;
 				}
 
+				console.log(`[TrustPilot] Loading widget ${index}...`);
 				window.Trustpilot.loadFromElement(widget);
+				console.log(`[TrustPilot] Widget ${index} loaded successfully`);
 			}
 		} catch (error) {
-			console.error("Error loading TrustPilot widget:", error);
+			console.error(`[TrustPilot] Error loading widget ${index}:`, error);
 		}
 	});
 };

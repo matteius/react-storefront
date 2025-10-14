@@ -25,7 +25,7 @@ export default function RootLayout(props: { children: ReactNode }) {
 				{/* Trustpilot Widget Script */}
 				<Script
 					src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-					strategy="lazyOnload"
+					strategy="afterInteractive"
 				/>
 			</head>
 			<body className="min-h-dvh font-sans">

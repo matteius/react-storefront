@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { initializeTrustPilotWidgets } from "@/lib/trustpilot";
 
 interface TrustPilotWidgetProps {
@@ -23,11 +23,30 @@ export const TrustPilotWidget = ({
 	className = "",
 }: TrustPilotWidgetProps) => {
 	const widgetRef = useRef<HTMLDivElement>(null);
+	const [isLoaded, setIsLoaded] = useState(false);
+	const [hasError, setHasError] = useState(false);
 
 	useEffect(() => {
 		// Small delay to ensure DOM is ready
-		const timer = setTimeout(() => {
-			void initializeTrustPilotWidgets();
+		const timer = setTimeout(async () => {
+			try {
+				await initializeTrustPilotWidgets();
+				// Check if widget was actually loaded
+				setTimeout(() => {
+					if (widgetRef.current) {
+						const iframe = widgetRef.current.querySelector("iframe");
+						if (iframe) {
+							setIsLoaded(true);
+						} else {
+							console.warn("TrustPilot widget did not render iframe");
+							setHasError(true);
+						}
+					}
+				}, 1000);
+			} catch (error) {
+				console.error("Failed to initialize TrustPilot:", error);
+				setHasError(true);
+			}
 		}, 100);
 
 		return () => clearTimeout(timer);
@@ -47,11 +66,47 @@ export const TrustPilotWidget = ({
 	const widgetId = `trustpilot-widget-${Math.random().toString(36).substr(2, 9)}`;
 
 	return (
-		<div id={widgetId} ref={widgetRef} className={`trustpilot-widget ${className}`} {...widgetProps}>
-			{/* Trustpilot requires a link as fallback */}
-			<a href={`https://www.trustpilot.com/review/${domain}`} target="_blank" rel="noopener noreferrer">
-				Trustpilot
-			</a>
+		<div className="relative">
+			<div id={widgetId} ref={widgetRef} className={`trustpilot-widget ${className}`} {...widgetProps}>
+				{/* Trustpilot requires a link as fallback */}
+				<a href={`https://www.trustpilot.com/review/${domain}`} target="_blank" rel="noopener noreferrer">
+					Trustpilot
+				</a>
+			</div>
+
+			{/* Loading placeholder */}
+			{!isLoaded && !hasError && (
+				<div className="flex items-center justify-center py-4">
+					<div className="flex items-center gap-2 text-sm text-gray-500">
+						<svg className="h-4 w-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+							/>
+						</svg>
+						<span>Loading reviews...</span>
+					</div>
+				</div>
+			)}
+
+			{/* Error fallback - show link to reviews */}
+			{hasError && (
+				<div className="flex items-center justify-center py-4">
+					<a
+						href={`https://www.trustpilot.com/review/${domain}`}
+						target="_blank"
+						rel="noopener noreferrer"
+						className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800 hover:underline"
+					>
+						<svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+						</svg>
+						<span>View our reviews on Trustpilot</span>
+					</a>
+				</div>
+			)}
 		</div>
 	);
 };
@@ -135,7 +190,7 @@ export const TrustPilotReviewCollector = ({ className = "" }: { className?: stri
 			className={`trustpilot-widget ${className}`}
 			data-locale="en-US"
 			data-template-id="56278e9abfbbba0bdcd568bc"
-			data-businessunit-id="68e97c5f13f7f55ed9aad8c3"
+			data-businessunit-id="68e97c5feaeab4d0f7b9e85e"
 			data-style-height="52px"
 			data-style-width="100%"
 			data-token="46ce6344-38ce-4e20-a3f6-eb7641fa6b08"

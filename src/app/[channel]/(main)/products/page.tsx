@@ -25,6 +25,19 @@ const getSortVariables = (sortParam?: string | string[]) => {
 	}
 };
 
+const getSortVariables = (sortParam?: string | string[]) => {
+	const sortValue = Array.isArray(sortParam) ? sortParam[0] : sortParam;
+
+	switch (sortValue) {
+		case "price-asc":
+			return { field: ProductOrderField.MinimalPrice, direction: OrderDirection.Asc };
+		case "price-desc":
+			return { field: ProductOrderField.MinimalPrice, direction: OrderDirection.Desc };
+		default:
+			return { field: ProductOrderField.Name, direction: OrderDirection.Asc };
+	}
+};
+
 export default async function Page(props: {
 	params: Promise<{ channel: string }>;
 	searchParams: Promise<{

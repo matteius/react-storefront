@@ -35,7 +35,7 @@
 		"libphonenumber-js": "1.10.58",
 		"lodash-es": "4.17.21",
 		"lucide-react": "0.358.0",
-		"next": "^15.0.0",
+		"next": "^16.0.10",
 		"nextjs-google-analytics": "^2.3.7",
 		"node-mailjet": "6.0.8",
 		"query-string": "8.1.0",

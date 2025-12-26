@@ -1,4 +1,4 @@
-import React, { type ReactNode, useState, useCallback, useMemo } from "react";
+import { type ReactNode, useState, useCallback, useMemo } from "react";
 import { createSafeContext } from "@/checkout/providers/createSafeContext";
 import { getQueryParams } from "@/checkout/lib/utils/url";
 

@@ -1,4 +1,3 @@
-import React from "react";
 import { SignInFormContainer, type SignInFormContainerProps } from "../Contact/SignInFormContainer";
 import { Button } from "@/checkout/components/Button";
 import { PasswordInput } from "@/checkout/components/PasswordInput";

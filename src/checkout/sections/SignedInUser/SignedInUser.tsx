@@ -1,4 +1,3 @@
-import React from "react";
 import { useSaleorAuthContext } from "@saleor/auth-sdk/react";
 import { SignInFormContainer, type SignInFormContainerProps } from "../Contact/SignInFormContainer";
 import { Button } from "@/checkout/components/Button";

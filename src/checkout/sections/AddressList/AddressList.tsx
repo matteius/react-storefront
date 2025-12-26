@@ -1,4 +1,3 @@
-import React from "react";
 import { camelCase } from "lodash-es";
 import { AddressSelectBox } from "../../components/AddressSelectBox";
 import { type AddressFragment } from "@/checkout/graphql";

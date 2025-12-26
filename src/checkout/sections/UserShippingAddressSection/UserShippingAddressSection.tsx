@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { getById } from "@/checkout/lib/utils/common";
 import { AddressSectionSkeleton } from "@/checkout/components/AddressSectionSkeleton";
 import { UserAddressSectionContainer } from "@/checkout/sections/UserAddressSectionContainer";

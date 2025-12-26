@@ -1,4 +1,3 @@
-import React from "react";
 import clsx from "clsx";
 import { Money } from "@/checkout/components";
 import { type Money as MoneyType } from "@/checkout/graphql";

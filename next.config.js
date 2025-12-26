@@ -9,10 +9,9 @@ const config = {
 		// Disable image optimization to prevent IPv6 localhost resolution issues in Docker
 		unoptimized: true,
 	},
-	experimental: {
-		typedRoutes: false,
-		instrumentationHook: true,
-	},
+	typedRoutes: false,
+	// Empty turbopack config to silence Next.js 16 warning
+	turbopack: {},
 	// used in the Dockerfile
 	output:
 		process.env.NEXT_OUTPUT === "standalone"

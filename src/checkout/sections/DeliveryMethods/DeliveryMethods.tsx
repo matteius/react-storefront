@@ -1,4 +1,3 @@
-import React from "react";
 import { Title } from "@/checkout/components/Title";
 import { useCheckout } from "@/checkout/hooks/useCheckout";
 import { SelectBox } from "@/checkout/components/SelectBox";

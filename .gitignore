@@ -48,3 +48,5 @@ saleor/
 saleor-marketplace/
 react-storefront-old/
 smtp/
+k8s-secrets-update.yaml
+k8s-apm-patch.yaml

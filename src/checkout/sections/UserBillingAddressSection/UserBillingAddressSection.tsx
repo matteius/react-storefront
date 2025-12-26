@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { useCheckoutFormValidationTrigger } from "@/checkout/hooks/useCheckoutFormValidationTrigger";
 import { getById } from "@/checkout/lib/utils/common";
 import { AddressSectionSkeleton } from "@/checkout/components/AddressSectionSkeleton";

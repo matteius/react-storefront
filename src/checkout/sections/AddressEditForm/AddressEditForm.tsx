@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React from "react";
 import { type AddressFormData } from "@/checkout/components/AddressForm/types";
 import { AddressForm, type AddressFormProps } from "@/checkout/components/AddressForm";
 import {

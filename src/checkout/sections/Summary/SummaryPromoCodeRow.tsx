@@ -1,4 +1,3 @@
-import React from "react";
 import { SummaryMoneyRow, type SummaryMoneyRowProps } from "./SummaryMoneyRow";
 import { IconButton } from "@/checkout/components/IconButton";
 import { RemoveIcon } from "@/checkout/ui-kit/icons";

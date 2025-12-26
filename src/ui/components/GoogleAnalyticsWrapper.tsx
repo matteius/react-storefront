@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { GoogleAnalytics, consent } from 'nextjs-google-analytics';
 import { useCookieConsent } from '@/contexts/CookieConsentContext';
 

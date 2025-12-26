@@ -75,8 +75,39 @@ export default function AboutUsPage() {
 						<li>• World coins and currency from different countries</li>
 						<li>• Historical and commemorative pieces</li>
 						<li>• Collectible currency and banknotes</li>
+						<li>• Precious metals and bullion</li>
 						<li>• Numismatic accessories and supplies</li>
 					</ul>
+
+					<h2 className="mb-4 text-2xl font-bold text-amber-900">Product Sourcing</h2>
+					<p className="mb-4 text-gray-700">
+						We source our inventory from trusted, reputable dealers in the precious metals and numismatics
+						industry. Our primary sources include:
+					</p>
+					<div className="mb-6 rounded-lg border border-green-200 bg-green-50 p-6">
+						<ul className="space-y-2 text-gray-700">
+							<li>
+								• <strong>APMEX (American Precious Metals Exchange)</strong> - One of the nation&apos;s
+								largest and most trusted precious metals retailers
+							</li>
+							<li>
+								• <strong>Established Coin Dealers</strong> - Reputable dealers with proven track records in
+								the numismatic community
+							</li>
+							<li>
+								• <strong>Estate Collections</strong> - Carefully vetted private collections and estate
+								sales
+							</li>
+							<li>
+								• <strong>Direct Acquisitions</strong> - Select pieces acquired directly from collectors and
+								trusted sources
+							</li>
+						</ul>
+					</div>
+					<p className="mb-6 text-gray-700">
+						Every item we offer has been carefully authenticated and verified for quality. We stand behind
+						the authenticity and accurate description of every piece in our inventory.
+					</p>
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Business Practices</h2>
 					<div className="mb-6 space-y-4">

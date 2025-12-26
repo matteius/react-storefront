@@ -143,28 +143,81 @@ export default function TermsOfServicePage() {
 						<li>• Violate any applicable laws or regulations</li>
 					</ul>
 
-					<h2 className="mb-4 text-2xl font-bold text-amber-900">Disclaimers and Limitations</h2>
-
-					<h3 className="mb-3 text-xl font-semibold text-amber-800">Product Disclaimers</h3>
+					<h2 className="mb-4 text-2xl font-bold text-amber-900">Product Disclaimers</h2>
 					<ul className="mb-6 space-y-2 text-gray-700">
 						<li>• Collectible values may fluctuate based on market conditions</li>
 						<li>• Color variations may occur due to photography and monitor differences</li>
 						<li>• Ancient coins are unique items with natural variations</li>
 						<li>• We make every effort to accurately describe items but cannot guarantee perfection</li>
+						<li>
+							• See our{" "}
+							<LinkWithChannel href="/investment-disclaimer" className="text-amber-700 hover:text-amber-900">
+								Investment Disclaimer
+							</LinkWithChannel>{" "}
+							for important information about collectibles and precious metals
+						</li>
 					</ul>
 
-					<h3 className="mb-3 text-xl font-semibold text-amber-800">Limitation of Liability</h3>
-					<p className="mb-6 text-gray-700">
-						Matt&apos;s Coinage shall not be liable for any indirect, incidental, special, or consequential
-						damages arising from your use of our website or products. Our total liability shall not exceed the
-						amount paid for the specific product in question.
+					<h2 className="mb-4 text-2xl font-bold text-amber-900">Limitation of Liability</h2>
+					<p className="mb-4 text-gray-700">
+						To the maximum extent permitted by law, Matt&apos;s Coinage and its operators shall not be
+						liable for:
 					</p>
+					<ul className="mb-6 space-y-2 text-gray-700">
+						<li>
+							• Any indirect, incidental, special, consequential, or punitive damages arising from your use
+							of our services
+						</li>
+						<li>
+							• Loss of profits, revenue, data, or business opportunities related to your purchases
+						</li>
+						<li>
+							• Damages exceeding the amount you paid for the specific product giving rise to the claim
+						</li>
+						<li>
+							• Issues arising from third-party services (payment processors, shipping carriers, etc.)
+						</li>
+					</ul>
+					<p className="mb-6 text-gray-700">
+						Our total liability for any claim arising from your purchase shall not exceed the purchase price
+						of the specific item in question.
+					</p>
+
+					<h2 className="mb-4 text-2xl font-bold text-amber-900">Dispute Resolution</h2>
+					<p className="mb-4 text-gray-700">
+						We are committed to resolving any disputes fairly and efficiently:
+					</p>
+					<div className="mb-6 space-y-4">
+						<div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+							<h3 className="mb-2 font-semibold text-blue-800">Step 1: Direct Communication</h3>
+							<p className="text-gray-700">
+								Please contact us first at matt@mattscoinage.com to resolve any issues. We will make every
+								effort to address your concerns promptly and fairly.
+							</p>
+						</div>
+
+						<div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+							<h3 className="mb-2 font-semibold text-amber-800">Step 2: Informal Resolution</h3>
+							<p className="text-gray-700">
+								If direct communication does not resolve the issue, we will work with you to find a mutually
+								acceptable solution through good-faith negotiation.
+							</p>
+						</div>
+
+						<div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
+							<h3 className="mb-2 font-semibold text-purple-800">Step 3: Formal Dispute</h3>
+							<p className="text-gray-700">
+								Any unresolved disputes shall be governed by the laws of the State of Maine and subject to
+								the exclusive jurisdiction of the courts in Maine, United States.
+							</p>
+						</div>
+					</div>
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Force Majeure</h2>
 					<p className="mb-6 text-gray-700">
 						We shall not be liable for any failure or delay in performance due to circumstances beyond our
 						reasonable control, including but not limited to acts of God, natural disasters, war, terrorism,
-						labor disputes, or government actions.
+						labor disputes, government actions, or disruptions to shipping and payment processing services.
 					</p>
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Governing Law</h2>

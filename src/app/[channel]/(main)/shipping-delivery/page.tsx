@@ -43,16 +43,20 @@ export default function ShippingDeliveryPage() {
 					<div className="mb-6 rounded-lg border border-yellow-200 bg-yellow-50 p-6">
 						<h3 className="mb-3 text-lg font-semibold text-yellow-800">Shipping Restrictions:</h3>
 						<ul className="space-y-2 text-gray-700">
-							<li>International shipping not currently available</li>
-							<li>PO Box addresses not accepted</li>
-							<li>Shipping address must match billing address exactly</li>
+							<li>• International shipping not currently available</li>
+							<li>• PO Box addresses not accepted</li>
 						</ul>
 					</div>
 
-					<div className="mb-8 rounded-lg border border-red-200 bg-red-50 p-6">
-						<p className="font-medium text-red-800">
-							<strong>Important:</strong> Orders with mismatched billing and shipping addresses will be
-							automatically canceled and refunded for security purposes.
+					<div className="mb-8 rounded-lg border border-blue-200 bg-blue-50 p-6">
+						<h3 className="mb-3 text-lg font-semibold text-blue-800">Address Verification:</h3>
+						<p className="mb-2 text-gray-700">
+							For your security and ours, we carefully review all orders. Orders with different billing and
+							shipping addresses may require additional verification before processing.
+						</p>
+						<p className="text-gray-700">
+							This helps us prevent fraud while ensuring legitimate orders are fulfilled promptly. We
+							appreciate your understanding as we work to protect all our customers.
 						</p>
 					</div>
 
@@ -66,27 +70,28 @@ export default function ShippingDeliveryPage() {
 
 					<div className="mb-6 space-y-4">
 						<div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
-							<h3 className="mb-2 font-semibold text-amber-800">Processing Time:</h3>
+							<h3 className="mb-2 font-semibold text-amber-800">Processing & Shipping:</h3>
 							<p className="text-gray-700">
-								Orders typically ship within 1-7 business days of payment confirmation. Most orders ship
-								sooner, but we allow up to one week to ensure quality packaging and processing.
+								Orders ship within 7 business days of payment capture and order acknowledgement. Most orders
+								ship sooner, but we allow up to one week to ensure quality packaging, proper authentication
+								verification, and secure processing.
 							</p>
 						</div>
 
 						<div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
-							<h3 className="mb-2 font-semibold text-blue-800">Total Delivery Time:</h3>
+							<h3 className="mb-2 font-semibold text-blue-800">Transit Time:</h3>
 							<p className="text-gray-700">
-								Expect delivery within 7-14 business days from order placement, though many orders arrive
-								faster.
+								Once shipped, delivery typically takes 3-7 business days via USPS or UPS, depending on your
+								location. You&apos;ll receive tracking information as soon as your order ships.
 							</p>
 						</div>
 
 						<div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
-							<h3 className="mb-2 font-semibold text-purple-800">Why This Timeline:</h3>
+							<h3 className="mb-2 font-semibold text-purple-800">Our Commitment:</h3>
 							<p className="text-gray-700">
 								As a small, owner-operated business, we prioritize careful handling and secure packaging of
-								every order. While we work diligently to ship orders quickly, this timeframe ensures we can
-								maintain our quality standards even during busy periods.
+								every order. Each item is verified for authenticity and condition before shipment to ensure
+								you receive exactly what you ordered.
 							</p>
 						</div>
 					</div>

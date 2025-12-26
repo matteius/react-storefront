@@ -11,6 +11,7 @@ const config = {
 	},
 	experimental: {
 		typedRoutes: false,
+		instrumentationHook: true,
 	},
 	// used in the Dockerfile
 	output:

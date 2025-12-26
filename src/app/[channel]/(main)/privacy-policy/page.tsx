@@ -88,16 +88,16 @@ export default function PrivacyPolicyPage() {
 						<div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
 							<h3 className="mb-2 font-semibold text-blue-800">Payment Processing</h3>
 							<p className="text-gray-700">
-								<strong>Stripe:</strong> Handles all payment processing. Your payment information goes
-								directly to Stripe and never touches our servers.
+								<strong>Stripe and Adyen:</strong> Handle all payment processing. Your payment information
+								goes directly to these processors and never touches our servers.
 							</p>
 						</div>
 
 						<div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
 							<h3 className="mb-2 font-semibold text-purple-800">Shipping Services</h3>
 							<p className="text-gray-700">
-								<strong>PirateShip:</strong> Used only for generating shipping labels. They receive only the
-								shipping address information necessary for delivery.
+								<strong>USPS and UPS:</strong> Used for shipping and delivery. They receive only the shipping
+								address information necessary for delivery.
 							</p>
 						</div>
 
@@ -108,7 +108,20 @@ export default function PrivacyPolicyPage() {
 								email addresses are shared for this purpose.
 							</p>
 						</div>
+
+						<div className="rounded-lg border border-green-200 bg-green-50 p-4">
+							<h3 className="mb-2 font-semibold text-green-800">Analytics and Monitoring</h3>
+							<p className="text-gray-700">
+								<strong>Google Analytics:</strong> Helps us understand website usage patterns.{" "}
+								<strong>TrustPilot:</strong> Collects and displays customer reviews.
+							</p>
+						</div>
 					</div>
+
+					<p className="mb-6 text-gray-700">
+						All third-party service providers are required to maintain the confidentiality and security of
+						your information and may only use it for the specific purposes we authorize.
+					</p>
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Data Security</h2>
 					<p className="mb-4 text-gray-700">
@@ -176,10 +189,59 @@ export default function PrivacyPolicyPage() {
 					</ul>
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Data Retention</h2>
-					<p className="mb-6 text-gray-700">
+					<p className="mb-4 text-gray-700">
 						We retain your personal information only as long as necessary for the purposes outlined in this
-						policy or as required by law. Order information is typically retained for 7 years for tax and
-						legal compliance purposes.
+						policy or as required by law:
+					</p>
+					<ul className="mb-6 space-y-2 text-gray-700">
+						<li>
+							• <strong>Order Information:</strong> Retained for 7 years for tax and legal compliance
+						</li>
+						<li>
+							• <strong>Account Information:</strong> Retained while your account is active, plus 1 year
+							after closure
+						</li>
+						<li>
+							• <strong>Marketing Data:</strong> Retained until you unsubscribe or request deletion
+						</li>
+						<li>
+							• <strong>Analytics Data:</strong> Anonymized and retained for statistical purposes
+						</li>
+					</ul>
+
+					<h2 className="mb-4 text-2xl font-bold text-amber-900">
+						California Privacy Rights (CCPA)
+					</h2>
+					<p className="mb-4 text-gray-700">
+						If you are a California resident, you have additional rights under the California Consumer
+						Privacy Act (CCPA):
+					</p>
+					<div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-6">
+						<ul className="space-y-2 text-gray-700">
+							<li>
+								• <strong>Right to Know:</strong> You can request information about the categories and
+								specific pieces of personal information we have collected about you
+							</li>
+							<li>
+								• <strong>Right to Delete:</strong> You can request deletion of your personal information,
+								subject to certain exceptions
+							</li>
+							<li>
+								• <strong>Right to Opt-Out:</strong> You can opt-out of the sale of your personal
+								information (Note: We do not sell personal information)
+							</li>
+							<li>
+								• <strong>Right to Non-Discrimination:</strong> We will not discriminate against you for
+								exercising your CCPA rights
+							</li>
+						</ul>
+					</div>
+					<p className="mb-6 text-gray-700">
+						To exercise these rights, please contact us at{" "}
+						<a href="mailto:matt@mattscoinage.com" className="text-amber-700 hover:text-amber-900">
+							matt@mattscoinage.com
+						</a>
+						. We will respond to your request within 45 days.
 					</p>
 
 					<h2 className="mb-4 text-2xl font-bold text-amber-900">Children&apos;s Privacy</h2>

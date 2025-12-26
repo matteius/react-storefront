@@ -30,7 +30,7 @@ export default function ReturnPolicyPage() {
 						<div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
 							<h3 className="mb-2 font-semibold text-blue-800">Time Limit:</h3>
 							<p className="text-gray-700">
-								Return requests must be initiated within 3 business days of delivery confirmation.
+								Return requests must be initiated within 7 calendar days of delivery confirmation.
 							</p>
 						</div>
 

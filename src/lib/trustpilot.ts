@@ -22,23 +22,55 @@ export const loadTrustPilotScript = (): Promise<void> => {
 			return;
 		}
 
+		// If TrustPilot is already available (script loaded via Next.js Script tag), mark as loaded
+		if (window.Trustpilot?.loadFromElement) {
+			scriptLoaded = true;
+			resolve();
+			return;
+		}
+
 		// Add to queue if currently loading
 		if (scriptLoading) {
 			loadPromises.push(resolve);
 			return;
 		}
 
-		// Check if script already exists
+		// Check if script already exists in DOM
 		const existingScript = document.querySelector('script[src*="trustpilot"]');
 		if (existingScript) {
+			// Script tag exists - check if it's already loaded
+			if (window.Trustpilot?.loadFromElement) {
+				scriptLoaded = true;
+				resolve();
+				return;
+			}
+
+			// Script exists but not loaded yet - wait for it
 			scriptLoading = true;
-			existingScript.addEventListener("load", () => {
+			const handleLoad = () => {
 				scriptLoaded = true;
 				scriptLoading = false;
 				resolve();
 				loadPromises.forEach((callback) => callback());
 				loadPromises.length = 0;
-			});
+			};
+
+			existingScript.addEventListener("load", handleLoad);
+
+			// Also poll for TrustPilot in case load event was already fired
+			let pollAttempts = 0;
+			const pollInterval = setInterval(() => {
+				pollAttempts++;
+				if (window.Trustpilot?.loadFromElement) {
+					clearInterval(pollInterval);
+					existingScript.removeEventListener("load", handleLoad);
+					handleLoad();
+				} else if (pollAttempts > 50) {
+					// 5 seconds timeout
+					clearInterval(pollInterval);
+					handleLoad(); // Resolve anyway to prevent hanging
+				}
+			}, 100);
 			return;
 		}
 

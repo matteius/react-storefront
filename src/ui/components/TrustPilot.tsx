@@ -28,6 +28,8 @@ export const TrustPilotWidget = ({
 
 	useEffect(() => {
 		let isMounted = true;
+		let observer: MutationObserver | null = null;
+		let loadedRef = false;
 
 		const initWidget = async () => {
 			try {
@@ -35,18 +37,15 @@ export const TrustPilotWidget = ({
 
 				// Use MutationObserver to detect when TrustPilot injects content
 				if (widgetRef.current && isMounted) {
-					const observer = new MutationObserver((mutations) => {
-						for (const mutation of mutations) {
-							if (mutation.type === "childList" || mutation.type === "attributes") {
-								// Check if iframe was added or widget was modified by TrustPilot
-								const iframe = widgetRef.current?.querySelector("iframe");
-								const hasContent = widgetRef.current?.children.length > 1;
-								if (iframe || hasContent) {
-									setIsLoaded(true);
-									observer.disconnect();
-									return;
-								}
-							}
+					observer = new MutationObserver(() => {
+						if (loadedRef) return;
+						// Check if iframe was added or widget was modified by TrustPilot
+						const iframe = widgetRef.current?.querySelector("iframe");
+						const hasContent = widgetRef.current && widgetRef.current.children.length > 1;
+						if (iframe || hasContent) {
+							loadedRef = true;
+							setIsLoaded(true);
+							observer?.disconnect();
 						}
 					});
 
@@ -59,6 +58,7 @@ export const TrustPilotWidget = ({
 					// Also check immediately in case it already loaded
 					const iframe = widgetRef.current.querySelector("iframe");
 					if (iframe) {
+						loadedRef = true;
 						setIsLoaded(true);
 						observer.disconnect();
 						return;
@@ -66,16 +66,10 @@ export const TrustPilotWidget = ({
 
 					// Fallback timeout - if nothing happens after 5 seconds, hide loading
 					setTimeout(() => {
-						if (isMounted && !isLoaded) {
-							observer.disconnect();
-							// Check one more time before showing error
-							const iframe = widgetRef.current?.querySelector("iframe");
-							if (iframe) {
-								setIsLoaded(true);
-							} else {
-								// Don't show error, just hide loading - TrustPilot has its own fallback link
-								setIsLoaded(true);
-							}
+						if (isMounted && !loadedRef) {
+							observer?.disconnect();
+							// Just hide loading - TrustPilot has its own fallback link
+							setIsLoaded(true);
 						}
 					}, 5000);
 				}
@@ -92,9 +86,10 @@ export const TrustPilotWidget = ({
 
 		return () => {
 			isMounted = false;
+			observer?.disconnect();
 			clearTimeout(timer);
 		};
-	}, [isLoaded]);
+	}, []);
 
 	const widgetProps = {
 		"data-locale": "en-US",

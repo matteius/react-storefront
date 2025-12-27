@@ -3,8 +3,8 @@ import { Footer } from "@/ui/components/Footer";
 import { Header } from "@/ui/components/Header";
 
 export const metadata = {
-	title: "Saleor MattsCoinage Storefront",
-	description: "Starter pack for building performant e-commerce experiences with Saleor.",
+	title: "www.MattsCoinage.com - Premium Collectible Coins & Bullion",
+	description: "Discover rare and collectible coins, bullion, and numismatic treasures at Matt's Coinage. Your trusted source for premium collectibles.",
 };
 
 export default async function RootLayout(props: {

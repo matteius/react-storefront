@@ -22,6 +22,7 @@ import {
 	useConfirmPayment,
 	useCompleteCheckout,
 	useRetrievePaymentIntent,
+	useHandleNextAction,
 } from "@/checkout/hooks/usePaymentQueries";
 
 const paymentElementOptions: StripePaymentElementOptions = {
@@ -34,6 +35,7 @@ const paymentElementOptions: StripePaymentElementOptions = {
 export function CheckoutForm() {
 	const [isLoading, setIsLoading] = useState(false);
 	const [hasSubmitted, setHasSubmitted] = useState(false);
+	const [is3DSInProgress, setIs3DSInProgress] = useState(false);
 	const stripe = useStripe();
 	const elements = useElements();
 	const { checkout } = useCheckout();
@@ -51,6 +53,7 @@ export function CheckoutForm() {
 	const confirmPaymentMutation = useConfirmPayment();
 	const completeCheckoutMutation = useCompleteCheckout();
 	const retrievePaymentIntentMutation = useRetrievePaymentIntent();
+	const handleNextActionMutation = useHandleNextAction();
 
 	// handler for when user presses submit
 	const onSubmitInitialize: FormEventHandler<HTMLFormElement> = useEvent(async (e) => {
@@ -70,7 +73,7 @@ export function CheckoutForm() {
 		setSubmitInProgress(true);
 	});
 
-	// handle when page is opened from previously redirected payment
+	// handle when page is opened from previously redirected payment (including 3DS redirects)
 	useEffect(() => {
 		const { paymentIntent, paymentIntentClientSecret, processingPayment } = getQueryParams();
 
@@ -82,7 +85,12 @@ export function CheckoutForm() {
 		setIsProcessingPayment(true);
 		setHasSubmitted(true); // Prevent form resubmission
 
-		if (!completeCheckoutMutation.isPending && !retrievePaymentIntentMutation.isPending && stripe) {
+		if (
+			!completeCheckoutMutation.isPending &&
+			!retrievePaymentIntentMutation.isPending &&
+			!handleNextActionMutation.isPending &&
+			stripe
+		) {
 			// Use React Query mutation to retrieve payment intent
 			retrievePaymentIntentMutation.mutate(
 				{
@@ -90,13 +98,13 @@ export function CheckoutForm() {
 					clientSecret: paymentIntentClientSecret,
 				},
 				{
-					onSuccess: (paymentIntent: { status?: string }) => {
-						console.log("React Query: Payment intent status:", paymentIntent?.status);
+					onSuccess: (retrievedPaymentIntent: { status?: string; client_secret?: string | null }) => {
+						console.log("React Query: Payment intent status:", retrievedPaymentIntent?.status);
 
 						if (
-							paymentIntent?.status === "succeeded" ||
-							paymentIntent?.status === "processing" ||
-							paymentIntent?.status === "requires_capture"
+							retrievedPaymentIntent?.status === "succeeded" ||
+							retrievedPaymentIntent?.status === "processing" ||
+							retrievedPaymentIntent?.status === "requires_capture"
 						) {
 							console.log("React Query: Payment successful, completing checkout");
 							completeCheckoutMutation.mutate(undefined, {
@@ -107,8 +115,64 @@ export function CheckoutForm() {
 									setIsProcessingPayment(false);
 								},
 							});
+						} else if (retrievedPaymentIntent?.status === "requires_action") {
+							// Handle 3DS authentication required after redirect
+							console.log("React Query: Payment requires 3DS authentication after redirect");
+							const clientSecret = retrievedPaymentIntent?.client_secret;
+
+							if (clientSecret) {
+								setIs3DSInProgress(true);
+								handleNextActionMutation.mutate(
+									{ stripe, clientSecret },
+									{
+										onSuccess: (nextActionResult) => {
+											console.log(
+												"React Query: 3DS result after redirect:",
+												nextActionResult.paymentIntent?.status,
+											);
+
+											if (
+												nextActionResult.paymentIntent?.status === "succeeded" ||
+												nextActionResult.paymentIntent?.status === "requires_capture"
+											) {
+												setIs3DSInProgress(false);
+												completeCheckoutMutation.mutate(undefined, {
+													onError: () => {
+														setIsLoading(false);
+														setHasSubmitted(false);
+														setIsProcessingPayment(false);
+														setIs3DSInProgress(false);
+													},
+												});
+											} else {
+												console.log(
+													"React Query: 3DS did not complete successfully after redirect",
+												);
+												setIsLoading(false);
+												setHasSubmitted(false);
+												setIsProcessingPayment(false);
+												setIs3DSInProgress(false);
+											}
+										},
+										onError: () => {
+											setIsLoading(false);
+											setHasSubmitted(false);
+											setIsProcessingPayment(false);
+											setIs3DSInProgress(false);
+										},
+									},
+								);
+							} else {
+								console.error("React Query: No client secret for 3DS after redirect");
+								setIsLoading(false);
+								setHasSubmitted(false);
+								setIsProcessingPayment(false);
+							}
 						} else {
-							console.log("React Query: Payment not successful, status:", paymentIntent?.status);
+							console.log(
+								"React Query: Payment not successful, status:",
+								retrievedPaymentIntent?.status,
+							);
 							setIsLoading(false);
 							setHasSubmitted(false);
 							setIsProcessingPayment(false);
@@ -123,7 +187,13 @@ export function CheckoutForm() {
 				},
 			);
 		}
-	}, [completeCheckoutMutation, retrievePaymentIntentMutation, stripe, setIsProcessingPayment]);
+	}, [
+		completeCheckoutMutation,
+		retrievePaymentIntentMutation,
+		handleNextActionMutation,
+		stripe,
+		setIsProcessingPayment,
+	]);
 
 	// Cleanup effect to reset processing state on unmount
 	useEffect(() => {
@@ -151,7 +221,11 @@ export function CheckoutForm() {
 		}
 
 		// Prevent duplicate payment attempts - only check if mutations are actually pending
-		if (confirmPaymentMutation.isPending || completeCheckoutMutation.isPending) {
+		if (
+			confirmPaymentMutation.isPending ||
+			completeCheckoutMutation.isPending ||
+			handleNextActionMutation.isPending
+		) {
 			console.log("React Query: Payment mutation in progress, waiting...");
 			return;
 		}
@@ -187,6 +261,72 @@ export function CheckoutForm() {
 		// Show payment processing screen
 		setIsProcessingPayment(true);
 
+		// Helper function to complete checkout after successful payment
+		const completeCheckoutAfterPayment = () => {
+			console.log("React Query: Payment successful, initiating checkout completion");
+			completeCheckoutMutation.mutate(undefined, {
+				onError: () => {
+					// Reset states on checkout completion error
+					setIsLoading(false);
+					setHasSubmitted(false);
+					setIsProcessingPayment(false);
+					setIs3DSInProgress(false);
+				},
+			});
+		};
+
+		// Helper function to handle 3DS authentication
+		const handle3DSAuthentication = (clientSecret: string) => {
+			console.log("React Query: Payment requires 3DS authentication, initiating handleNextAction");
+			setIs3DSInProgress(true);
+
+			handleNextActionMutation.mutate(
+				{ stripe, clientSecret },
+				{
+					onSuccess: (nextActionResult) => {
+						console.log(
+							"React Query: 3DS authentication result, status:",
+							nextActionResult.paymentIntent?.status,
+						);
+
+						if (
+							nextActionResult.paymentIntent?.status === "succeeded" ||
+							nextActionResult.paymentIntent?.status === "requires_capture"
+						) {
+							// 3DS completed successfully, complete the checkout
+							setIs3DSInProgress(false);
+							completeCheckoutAfterPayment();
+						} else if (nextActionResult.paymentIntent?.status === "requires_action") {
+							// Still requires action - this can happen with some complex 3DS flows
+							// The user may have dismissed the 3DS modal without completing
+							console.log("React Query: 3DS still requires action, user may have cancelled");
+							setIsLoading(false);
+							setHasSubmitted(false);
+							setIsProcessingPayment(false);
+							setIs3DSInProgress(false);
+						} else {
+							// Payment failed or was cancelled
+							console.log(
+								"React Query: 3DS authentication did not succeed, status:",
+								nextActionResult.paymentIntent?.status,
+							);
+							setIsLoading(false);
+							setHasSubmitted(false);
+							setIsProcessingPayment(false);
+							setIs3DSInProgress(false);
+						}
+					},
+					onError: () => {
+						// 3DS authentication failed
+						setIsLoading(false);
+						setHasSubmitted(false);
+						setIsProcessingPayment(false);
+						setIs3DSInProgress(false);
+					},
+				},
+			);
+		};
+
 		// Use React Query mutation to confirm payment
 		confirmPaymentMutation.mutate(
 			{
@@ -197,26 +337,33 @@ export function CheckoutForm() {
 			},
 			{
 				onSuccess: (result) => {
-					console.log("React Query: Payment confirmed successfully, completing checkout");
+					console.log(
+						"React Query: Payment confirmation result, status:",
+						result.paymentIntent?.status,
+					);
+
 					// Check if payment succeeded or requires capture (both are successful states)
 					if (
 						result.paymentIntent?.status === "succeeded" ||
 						result.paymentIntent?.status === "requires_capture"
 					) {
-						console.log("React Query: Payment successful, initiating checkout completion");
-						// Keep processing screen visible during checkout completion
-						completeCheckoutMutation.mutate(undefined, {
-							onError: () => {
-								// Reset states on checkout completion error
-								setIsLoading(false);
-								setHasSubmitted(false);
-								setIsProcessingPayment(false);
-							},
-						});
+						completeCheckoutAfterPayment();
+					} else if (result.paymentIntent?.status === "requires_action") {
+						// Payment requires 3DS authentication
+						// This happens when the card requires additional verification
+						const clientSecret = result.paymentIntent.client_secret;
+						if (clientSecret) {
+							handle3DSAuthentication(clientSecret);
+						} else {
+							console.error("React Query: No client secret available for 3DS");
+							setIsLoading(false);
+							setHasSubmitted(false);
+							setIsProcessingPayment(false);
+						}
 					} else {
-						// Payment may require additional authentication or processing
+						// Payment is in an unexpected state (processing, requires_payment_method, etc.)
 						console.log(
-							"React Query: Payment requires additional steps, status:",
+							"React Query: Payment in unexpected state, status:",
 							result.paymentIntent?.status,
 						);
 						setIsLoading(false);
@@ -243,6 +390,7 @@ export function CheckoutForm() {
 		elements,
 		confirmPaymentMutation.isPending,
 		completeCheckoutMutation.isPending,
+		handleNextActionMutation.isPending,
 	]);
 
 	const isSubmitDisabled =
@@ -250,7 +398,9 @@ export function CheckoutForm() {
 		!stripe ||
 		!elements ||
 		confirmPaymentMutation.isPending ||
-		completeCheckoutMutation.isPending;
+		completeCheckoutMutation.isPending ||
+		handleNextActionMutation.isPending ||
+		is3DSInProgress;
 
 	return (
 		<form className="my-8 flex flex-col gap-y-6" onSubmit={onSubmitInitialize}>
@@ -262,7 +412,12 @@ export function CheckoutForm() {
 				id="submit"
 			>
 				<span className="button-text">
-					{confirmPaymentMutation.isPending ? (
+					{handleNextActionMutation.isPending || is3DSInProgress ? (
+						<div className="flex items-center justify-center">
+							<Loader />
+							<span className="ml-2">Authenticating Payment...</span>
+						</div>
+					) : confirmPaymentMutation.isPending ? (
 						<div className="flex items-center justify-center">
 							<Loader />
 							<span className="ml-2">Processing Payment...</span>

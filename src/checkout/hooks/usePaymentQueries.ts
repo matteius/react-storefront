@@ -221,3 +221,41 @@ export const useRetrievePaymentIntent = () => {
 		retry: 1,
 	});
 };
+
+// Hook for handling 3DS authentication via handleNextAction
+export const useHandleNextAction = () => {
+	const { showCustomErrors } = useAlerts();
+
+	return useMutation({
+		mutationKey: ["handleNextAction"],
+		mutationFn: async ({ stripe, clientSecret }: { stripe: Stripe; clientSecret: string }) => {
+			console.log("React Query: Handling 3DS authentication with handleNextAction");
+
+			const result = await stripe.handleNextAction({
+				clientSecret,
+			});
+
+			if (result.error) {
+				console.error("React Query: 3DS authentication failed", result.error);
+				throw result.error;
+			}
+
+			console.log("React Query: 3DS authentication completed, status:", result.paymentIntent?.status);
+			return result;
+		},
+		onError: (error: unknown) => {
+			console.error("React Query: 3DS authentication failed", error);
+
+			const stripeError = error as { type?: string; message?: string };
+			if (stripeError.type === "card_error" || stripeError.type === "validation_error") {
+				showCustomErrors([{ message: stripeError.message ?? "Authentication failed" }]);
+			} else {
+				showCustomErrors([{ message: "Payment authentication failed. Please try again." }]);
+			}
+		},
+		retry: false, // Don't retry 3DS authentication
+		onMutate: () => {
+			console.log("React Query: 3DS authentication started");
+		},
+	});
+};

@@ -234,7 +234,7 @@ export const TrustPilotReviewCollector = ({ className = "" }: { className?: stri
 			className={`trustpilot-widget ${className}`}
 			data-locale="en-US"
 			data-template-id="56278e9abfbbba0bdcd568bc"
-			data-businessunit-id="68e97c5f13f7f55ed9aad8c3"
+			data-businessunit-id="68e97c5feaeab4d0f7b9e85e"
 			data-style-height="52px"
 			data-style-width="100%"
 			data-token="46ce6344-38ce-4e20-a3f6-eb7641fa6b08"

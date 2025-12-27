@@ -38,6 +38,8 @@ const config = {
 	compiler: {
 		removeConsole: false,
 	},
+	// Mark elastic-apm-node as external so it's not bundled (it's Node.js only)
+	serverExternalPackages: ["elastic-apm-node", "pino", "@elastic/ecs-pino-format"],
 	// Override webpack config to disable minification and show detailed errors
 	webpack: (config, { dev, isServer }) => {
 		if (!dev) {

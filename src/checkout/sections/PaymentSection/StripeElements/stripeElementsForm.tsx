@@ -24,10 +24,7 @@ import {
 	useRetrievePaymentIntent,
 	useHandleNextAction,
 } from "@/checkout/hooks/usePaymentQueries";
-import {
-	saveCheckoutAddressBackup,
-	clearCheckoutAddressBackup,
-} from "@/checkout/lib/utils/checkoutAddressStorage";
+import { saveCheckoutAddressBackup } from "@/checkout/lib/utils/checkoutAddressStorage";
 
 const paymentElementOptions: StripePaymentElementOptions = {
 	layout: "tabs",

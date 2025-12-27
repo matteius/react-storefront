@@ -12,11 +12,11 @@ import {
 	useCheckoutShippingAddressUpdateMutation,
 	useCheckoutBillingAddressUpdateMutation,
 	useCheckoutEmailUpdateMutation,
+	type CountryCode,
 } from "@/checkout/graphql";
 import {
 	getCheckoutAddressBackup,
 	needsAddressRestore,
-	clearCheckoutAddressBackup,
 } from "@/checkout/lib/utils/checkoutAddressStorage";
 import { getQueryParams } from "@/checkout/lib/utils/url";
 
@@ -42,7 +42,7 @@ const addressFragmentToInput = (address: {
 	countryArea: address.countryArea || "",
 	postalCode: address.postalCode || "",
 	phone: address.phone || "",
-	country: address.country?.code || "US",
+	country: (address.country?.code || "US") as CountryCode,
 });
 
 export const useAddressRestoration = () => {

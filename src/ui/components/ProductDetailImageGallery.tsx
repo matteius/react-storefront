@@ -113,6 +113,7 @@ export const ProductDetailImageGallery = ({
 				<div className="flex space-x-2 overflow-x-auto pb-2">
 					{displayImages.map((image, index) => (
 						<button
+							type="button"
 							key={image.id}
 							onClick={() => setCurrentIndex(index)}
 							className={`relative h-20 w-20 flex-shrink-0 overflow-hidden rounded border-2 transition-all ${

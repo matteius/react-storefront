@@ -154,7 +154,7 @@ export const useAddressRestoration = () => {
 				await Promise.all(promises);
 				console.log("[AddressRestoration] Address restoration complete, refetching checkout");
 				// Refetch checkout to get updated data
-				await refetch();
+				void refetch();
 			}
 		};
 		

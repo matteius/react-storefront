@@ -24,6 +24,10 @@ import {
 	useRetrievePaymentIntent,
 	useHandleNextAction,
 } from "@/checkout/hooks/usePaymentQueries";
+import {
+	saveCheckoutAddressBackup,
+	clearCheckoutAddressBackup,
+} from "@/checkout/lib/utils/checkoutAddressStorage";
 
 const paymentElementOptions: StripePaymentElementOptions = {
 	layout: "tabs",
@@ -66,6 +70,18 @@ export function CheckoutForm() {
 		}
 
 		console.log("React Query: Starting payment submission");
+
+		// CRITICAL: Save checkout addresses to localStorage before payment starts
+		// This ensures addresses are preserved if 3DS redirect occurs before debounced save completes
+		if (checkout.id) {
+			saveCheckoutAddressBackup(checkout.id, {
+				shippingAddress: checkout.shippingAddress,
+				billingAddress: checkout.billingAddress,
+				email: checkout.email,
+			});
+			console.log("React Query: Saved checkout address backup before payment");
+		}
+
 		setIsLoading(true);
 		setHasSubmitted(true);
 		validateAllForms(false); // Always validate as guest (not authenticated)

@@ -5,6 +5,7 @@ import { useCheckout } from "@/checkout/hooks/useCheckout";
 import { useAlerts } from "@/checkout/hooks/useAlerts";
 import { useErrorMessages } from "@/checkout/hooks/useErrorMessages";
 import { apiErrorMessages } from "@/checkout/sections/PaymentSection/errorMessages";
+import { clearCheckoutAddressBackup } from "@/checkout/lib/utils/checkoutAddressStorage";
 
 interface PaymentIntentData {
 	paymentIntent: {
@@ -173,6 +174,12 @@ export const useCompleteCheckout = () => {
 			// Clear all checkout-related queries
 			queryClient.removeQueries({ queryKey: ["paymentIntent"] });
 			queryClient.removeQueries({ queryKey: ["checkout"] });
+
+			// Clear the address backup since checkout completed successfully
+			if (checkout.id) {
+				clearCheckoutAddressBackup(checkout.id);
+				console.log("React Query: Cleared checkout address backup after successful completion");
+			}
 
 			console.log("React Query: Checkout completed successfully, redirecting to order confirmation");
 

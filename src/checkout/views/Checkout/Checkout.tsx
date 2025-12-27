@@ -6,9 +6,14 @@ import { Summary, SummarySkeleton } from "@/checkout/sections/Summary";
 import { CheckoutForm, CheckoutFormSkeleton } from "@/checkout/sections/CheckoutForm";
 import { useCheckout } from "@/checkout/hooks/useCheckout";
 import { CheckoutSkeleton } from "@/checkout/views/Checkout/CheckoutSkeleton";
+import { useAddressRestoration } from "@/checkout/hooks/useAddressRestoration";
 
 export const Checkout = () => {
 	const { checkout, fetching: fetchingCheckout, error } = useCheckout();
+
+	// Restore addresses from localStorage backup if returning from 3DS redirect
+	// This handles cases where addresses weren't saved due to debounce timing
+	useAddressRestoration();
 
 	const isCheckoutInvalid = !fetchingCheckout && !checkout;
 

@@ -22,11 +22,6 @@ export default function RootLayout(props: { children: ReactNode }) {
 	return (
 		<html lang="en" className="min-h-dvh">
 			<head>
-				{/* Trustpilot Widget Script */}
-				<Script
-					src="https://widget.trustpilot.com/bootstrap/v5/tp.widget.bootstrap.min.js"
-					strategy="afterInteractive"
-				/>
 				{/* Google Ads Conversion Tracking - links to GA4 gtag */}
 				<Script
 					id="google-ads-config"

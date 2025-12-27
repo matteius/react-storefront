@@ -2,16 +2,55 @@
 
 import { useFormStatus } from "react-dom";
 
-export function AddButton({ disabled }: { disabled?: boolean }) {
+declare global {
+	interface Window {
+		gtag?: (...args: unknown[]) => void;
+	}
+}
+
+// Google Ads Add to Cart Conversion
+// Conversion ID: AW-11004242983
+// TODO: Update this label after creating Add to Cart conversion in Google Ads
+const GOOGLE_ADS_ADD_TO_CART_LABEL = "ADD_TO_CART_LABEL_HERE";
+
+interface AddButtonProps {
+	disabled?: boolean;
+	productName?: string;
+	productPrice?: number;
+	currency?: string;
+}
+
+export function AddButton({ disabled, productName, productPrice, currency = "USD" }: AddButtonProps) {
 	const { pending } = useFormStatus();
 	const isButtonDisabled = disabled || pending;
+
+	const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+		if (isButtonDisabled) {
+			e.preventDefault();
+			return;
+		}
+
+		// Fire Google Ads Add to Cart conversion
+		if (typeof window !== "undefined" && window.gtag && GOOGLE_ADS_ADD_TO_CART_LABEL !== "ADD_TO_CART_LABEL_HERE") {
+			window.gtag("event", "conversion", {
+				send_to: `AW-11004242983/${GOOGLE_ADS_ADD_TO_CART_LABEL}`,
+				value: productPrice ?? 0,
+				currency: currency,
+			});
+			console.log("[Google Ads] Add to Cart conversion tracked:", {
+				productName,
+				productPrice,
+				currency,
+			});
+		}
+	};
 
 	return (
 		<button
 			type="submit"
 			aria-disabled={isButtonDisabled}
 			aria-busy={pending}
-			onClick={(e) => isButtonDisabled && e.preventDefault()}
+			onClick={handleClick}
 			className="h-12 items-center rounded-md bg-neutral-900 px-6 py-3 text-base font-medium leading-6 text-white shadow hover:bg-neutral-800 disabled:cursor-not-allowed disabled:opacity-70 hover:disabled:bg-neutral-700 aria-disabled:cursor-not-allowed aria-disabled:opacity-70 hover:aria-disabled:bg-neutral-700"
 		>
 			{pending ? (

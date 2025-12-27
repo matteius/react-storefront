@@ -205,7 +205,12 @@ export default async function Page(props: {
 						)}
 						<AvailabilityMessage isAvailable={isAvailable} />
 						<div className="mt-8">
-							<AddButton disabled={!selectedVariantID || !selectedVariant?.quantityAvailable} />
+							<AddButton
+								disabled={!selectedVariantID || !selectedVariant?.quantityAvailable}
+								productName={product.name}
+								productPrice={selectedVariant?.pricing?.price?.gross?.amount}
+								currency={selectedVariant?.pricing?.price?.gross?.currency ?? "USD"}
+							/>
 						</div>
 						{description && (
 							<div className="mt-8 space-y-6 text-sm text-neutral-500">

@@ -148,6 +148,12 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 	widgets.forEach((widget, index) => {
 		try {
 			if (window.Trustpilot?.loadFromElement) {
+				// Skip if widget already initialized (has iframe or data attribute)
+				if (widget.querySelector("iframe") || widget.getAttribute("data-tp-initialized")) {
+					console.log(`[TrustPilot] Widget ${index} already initialized, skipping`);
+					return;
+				}
+
 				// Check if widget has required attributes
 				const businessunitId = widget.getAttribute("data-businessunit-id");
 				const templateId = widget.getAttribute("data-template-id");
@@ -166,6 +172,9 @@ export const initializeTrustPilotWidgets = async (): Promise<void> => {
 					});
 					return;
 				}
+
+				// Mark as initialized before calling loadFromElement
+				widget.setAttribute("data-tp-initialized", "true");
 
 				console.log(`[TrustPilot] Loading widget ${index}...`);
 				window.Trustpilot.loadFromElement(widget);

@@ -3,12 +3,23 @@ import { Summary, SummarySkeleton } from "@/checkout/sections/Summary";
 import { OrderInfo } from "@/checkout/sections/OrderInfo";
 import { useOrder } from "@/checkout/hooks/useOrder";
 import { TrustPilotReviewCollector } from "@/ui/components/TrustPilot";
+import { GoogleAdsConversion } from "@/ui/components/GoogleAdsConversion";
 
 export const OrderConfirmation = () => {
 	const { order } = useOrder();
 
+	// Extract order total and currency for Google Ads conversion tracking
+	const orderTotal = order?.total?.gross?.amount ?? 0;
+	const currency = order?.total?.gross?.currency ?? "USD";
+
 	return (
 		<main className="grid grid-cols-1 gap-x-16 lg:grid-cols-2">
+			{/* Google Ads Purchase Conversion Tracking */}
+			<GoogleAdsConversion
+				orderId={order.number}
+				orderTotal={orderTotal}
+				currency={currency}
+			/>
 			<div>
 				<header>
 					<p className="mb-2 text-lg font-bold" data-testid="orderConfrmationTitle">

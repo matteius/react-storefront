@@ -262,7 +262,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						{/* TrustPilot Reviews Widget */}
 						<div className="mx-auto mt-3 max-w-md">
 							<TrustPilotWidget
-								businessunitId="68e97c5feaeab4d0f7b9e85e"
+								businessunitId="68e97c5f13f7f55ed9aad8c3"
 								domain="mattscoinage.com"
 								variant="standard"
 								className="rounded-lg"

@@ -30,8 +30,10 @@ export const useGuestUserForm = ({ initialEmail }: GuestUserFormProps) => {
 
 	const form = useForm<GuestUserFormData>({
 		initialValues: defaultFormData,
-		onSubmit: () => {
+		onSubmit: async () => {
 			// Email is updated via useCheckoutEmailUpdate hook
+			// Return empty errors object to satisfy the form submission type
+			return { hasErrors: false, apiErrors: [], graphqlErrors: [], customErrors: [] };
 		},
 		validationSchema,
 		validateOnChange: true,

@@ -27,30 +27,74 @@ export const TrustPilotWidget = ({
 	const [hasError, setHasError] = useState(false);
 
 	useEffect(() => {
-		// Small delay to ensure DOM is ready
-		const timer = setTimeout(async () => {
+		let isMounted = true;
+
+		const initWidget = async () => {
 			try {
 				await initializeTrustPilotWidgets();
-				// Check if widget was actually loaded
-				setTimeout(() => {
-					if (widgetRef.current) {
-						const iframe = widgetRef.current.querySelector("iframe");
-						if (iframe) {
-							setIsLoaded(true);
-						} else {
-							console.warn("TrustPilot widget did not render iframe");
-							setHasError(true);
+
+				// Use MutationObserver to detect when TrustPilot injects content
+				if (widgetRef.current && isMounted) {
+					const observer = new MutationObserver((mutations) => {
+						for (const mutation of mutations) {
+							if (mutation.type === "childList" || mutation.type === "attributes") {
+								// Check if iframe was added or widget was modified by TrustPilot
+								const iframe = widgetRef.current?.querySelector("iframe");
+								const hasContent = widgetRef.current?.children.length > 1;
+								if (iframe || hasContent) {
+									setIsLoaded(true);
+									observer.disconnect();
+									return;
+								}
+							}
 						}
+					});
+
+					observer.observe(widgetRef.current, {
+						childList: true,
+						subtree: true,
+						attributes: true,
+					});
+
+					// Also check immediately in case it already loaded
+					const iframe = widgetRef.current.querySelector("iframe");
+					if (iframe) {
+						setIsLoaded(true);
+						observer.disconnect();
+						return;
 					}
-				}, 1000);
+
+					// Fallback timeout - if nothing happens after 5 seconds, hide loading
+					setTimeout(() => {
+						if (isMounted && !isLoaded) {
+							observer.disconnect();
+							// Check one more time before showing error
+							const iframe = widgetRef.current?.querySelector("iframe");
+							if (iframe) {
+								setIsLoaded(true);
+							} else {
+								// Don't show error, just hide loading - TrustPilot has its own fallback link
+								setIsLoaded(true);
+							}
+						}
+					}, 5000);
+				}
 			} catch (error) {
 				console.error("Failed to initialize TrustPilot:", error);
-				setHasError(true);
+				if (isMounted) {
+					setHasError(true);
+				}
 			}
-		}, 100);
+		};
 
-		return () => clearTimeout(timer);
-	}, []);
+		// Small delay to ensure DOM is ready
+		const timer = setTimeout(initWidget, 100);
+
+		return () => {
+			isMounted = false;
+			clearTimeout(timer);
+		};
+	}, [isLoaded]);
 
 	const widgetProps = {
 		"data-locale": "en-US",
@@ -190,7 +234,7 @@ export const TrustPilotReviewCollector = ({ className = "" }: { className?: stri
 			className={`trustpilot-widget ${className}`}
 			data-locale="en-US"
 			data-template-id="56278e9abfbbba0bdcd568bc"
-			data-businessunit-id="68e97c5feaeab4d0f7b9e85e"
+			data-businessunit-id="68e97c5f13f7f55ed9aad8c3"
 			data-style-height="52px"
 			data-style-width="100%"
 			data-token="46ce6344-38ce-4e20-a3f6-eb7641fa6b08"

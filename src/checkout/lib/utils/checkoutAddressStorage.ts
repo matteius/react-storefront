@@ -12,9 +12,6 @@
 import { type AddressFragment } from "@/checkout/graphql";
 
 const STORAGE_KEY_PREFIX = "checkout_address_backup_";
-const SHIPPING_ADDRESS_KEY = "shipping";
-const BILLING_ADDRESS_KEY = "billing";
-const EMAIL_KEY = "email";
 
 interface StoredCheckoutData {
 	shippingAddress: AddressFragment | null;

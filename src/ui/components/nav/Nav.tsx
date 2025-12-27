@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { UserMenuContainer } from "./components/UserMenu/UserMenuContainer";
 import { CartNavItem } from "./components/CartNavItem";
 import { NavLinks } from "./components/NavLinks";
 import { MobileMenu } from "./components/MobileMenu";
@@ -19,16 +18,10 @@ export const Nav = ({ channel, searchOnly, actionsOnly, mobileOnly, linksOnly }:
 		return <SearchBar channel={channel} />;
 	}
 
-	// Actions only mode - user menu and cart
+	// Actions only mode - cart only (no user menu)
 	if (actionsOnly) {
 		return (
 			<div className="flex items-center gap-2 lg:gap-3">
-				<Suspense fallback={<div className="w-8" />}>
-					<div className="nav-icon-container">
-						<UserMenuContainer />
-					</div>
-				</Suspense>
-
 				<div className="hidden xs:flex">
 					<Suspense fallback={<div className="w-6" />}>
 						<div className="nav-icon-container">
@@ -91,12 +84,6 @@ export const Nav = ({ channel, searchOnly, actionsOnly, mobileOnly, linksOnly }:
 						<SearchBar channel={channel} />
 					</div>
 				</div>
-
-				<Suspense fallback={<div className="w-8" />}>
-					<div className="nav-icon-container">
-						<UserMenuContainer />
-					</div>
-				</Suspense>
 
 				<div className="hidden xs:flex">
 					<Suspense fallback={<div className="w-6" />}>

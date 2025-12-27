@@ -16,7 +16,6 @@ import {
 	hasFinishedApiChangesWithNoError,
 } from "@/checkout/state/updateStateStore";
 import { useEvent } from "@/checkout/hooks/useEvent";
-import { useUser } from "@/checkout/hooks/useUser";
 import { useCheckout } from "@/checkout/hooks/useCheckout";
 import { getQueryParams } from "@/checkout/lib/utils/url";
 import {
@@ -38,8 +37,6 @@ export function CheckoutForm() {
 	const stripe = useStripe();
 	const elements = useElements();
 	const { checkout } = useCheckout();
-
-	const { authenticated } = useUser();
 
 	const checkoutUpdateState = useCheckoutUpdateState();
 	const anyRequestsInProgress = areAnyRequestsInProgress(checkoutUpdateState);
@@ -68,8 +65,8 @@ export function CheckoutForm() {
 		console.log("React Query: Starting payment submission");
 		setIsLoading(true);
 		setHasSubmitted(true);
-		validateAllForms(authenticated);
-		setShouldRegisterUser(true);
+		validateAllForms(false); // Always validate as guest (not authenticated)
+		setShouldRegisterUser(false);
 		setSubmitInProgress(true);
 	});
 

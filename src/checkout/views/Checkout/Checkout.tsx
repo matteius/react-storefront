@@ -2,7 +2,6 @@ import { Suspense } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { EmptyCartPage } from "../EmptyCartPage";
 import { PageNotFound } from "../PageNotFound";
-import { useUser } from "../../hooks/useUser";
 import { Summary, SummarySkeleton } from "@/checkout/sections/Summary";
 import { CheckoutForm, CheckoutFormSkeleton } from "@/checkout/sections/CheckoutForm";
 import { useCheckout } from "@/checkout/hooks/useCheckout";
@@ -10,18 +9,13 @@ import { CheckoutSkeleton } from "@/checkout/views/Checkout/CheckoutSkeleton";
 
 export const Checkout = () => {
 	const { checkout, fetching: fetchingCheckout, error } = useCheckout();
-	const { loading: isAuthenticating } = useUser();
 
-	const isCheckoutInvalid = !fetchingCheckout && !checkout && !isAuthenticating;
-
-	const isInitiallyAuthenticating = isAuthenticating && !checkout;
+	const isCheckoutInvalid = !fetchingCheckout && !checkout;
 
 	const isEmptyCart = checkout && !checkout.lines.length;
 
 	return isCheckoutInvalid ? (
 		<PageNotFound error={error} />
-	) : isInitiallyAuthenticating ? (
-		<CheckoutSkeleton />
 	) : !checkout ? (
 		<CheckoutSkeleton />
 	) : (

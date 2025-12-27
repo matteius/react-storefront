@@ -38,7 +38,6 @@ import { useCheckoutComplete } from "@/checkout/hooks/useCheckoutComplete";
 import { useErrorMessages } from "@/checkout/hooks/useErrorMessages";
 import { adyenErrorMessages } from "@/checkout/sections/PaymentSection/AdyenDropIn/errorMessages";
 import { type MightNotExist } from "@/checkout/lib/globalTypes";
-import { useUser } from "@/checkout/hooks/useUser";
 import { getUrlForTransactionInitialize } from "@/checkout/sections/PaymentSection/utils";
 import { usePaymentProcessingScreen } from "@/checkout/sections/PaymentSection/PaymentProcessingScreen";
 
@@ -53,7 +52,6 @@ export const useAdyenDropin = (props: AdyenDropinProps) => {
 	const {
 		checkout: { id: checkoutId, totalPrice },
 	} = useCheckout();
-	const { authenticated } = useUser();
 	const { getMessageByErrorCode } = useErrorMessages(adyenErrorMessages);
 	const { errorMessages: commonErrorMessages } = useErrorMessages(apiErrorMessages);
 	const { validateAllForms } = useCheckoutValidationActions();
@@ -220,8 +218,8 @@ export const useAdyenDropin = (props: AdyenDropinProps) => {
 	const onSubmitInitialize: AdyenCheckoutInstanceOnSubmit = useEvent(async (state, component) => {
 		component.setStatus("loading");
 		setAdyenCheckoutSubmitParams({ state, component });
-		validateAllForms(authenticated);
-		setShouldRegisterUser(true);
+		validateAllForms(false); // Always validate as guest (not authenticated)
+		setShouldRegisterUser(false);
 		setSubmitInProgress(true);
 	});
 

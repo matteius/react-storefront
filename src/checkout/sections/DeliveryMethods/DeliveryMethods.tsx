@@ -7,16 +7,11 @@ import { Divider } from "@/checkout/components/Divider";
 import { type CommonSectionProps } from "@/checkout/lib/globalTypes";
 import { useDeliveryMethodsForm } from "@/checkout/sections/DeliveryMethods/useDeliveryMethodsForm";
 import { FormProvider } from "@/checkout/hooks/useForm/FormProvider";
-import { useCheckoutUpdateState } from "@/checkout/state/updateStateStore";
-import { DeliveryMethodsSkeleton } from "@/checkout/sections/DeliveryMethods/DeliveryMethodsSkeleton";
-import { useUser } from "@/checkout/hooks/useUser";
 
 export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => {
 	const { checkout } = useCheckout();
-	const { authenticated } = useUser();
 	const { shippingMethods, shippingAddress, totalPrice } = checkout;
 	const form = useDeliveryMethodsForm();
-	const { updateState } = useCheckoutUpdateState();
 
 	const getSubtitle = ({ min, max }: { min?: number | null; max?: number | null }) => {
 		if (!min || !max) {
@@ -76,16 +71,14 @@ export const DeliveryMethods: React.FC<CommonSectionProps> = ({ collapsed }) => 
 					</div>
 				)}
 
-				{!authenticated && !shippingAddress && (
+				{!shippingAddress && (
 					<p className="mb-3 text-gray-600">
 						Shipping options will be calculated based on your location. Default shipping rates shown for US
 						addresses.
 					</p>
 				)}
 
-				{authenticated && !shippingAddress && updateState.checkoutShippingUpdate ? (
-					<DeliveryMethodsSkeleton />
-				) : shippingMethods?.length > 0 ? (
+				{shippingMethods?.length > 0 ? (
 					<SelectBoxGroup label="delivery methods">
 						{shippingMethods.map(
 							({ id, name, price, minimumDeliveryDays: min, maximumDeliveryDays: max }) => (

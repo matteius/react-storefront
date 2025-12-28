@@ -62,14 +62,21 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams({ params }: { params: { channel: string } }) {
-	const { products } = await executeGraphQL(ProductListDocument, {
-		revalidate: 60,
-		variables: { first: 20, channel: params.channel },
-		withAuth: false,
-	});
+	try {
+		const { products } = await executeGraphQL(ProductListDocument, {
+			revalidate: 60,
+			variables: { first: 20, channel: params.channel },
+			withAuth: false,
+		});
 
-	const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
-	return paths;
+		const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
+		return paths;
+	} catch (error) {
+		// During Docker build, the API may not be accessible
+		// Return empty array to allow build to complete (pages will be generated on-demand)
+		console.warn('generateStaticParams: Could not fetch products, returning empty array:', error);
+		return [];
+	}
 }
 
 const parser = edjsHTML();

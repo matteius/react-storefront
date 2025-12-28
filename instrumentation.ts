@@ -18,7 +18,7 @@ export async function register() {
       const apm = await import('elastic-apm-node');
 
       // Start the APM agent with configuration from environment variables
-      apm.default.start({
+      const agent = apm.default.start({
         // Service identification
         serviceName: process.env.ELASTIC_APM_SERVICE_NAME || 'mattscoinage-storefront',
         environment: process.env.ELASTIC_APM_ENVIRONMENT || 'production',
@@ -28,18 +28,57 @@ export async function register() {
         secretToken: process.env.ELASTIC_APM_SECRET_TOKEN || '',
 
         // Performance settings
-        captureBody: 'errors', // Only capture request body for errors
+        captureBody: 'all', // Capture request body for better debugging
         captureHeaders: true,
+        captureErrorLogStackTraces: 'always',
 
         // Logging configuration
         logLevel: (process.env.ELASTIC_APM_LOG_LEVEL as 'trace' | 'debug' | 'info' | 'warning' | 'error' | 'critical' | 'off') || 'info',
 
         // Next.js specific settings
         frameworkName: 'next.js',
-        frameworkVersion: process.env.npm_package_dependencies_next || '15.x',
+        frameworkVersion: process.env.npm_package_dependencies_next || '16.x',
 
         // Sampling - adjust based on traffic volume
         transactionSampleRate: parseFloat(process.env.ELASTIC_APM_TRANSACTION_SAMPLE_RATE || '1.0'),
+
+        // Use route patterns instead of full URLs for transaction names
+        usePathAsTransactionName: true,
+
+        // Ignore health checks and static assets
+        transactionIgnoreUrls: [
+          '/_next/*',
+          '/favicon.ico',
+          '/robots.txt',
+          '/*.png',
+          '/*.ico',
+          '/*.svg',
+          '/api/health',
+        ],
+      });
+
+      // Add custom transaction naming for Next.js routes
+      agent.addFilter((payload: { transactions?: Array<{ name?: string; context?: { request?: { url?: { pathname?: string } } } }> }) => {
+        if (payload.transactions) {
+          for (const transaction of payload.transactions) {
+            if (transaction.name && transaction.context?.request?.url?.pathname) {
+              const pathname = transaction.context.request.url.pathname;
+
+              // Convert dynamic segments to named parameters for better grouping
+              // e.g., /default-channel/products/some-product -> /[channel]/products/[slug]
+              let routeName = pathname
+                .replace(/^\/default-channel/, '/[channel]')
+                .replace(/^\/[a-z]{2}-[A-Z]{2}\//, '/[channel]/')  // locale channels
+                .replace(/\/products\/[^\/]+$/, '/products/[slug]')
+                .replace(/\/categories\/[^\/]+$/, '/categories/[slug]')
+                .replace(/\/collections\/[^\/]+$/, '/collections/[slug]')
+                .replace(/\/pages\/[^\/]+$/, '/pages/[slug]');
+
+              transaction.name = `${transaction.name?.split(' ')[0] || 'GET'} ${routeName}`;
+            }
+          }
+        }
+        return payload;
       });
 
       console.log(`[Elastic APM] Agent initialized for ${process.env.ELASTIC_APM_SERVICE_NAME || 'mattscoinage-storefront'}`);

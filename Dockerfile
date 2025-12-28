@@ -56,9 +56,8 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
-# Skip codegen during Docker build since generated files are already in the repo
-# The prebuild script tries to connect to the Saleor API which isn't accessible during build
-RUN pnpm exec next build
+# Run pnpm build which triggers prebuild (codegen) then next build
+RUN pnpm build
 
 # Production image, copy all the files and run next
 FROM base AS runner

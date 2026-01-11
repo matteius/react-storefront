@@ -97,7 +97,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 					</div>
 					<div className="mt-10 text-center">
 						<Link
-							href="/checkout"
+							href={`/checkout?checkout=${checkoutId}`}
 							className="inline-block w-full rounded border border-transparent bg-neutral-900 px-6 py-3 text-center font-medium text-neutral-50 hover:bg-neutral-800 sm:w-1/3 sm:px-16"
 							data-testid="CheckoutLink"
 						>

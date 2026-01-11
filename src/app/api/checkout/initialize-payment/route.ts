@@ -1,6 +1,27 @@
 import { NextResponse } from "next/server";
 import { invariant } from "ts-invariant";
 
+const PAYMENT_GATEWAY_INITIALIZE_MUTATION = `
+mutation PaymentGatewayInitialize($checkoutId: ID!, $paymentGateways: [PaymentGatewayToInitialize!]) {
+	paymentGatewayInitialize(id: $checkoutId, paymentGateways: $paymentGateways) {
+		errors {
+			field
+			message
+			code
+		}
+		gatewayConfigs {
+			id
+			data
+			errors {
+				field
+				message
+				code
+			}
+		}
+	}
+}
+`;
+
 const TRANSACTION_INITIALIZE_MUTATION = `
 mutation TransactionInitialize($checkoutId: ID!, $paymentGateway: PaymentGatewayToInitialize!) {
 	transactionInitialize(id: $checkoutId, paymentGateway: $paymentGateway) {
@@ -21,6 +42,25 @@ mutation TransactionInitialize($checkoutId: ID!, $paymentGateway: PaymentGateway
 	}
 }
 `;
+
+interface GatewayConfig {
+	id: string;
+	data?: {
+		stripePublishableKey?: string;
+		publishableKey?: string;
+	};
+	errors?: Array<{ message?: string }>;
+}
+
+interface PaymentGatewayInitializeResponse {
+	data?: {
+		paymentGatewayInitialize?: {
+			gatewayConfigs?: GatewayConfig[];
+			errors?: Array<{ message?: string }>;
+		};
+	};
+	errors?: Array<{ message: string }>;
+}
 
 interface TransactionInitializeResponse {
 	data?: {
@@ -44,6 +84,32 @@ export async function POST(request: Request) {
 
 		invariant(process.env.NEXT_PUBLIC_SALEOR_API_URL, "Missing NEXT_PUBLIC_SALEOR_API_URL");
 
+		const stripeGatewayId = process.env.SALEOR_STRIPE_GATEWAY_ID || "app.saleor.stripe";
+
+		// Step 1: Initialize payment gateway to get Stripe publishable key
+		const gatewayResponse = await fetch(process.env.NEXT_PUBLIC_SALEOR_API_URL, {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				query: PAYMENT_GATEWAY_INITIALIZE_MUTATION,
+				variables: {
+					checkoutId,
+					paymentGateways: [{ id: stripeGatewayId, data: null }],
+				},
+			}),
+		});
+
+		const gatewayResult = await gatewayResponse.json() as PaymentGatewayInitializeResponse;
+
+		if (gatewayResult.errors) {
+			console.error("Gateway init errors:", gatewayResult.errors);
+		}
+
+		const gatewayConfigs = gatewayResult.data?.paymentGatewayInitialize?.gatewayConfigs || [];
+		const stripeConfig = gatewayConfigs.find(g => g.id === stripeGatewayId);
+		const stripePublishableKey = stripeConfig?.data?.stripePublishableKey || stripeConfig?.data?.publishableKey;
+
+		// Step 2: Initialize transaction to get client secret
 		const response = await fetch(process.env.NEXT_PUBLIC_SALEOR_API_URL, {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -52,7 +118,7 @@ export async function POST(request: Request) {
 				variables: {
 					checkoutId,
 					paymentGateway: {
-						id: process.env.SALEOR_STRIPE_GATEWAY_ID || "app.saleor.stripe",
+						id: stripeGatewayId,
 						data: {
 							automatic_payment_methods: { enabled: true },
 						},
@@ -81,9 +147,14 @@ export async function POST(request: Request) {
 			return NextResponse.json({ error: "Failed to get payment client secret" }, { status: 500 });
 		}
 
+		if (!stripePublishableKey) {
+			return NextResponse.json({ error: "Failed to get Stripe publishable key from payment gateway" }, { status: 500 });
+		}
+
 		return NextResponse.json({
 			clientSecret,
 			transactionId: transaction?.transaction?.id,
+			stripePublishableKey,
 		});
 	} catch (error) {
 		console.error("Error initializing payment:", error);

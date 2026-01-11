@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { loadStripe } from "@stripe/stripe-js";
+import { loadStripe, type Stripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { BillingAddressForm, type BillingAddressData } from "./BillingAddressForm";
 
@@ -14,10 +14,15 @@ interface CheckoutModalProps {
 	channel?: string;
 }
 
-interface ApiResponse {
+interface PaymentInitResponse {
 	error?: string;
 	clientSecret?: string;
 	transactionId?: string;
+	stripePublishableKey?: string;
+}
+
+interface ApiResponse {
+	error?: string;
 	success?: boolean;
 }
 
@@ -44,8 +49,6 @@ interface CheckoutData {
 	};
 }
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "");
-
 export function CheckoutModal({ isOpen, onClose, onSuccess, channel = "default-channel" }: CheckoutModalProps) {
 	const [checkout, setCheckout] = useState<CheckoutData | null>(null);
 	const [step, setStep] = useState<CheckoutStep>("loading");
@@ -53,6 +56,7 @@ export function CheckoutModal({ isOpen, onClose, onSuccess, channel = "default-c
 	const [clientSecret, setClientSecret] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [transactionId, setTransactionId] = useState<string | null>(null);
+	const [stripePromise, setStripePromise] = useState<Promise<Stripe | null> | null>(null);
 
 	// Fetch checkout data when modal opens
 	const fetchCheckout = useCallback(async () => {
@@ -104,23 +108,28 @@ export function CheckoutModal({ isOpen, onClose, onSuccess, channel = "default-c
 
 	const initializePayment = useCallback(async () => {
 		if (!checkout?.id) return;
-		
+
 		setStep("loading");
 		try {
-			// Call transactionInitialize to get Stripe client secret
+			// Call transactionInitialize to get Stripe client secret and publishable key
 			const response = await fetch("/api/checkout/initialize-payment", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify({ checkoutId: checkout.id }),
 			});
 
-			const data = await response.json() as ApiResponse;
+			const data = await response.json() as PaymentInitResponse;
 			if (data.error) {
 				throw new Error(data.error);
 			}
 
+			if (!data.stripePublishableKey) {
+				throw new Error("Failed to get Stripe configuration");
+			}
+
 			setClientSecret(data.clientSecret || null);
 			setTransactionId(data.transactionId || null);
+			setStripePromise(loadStripe(data.stripePublishableKey));
 			setStep("payment");
 		} catch (err) {
 			setError(err instanceof Error ? err.message : "Failed to initialize payment");

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CheckoutButton } from "@/checkout/components/CheckoutModal";
+import Link from "next/link";
 import { DeleteLineButton } from "./DeleteLineButton";
 import * as Checkout from "@/lib/checkout";
 import { formatMoney, getHrefForVariant } from "@/lib/utils";
@@ -96,11 +96,13 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						</div>
 					</div>
 					<div className="mt-10 text-center">
-						<CheckoutButton
-							disabled={!checkout.lines.length}
-							className="w-full sm:w-1/3"
-							channel={params.channel}
-						/>
+						<Link
+							href="/checkout"
+							className="inline-block w-full rounded border border-transparent bg-neutral-900 px-6 py-3 text-center font-medium text-neutral-50 hover:bg-neutral-800 sm:w-1/3 sm:px-16"
+							data-testid="CheckoutLink"
+						>
+							Checkout
+						</Link>
 					</div>
 				</div>
 			</form>

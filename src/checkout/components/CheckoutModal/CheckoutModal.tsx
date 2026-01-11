@@ -202,10 +202,23 @@ export function CheckoutModal({ isOpen, onClose, onSuccess, channel = "default-c
 				{/* Content based on step */}
 				{step === "loading" && <LoadingState />}
 				{step === "billing" && <BillingAddressForm initialData={billingAddress} onSubmit={handleBillingSubmit} onCancel={onClose} />}
-				{step === "payment" && clientSecret && (
+				{step === "payment" && clientSecret && stripePromise && (
 					<Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: "stripe" } }}>
 						<PaymentForm checkoutId={checkout?.id || ""} transactionId={transactionId || ""} onSuccess={handlePaymentSuccess} onError={handlePaymentError} />
 					</Elements>
+				)}
+				{step === "payment" && (!clientSecret || !stripePromise) && (
+					<div className="rounded border border-red-300 bg-red-50 p-4">
+						<p className="text-red-800">
+							Payment initialization failed. Missing {!clientSecret ? "client secret" : "Stripe configuration"}.
+						</p>
+						<button
+							onClick={() => setStep("billing")}
+							className="mt-3 rounded-lg bg-amber-500 px-4 py-2 text-white hover:bg-amber-600"
+						>
+							Try Again
+						</button>
+					</div>
 				)}
 				{step === "processing" && <ProcessingState />}
 				{step === "success" && <SuccessState onClose={onClose} />}

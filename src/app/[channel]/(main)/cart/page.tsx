@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CheckoutLink } from "./CheckoutLink";
+import { CheckoutButton } from "@/checkout/components/CheckoutModal";
 import { DeleteLineButton } from "./DeleteLineButton";
 import * as Checkout from "@/lib/checkout";
 import { formatMoney, getHrefForVariant } from "@/lib/utils";
@@ -96,8 +96,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						</div>
 					</div>
 					<div className="mt-10 text-center">
-						<CheckoutLink
-							checkoutId={checkoutId}
+						<CheckoutButton
 							disabled={!checkout.lines.length}
 							className="w-full sm:w-1/3"
 						/>

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import { ProductList } from "@/ui/components/ProductList";
@@ -56,52 +55,39 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 			</div>
 
 			{/* Hero Section */}
-			<section className="relative overflow-hidden">
-				{/* Hero Image */}
-				<div className="relative h-[300px] w-full sm:h-[400px] md:h-[500px] lg:h-[600px]">
-					<Image
-						src="/hero.png"
-						alt="Matt's Coinage - Premium Collectible Coins & Bullion"
-						fill
-						priority
-						className="object-cover"
-						sizes="100vw"
-					/>
-					{/* Gradient Overlay for text readability */}
-					<div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-					<div className="absolute inset-0 bg-gradient-to-r from-black/40 to-transparent"></div>
+			<section className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-gold-50 to-yellow-50 py-12">
+				{/* Background decorative elements */}
+				<div className="absolute inset-0 opacity-10">
+					<div className="absolute left-10 top-10 h-32 w-32 animate-pulse rounded-full bg-gold-400 blur-3xl"></div>
+					<div className="absolute right-20 top-40 h-24 w-24 animate-pulse rounded-full bg-amber-400 blur-2xl delay-1000"></div>
+					<div className="delay-2000 absolute bottom-20 left-1/3 h-40 w-40 animate-pulse rounded-full bg-yellow-400 blur-3xl"></div>
 				</div>
 
-				{/* Hero Content Overlay */}
-				<div className="absolute inset-0 flex items-center justify-center">
-					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-						<div className="text-center">
-							<h1 className="mb-4 text-4xl font-bold text-white drop-shadow-lg md:text-5xl lg:text-6xl">
-								<span className="bg-gradient-to-r from-gold-300 via-yellow-200 to-gold-400 bg-clip-text text-transparent">
-									Premium Collectibles
-								</span>
-							</h1>
-							<p className="mx-auto mb-8 max-w-3xl text-base leading-relaxed text-white/90 drop-shadow-md md:text-lg lg:text-xl">
-								Discover exceptional deals on{" "}
-								<span className="font-semibold text-gold-300">rare coins</span>,
-								<span className="font-semibold text-gold-300"> ancient treasures</span>, and
-								<span className="font-semibold text-gold-300"> collectible bullion</span>. Hand-selected
-								pieces at competitive prices.
-							</p>
-							<div className="flex flex-col justify-center gap-4 sm:flex-row">
-								<LinkWithChannel
-									href="/collections/sale-items"
-									className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-gold-500 to-amber-500 px-8 py-3 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:from-gold-400 hover:to-amber-400"
-								>
-									<span className="relative z-10">Shop Sale Items</span>
-								</LinkWithChannel>
-								<LinkWithChannel
-									href="/products"
-									className="group relative overflow-hidden rounded-xl border-2 border-white/80 bg-white/10 px-8 py-3 font-bold text-white shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-white hover:text-amber-900"
-								>
-									<span className="relative z-10">Browse All Collections</span>
-								</LinkWithChannel>
-							</div>
+				<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<div className="text-center">
+						<h1 className="gradient-text mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
+							Premium Collectibles
+						</h1>
+						<p className="mx-auto mb-8 max-w-4xl text-base leading-relaxed text-amber-800 md:text-lg">
+							Discover exceptional deals on <span className="font-semibold text-gold-700">rare coins</span>,
+							<span className="font-semibold text-gold-700"> ancient treasures</span>, and
+							<span className="font-semibold text-gold-700"> collectible bullion</span>. Hand-selected pieces
+							at competitive prices with new sale items added regularly.
+						</p>
+						<div className="flex flex-col justify-center gap-4 sm:flex-row">
+							<LinkWithChannel
+								href="/collections/sale-items"
+								className="pulse-glow group relative overflow-hidden rounded-xl bg-gradient-to-r from-gold-600 to-amber-600 px-8 py-3 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-gold-500/25"
+							>
+								<span className="relative z-10">Shop Sale Items</span>
+								<div className="absolute inset-0 bg-gradient-to-r from-gold-700 to-amber-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+							</LinkWithChannel>
+							<LinkWithChannel
+								href="/products"
+								className="border-3 group relative overflow-hidden rounded-xl border-gold-600 bg-white/80 px-8 py-3 font-bold text-gold-700 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gold-600 hover:text-white"
+							>
+								<span className="relative z-10">Browse All Collections</span>
+							</LinkWithChannel>
 						</div>
 					</div>
 				</div>

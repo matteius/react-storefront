@@ -53,3 +53,6 @@ k8s-secrets-update.yaml
 k8s-apm-patch.yaml
 k8s-mailjet-update.yaml
 update-mailjet-secret.sh
+ocr-service
+mattscoinage
+saleor-dashboard

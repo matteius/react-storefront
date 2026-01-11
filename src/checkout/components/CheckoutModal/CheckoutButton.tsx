@@ -7,9 +7,10 @@ interface CheckoutButtonProps {
 	disabled?: boolean;
 	className?: string;
 	children?: React.ReactNode;
+	channel?: string;
 }
 
-export function CheckoutButton({ disabled = false, className = "", children }: CheckoutButtonProps) {
+export function CheckoutButton({ disabled = false, className = "", children, channel = "default-channel" }: CheckoutButtonProps) {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const handleSuccess = () => {
@@ -32,6 +33,7 @@ export function CheckoutButton({ disabled = false, className = "", children }: C
 				isOpen={isModalOpen}
 				onClose={() => setIsModalOpen(false)}
 				onSuccess={handleSuccess}
+				channel={channel}
 			/>
 		</>
 	);

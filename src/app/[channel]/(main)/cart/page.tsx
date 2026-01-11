@@ -99,6 +99,7 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						<CheckoutButton
 							disabled={!checkout.lines.length}
 							className="w-full sm:w-1/3"
+							channel={params.channel}
 						/>
 					</div>
 				</div>

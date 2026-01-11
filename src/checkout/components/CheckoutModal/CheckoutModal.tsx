@@ -4,7 +4,6 @@ import { useState, useEffect, useCallback } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import { BillingAddressForm, type BillingAddressData } from "./BillingAddressForm";
-import { useCheckout } from "@/checkout/hooks/useCheckout";
 
 type CheckoutStep = "loading" | "billing" | "payment" | "processing" | "success" | "error";
 
@@ -12,6 +11,7 @@ interface CheckoutModalProps {
 	isOpen: boolean;
 	onClose: () => void;
 	onSuccess?: () => void;
+	channel?: string;
 }
 
 interface ApiResponse {
@@ -21,15 +21,75 @@ interface ApiResponse {
 	success?: boolean;
 }
 
+interface CheckoutData {
+	id: string;
+	email?: string;
+	totalPrice: {
+		gross: {
+			amount: number;
+			currency: string;
+		};
+	};
+	billingAddress?: {
+		firstName: string;
+		lastName: string;
+		companyName?: string;
+		streetAddress1: string;
+		streetAddress2?: string;
+		city: string;
+		countryArea?: string;
+		postalCode: string;
+		country: { code: string };
+		phone?: string;
+	};
+}
+
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "");
 
-export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps) {
-	const { checkout } = useCheckout();
+export function CheckoutModal({ isOpen, onClose, onSuccess, channel = "default-channel" }: CheckoutModalProps) {
+	const [checkout, setCheckout] = useState<CheckoutData | null>(null);
 	const [step, setStep] = useState<CheckoutStep>("loading");
 	const [billingAddress, setBillingAddress] = useState<BillingAddressData | null>(null);
 	const [clientSecret, setClientSecret] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [transactionId, setTransactionId] = useState<string | null>(null);
+
+	// Fetch checkout data when modal opens
+	const fetchCheckout = useCallback(async () => {
+		try {
+			const response = await fetch(`/api/checkout/get?channel=${channel}`);
+			const data = await response.json() as { checkout?: CheckoutData; error?: string };
+
+			if (data.error) {
+				throw new Error(data.error);
+			}
+
+			if (data.checkout) {
+				setCheckout(data.checkout);
+
+				// Check if we have billing address saved
+				const savedBilling = data.checkout.billingAddress;
+				if (savedBilling) {
+					setBillingAddress({
+						firstName: savedBilling.firstName,
+						lastName: savedBilling.lastName,
+						companyName: savedBilling.companyName || null,
+						streetAddress1: savedBilling.streetAddress1,
+						streetAddress2: savedBilling.streetAddress2 || null,
+						city: savedBilling.city,
+						countryArea: savedBilling.countryArea || null,
+						postalCode: savedBilling.postalCode,
+						country: savedBilling.country.code,
+						phone: savedBilling.phone || null,
+					});
+				}
+				setStep("billing");
+			}
+		} catch (err) {
+			setError(err instanceof Error ? err.message : "Failed to load checkout");
+			setStep("error");
+		}
+	}, [channel]);
 
 	// Reset state when modal opens
 	useEffect(() => {
@@ -37,28 +97,10 @@ export function CheckoutModal({ isOpen, onClose, onSuccess }: CheckoutModalProps
 			setStep("loading");
 			setError(null);
 			setClientSecret(null);
-			// Check if we have billing address saved
-			const savedBilling = checkout?.billingAddress;
-			if (savedBilling) {
-				setBillingAddress({
-					firstName: savedBilling.firstName,
-					lastName: savedBilling.lastName,
-					companyName: savedBilling.companyName || null,
-					streetAddress1: savedBilling.streetAddress1,
-					streetAddress2: savedBilling.streetAddress2 || null,
-					city: savedBilling.city,
-					countryArea: savedBilling.countryArea || null,
-					postalCode: savedBilling.postalCode,
-					country: savedBilling.country.code,
-					phone: savedBilling.phone || null,
-				});
-				// Skip to payment if we have billing
-				initializePayment();
-			} else {
-				setStep("billing");
-			}
+			setCheckout(null);
+			fetchCheckout();
 		}
-	}, [isOpen, checkout?.billingAddress]);
+	}, [isOpen, fetchCheckout]);
 
 	const initializePayment = useCallback(async () => {
 		if (!checkout?.id) return;

@@ -18,8 +18,8 @@ declare global {
  * Google Ads Conversion Tracking Component
  * Fires a purchase conversion event when mounted on the order confirmation page
  *
- * Conversion ID: AW-11004242983
- * Conversion Label: jm-_CPCp9NcbEKfYnf8o (Purchase (1) conversion)
+ * Conversion ID: AW-17834401497
+ * Conversion Label: CG4fCL-vy_cbENm9jbhC (Purchase conversion)
  */
 export function GoogleAdsConversion({ orderId, orderTotal, currency }: GoogleAdsConversionProps) {
   const hasFired = useRef(false);
@@ -33,7 +33,7 @@ export function GoogleAdsConversion({ orderId, orderTotal, currency }: GoogleAds
     // Wait for gtag to be available
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', 'conversion', {
-        send_to: 'AW-11004242983/jm-_CPCp9NcbEKfYnf8o',
+        send_to: 'AW-17834401497/CG4fCL-vy_cbENm9jbhC',
         value: orderTotal,
         currency: currency,
         transaction_id: orderId,
@@ -50,7 +50,7 @@ export function GoogleAdsConversion({ orderId, orderTotal, currency }: GoogleAds
       const checkGtag = setInterval(() => {
         if (typeof window !== 'undefined' && window.gtag) {
           window.gtag('event', 'conversion', {
-            send_to: 'AW-11004242983/jm-_CPCp9NcbEKfYnf8o',
+            send_to: 'AW-17834401497/CG4fCL-vy_cbENm9jbhC',
             value: orderTotal,
             currency: currency,
             transaction_id: orderId,

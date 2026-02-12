@@ -30,7 +30,7 @@ export default function RootLayout(props: { children: ReactNode }) {
 						__html: `
 							window.dataLayer = window.dataLayer || [];
 							function gtag(){dataLayer.push(arguments);}
-							gtag('config', 'AW-11004242983');
+							gtag('config', 'AW-17834401497');
 						`,
 					}}
 				/>

@@ -2,9 +2,12 @@ import { type ReactNode } from "react";
 import { Footer } from "@/ui/components/Footer";
 import { Header } from "@/ui/components/Header";
 
+export const dynamic = "force-dynamic";
+
 export const metadata = {
 	title: "www.MattsCoinage.com - Premium Collectible Coins & Bullion",
-	description: "Discover rare and collectible coins, bullion, and numismatic treasures at Matt's Coinage. Your trusted source for premium collectibles.",
+	description:
+		"Discover rare and collectible coins, bullion, and numismatic treasures at Matt's Coinage. Your trusted source for premium collectibles.",
 };
 
 export default async function RootLayout(props: {

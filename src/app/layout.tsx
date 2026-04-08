@@ -1,8 +1,7 @@
 import "./globals.css";
-import { Suspense, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import { type Metadata } from "next";
 import Script from "next/script";
-import { DraftModeNotification } from "@/ui/components/DraftModeNotification";
 import { CookieConsentProvider } from "@/contexts/CookieConsentContext";
 import { CookieConsent } from "@/ui/components/CookieConsent";
 import { GoogleAnalyticsWrapper } from "@/ui/components/GoogleAnalyticsWrapper";
@@ -40,9 +39,6 @@ export default function RootLayout(props: { children: ReactNode }) {
 					<GoogleAnalyticsWrapper />
 					{children}
 					<CookieConsent />
-					<Suspense>
-						<DraftModeNotification />
-					</Suspense>
 				</CookieConsentProvider>
 			</body>
 		</html>

@@ -1,6 +1,5 @@
 import { invariant } from "ts-invariant";
 import { type TypedDocumentString } from "../gql/graphql";
-import { getServerAuthClient } from "@/app/config";
 
 type GraphQLErrorResponse = {
 	errors: readonly {
@@ -20,7 +19,7 @@ export async function executeGraphQL<Result, Variables>(
 	} & (Variables extends Record<string, never> ? { variables?: never } : { variables: Variables }),
 ): Promise<Result> {
 	invariant(process.env.NEXT_PUBLIC_SALEOR_API_URL, "Missing NEXT_PUBLIC_SALEOR_API_URL env variable");
-	const { variables, headers, cache, revalidate, withAuth = true } = options;
+	const { variables, headers, cache, revalidate, withAuth = false } = options;
 
 	const input = {
 		method: "POST",
@@ -29,7 +28,7 @@ export async function executeGraphQL<Result, Variables>(
 			...headers,
 		},
 		body: JSON.stringify({
-			query: operation.toString(),
+			query: String(operation),
 			...(variables && { variables }),
 		}),
 		cache: cache,
@@ -37,7 +36,10 @@ export async function executeGraphQL<Result, Variables>(
 	};
 
 	const response = withAuth
-		? await (await getServerAuthClient()).fetchWithAuth(process.env.NEXT_PUBLIC_SALEOR_API_URL, input)
+		? await (async () => {
+				const { getServerAuthClient } = await import("@/app/config");
+				return (await getServerAuthClient()).fetchWithAuth(process.env.NEXT_PUBLIC_SALEOR_API_URL!, input);
+			})()
 		: await fetch(process.env.NEXT_PUBLIC_SALEOR_API_URL, input);
 
 	if (!response.ok) {

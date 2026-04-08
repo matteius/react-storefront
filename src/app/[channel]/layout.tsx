@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { DefaultChannelSlug } from "@/app/config";
+import { DefaultChannelSlug } from "@/app/constants";
 
 export const generateStaticParams = async () => {
 	return [{ channel: DefaultChannelSlug }];

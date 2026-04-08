@@ -1,4 +1,4 @@
-import { ProductsPerPage } from "@/app/config";
+import { ProductsPerPage } from "@/app/constants";
 
 export const formatDate = (date: Date | number) => {
 	return new Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(date);

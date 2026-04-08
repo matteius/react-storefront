@@ -127,6 +127,7 @@ export default async function Page(props: {
 				productVariantId: decodeURIComponent(selectedVariantID),
 			},
 			cache: "no-cache",
+			withAuth: true,
 		});
 
 		revalidatePath("/cart");

@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import type DropinElement from "@adyen/adyen-web/dist/types/components/Dropin";
+type DropinElement = {
+	setStatus: (status: string, props?: Record<string, unknown>) => void;
+	handleAction: (action: Record<string, unknown>) => void;
+};
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { camelCase } from "lodash-es";
 import { apiErrorMessages } from "../errorMessages";

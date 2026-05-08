@@ -46,9 +46,10 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						<span className="animate-bounce">🎉</span>
 						<span>Free shipping on orders over $20</span>
 						<span className="hidden sm:inline">•</span>
-						<span className="hidden sm:inline">Sale items updated monthly</span>
-						<span className="hidden sm:inline">•</span>
-						<span className="hidden sm:inline">Trusted since 2022</span>
+						<span className="hidden sm:inline">
+							We identified and addressed an issue affecting ordering capabilities. Contact support if you
+							encounter difficulty placing an order.
+						</span>
 						<span className="animate-bounce">✨</span>
 					</p>
 				</div>

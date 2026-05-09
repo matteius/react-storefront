@@ -1,3 +1,4 @@
+import { type NextResponse } from "next/server";
 import { invariant } from "ts-invariant";
 import { getNextServerCookiesStorageAsync } from "@saleor/auth-sdk/next/server";
 
@@ -226,6 +227,64 @@ export async function persistFiefTokens(tokens: FiefTokenSet): Promise<void> {
 	storage.setItem(ACCESS_TOKEN_COOKIE, tokens.token);
 	storage.setItem(REFRESH_TOKEN_COOKIE, tokens.refreshToken);
 	storage.setItem(AUTH_STATE_COOKIE, "signedIn");
+}
+
+/*
+ * Try to read the JWT `exp` claim so the cookie expires alongside the token
+ * — fall through to a session cookie if the token isn't a valid JWT (e.g.
+ * the AUTH_STATE_COOKIE value "signedIn"). Mirrors the saleor-auth-sdk's
+ * own helper but lives on our side so we don't depend on the SDK's silently
+ * try/catch'd cookie storage when persisting via NextResponse directly.
+ */
+function tryGetJwtExpiry(token: string): Date | undefined {
+	try {
+		const segment = token.split(".")[1];
+		if (!segment) return undefined;
+		const padded = segment + "=".repeat((4 - (segment.length % 4)) % 4);
+		const payload = JSON.parse(
+			Buffer.from(padded.replace(/-/g, "+").replace(/_/g, "/"), "base64").toString("utf-8"),
+		) as { exp?: number };
+		if (typeof payload.exp !== "number") return undefined;
+		const nowSeconds = Date.now() / 1000;
+		if (payload.exp <= nowSeconds) return undefined;
+		return new Date(payload.exp * 1000);
+	} catch {
+		return undefined;
+	}
+}
+
+/*
+ * Set the auth cookies directly on a `NextResponse` instead of relying on
+ * the saleor-auth-sdk's `cookies().set(...)` storage helper, which wraps
+ * the set call in a silent try/catch. In Next 15 production, calling
+ * `cookies().set` from inside a route handler that returns a redirect
+ * sometimes throws (writable-context check fails); the SDK swallows that
+ * and the cookie quietly fails to land — which is the storefront-side
+ * symptom of "Fief auth completed but header still says Sign in".
+ *
+ * Setting cookies on `response.cookies` is the unambiguous, supported
+ * API and works regardless of where in the handler we call it from.
+ */
+export function attachFiefCookiesToResponse(
+	response: NextResponse,
+	tokens: FiefTokenSet,
+	options: { secure: boolean },
+): void {
+	const baseOptions = {
+		httpOnly: true,
+		sameSite: "lax" as const,
+		secure: options.secure,
+		path: "/",
+	};
+	response.cookies.set(ACCESS_TOKEN_COOKIE, tokens.token, {
+		...baseOptions,
+		expires: tryGetJwtExpiry(tokens.token),
+	});
+	response.cookies.set(REFRESH_TOKEN_COOKIE, tokens.refreshToken, {
+		...baseOptions,
+		expires: tryGetJwtExpiry(tokens.refreshToken),
+	});
+	response.cookies.set(AUTH_STATE_COOKIE, "signedIn", baseOptions);
 }
 
 export async function clearFiefTokens(): Promise<{ refreshToken: string | null }> {

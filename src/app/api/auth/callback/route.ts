@@ -1,9 +1,10 @@
 import { type NextRequest, NextResponse } from "next/server";
 import {
+	attachFiefCookiesToResponse,
 	buildCallbackUrl,
 	exchangeFiefCode,
+	type FiefTokenSet,
 	getStorefrontOrigin,
-	persistFiefTokens,
 	POST_LOGIN_REDIRECT_COOKIE,
 } from "@/lib/fief";
 
@@ -40,13 +41,13 @@ export async function GET(request: NextRequest) {
 		return response;
 	}
 
+	let tokens: FiefTokenSet;
 	try {
-		const tokens = await exchangeFiefCode({
+		tokens = await exchangeFiefCode({
 			code,
 			state,
 			redirectUri: buildCallbackUrl(),
 		});
-		await persistFiefTokens(tokens);
 	} catch (err) {
 		console.error("Fief code exchange failed", err);
 		target.searchParams.set("auth_error", "exchange_failed");
@@ -61,6 +62,9 @@ export async function GET(request: NextRequest) {
 	const successTarget = next === "/" ? buildAccountTarget() : target;
 	const response = NextResponse.redirect(successTarget);
 	response.cookies.delete(POST_LOGIN_REDIRECT_COOKIE);
+	attachFiefCookiesToResponse(response, tokens, {
+		secure: getStorefrontOrigin().startsWith("https://"),
+	});
 	return response;
 }
 

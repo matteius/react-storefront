@@ -2,6 +2,7 @@ import { type NextRequest, NextResponse } from "next/server";
 import {
 	buildCallbackUrl,
 	exchangeFiefCode,
+	getStorefrontOrigin,
 	persistFiefTokens,
 	POST_LOGIN_REDIRECT_COOKIE,
 } from "@/lib/fief";
@@ -21,7 +22,9 @@ export async function GET(request: NextRequest) {
 	const nextCookie = request.cookies.get(POST_LOGIN_REDIRECT_COOKIE)?.value;
 	const next = safeNextPath(nextCookie);
 
-	const target = new URL(next, request.nextUrl.origin);
+	// Use storefront origin from env — nextUrl.origin reflects the internal
+	// pod address behind the Traefik proxy.
+	const target = new URL(next, getStorefrontOrigin());
 
 	if (error) {
 		target.searchParams.set("auth_error", error);

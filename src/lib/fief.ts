@@ -136,10 +136,27 @@ export function buildCallbackUrl(): string {
 	return `${getStorefrontOrigin().replace(/\/$/, "")}/api/auth/callback`;
 }
 
-export async function initiateFiefLogin(redirectUri: string): Promise<string> {
+function getSaleorApiUrl(): string {
+	const url = process.env.NEXT_PUBLIC_SALEOR_API_URL;
+	invariant(url, "Missing NEXT_PUBLIC_SALEOR_API_URL env variable");
+	return url;
+}
+
+function getDefaultChannel(): string {
+	return process.env.NEXT_PUBLIC_DEFAULT_CHANNEL || "default-channel";
+}
+
+export async function initiateFiefLogin(
+	redirectUri: string,
+	channelSlug: string = getDefaultChannel(),
+): Promise<string> {
 	const data = await postSaleor<ExternalAuthUrlResult>(EXTERNAL_AUTH_URL_MUTATION, {
 		pluginId: FIEF_PLUGIN_ID,
-		input: JSON.stringify({ redirectUri }),
+		input: JSON.stringify({
+			redirectUri,
+			saleorApiUrl: getSaleorApiUrl(),
+			channelSlug,
+		}),
 	});
 	const { authenticationData, errors } = data.externalAuthenticationUrl;
 	if (errors?.length) {
@@ -166,10 +183,17 @@ export async function exchangeFiefCode(params: {
 	code: string;
 	state: string;
 	redirectUri: string;
+	channelSlug?: string;
 }): Promise<FiefTokenSet> {
 	const data = await postSaleor<ExternalObtainTokensResult>(EXTERNAL_OBTAIN_TOKENS_MUTATION, {
 		pluginId: FIEF_PLUGIN_ID,
-		input: JSON.stringify({ code: params.code, state: params.state, redirectUri: params.redirectUri }),
+		input: JSON.stringify({
+			code: params.code,
+			state: params.state,
+			redirectUri: params.redirectUri,
+			saleorApiUrl: getSaleorApiUrl(),
+			channelSlug: params.channelSlug ?? getDefaultChannel(),
+		}),
 	});
 	const { token, refreshToken, csrfToken, user, errors } = data.externalObtainAccessTokens;
 	if (errors?.length) {

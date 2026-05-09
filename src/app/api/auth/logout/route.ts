@@ -1,5 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
-import { clearFiefTokens, fiefLogout } from "@/lib/fief";
+import { clearFiefTokens, fiefLogout, getStorefrontOrigin } from "@/lib/fief";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,7 @@ function safeNextPath(raw: string | null): string {
 
 async function handle(request: NextRequest) {
 	const next = safeNextPath(request.nextUrl.searchParams.get("next"));
-	const target = new URL(next, request.nextUrl.origin);
+	const target = new URL(next, getStorefrontOrigin());
 
 	const { refreshToken } = await clearFiefTokens();
 

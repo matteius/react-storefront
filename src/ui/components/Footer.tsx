@@ -170,7 +170,7 @@ export async function Footer({ channel: _channel }: { channel: string }) {
 				<div className="mt-6 flex flex-col items-center justify-between border-t border-gold-200/50 pt-4 sm:flex-row">
 					<div className="flex flex-col items-center sm:items-start">
 						<p className="font-medium text-amber-700">
-							Copyright &copy; {currentYear} Matt&apos;s Coinage. All rights reserved.
+							{`Copyright © ${currentYear} Matt's Coinage. All rights reserved.`}
 						</p>
 						{/* TrustPilot Badge */}
 						<div className="mt-2">

@@ -3,6 +3,8 @@ import { CartNavItem } from "./components/CartNavItem";
 import { NavLinks } from "./components/NavLinks";
 import { MobileMenu } from "./components/MobileMenu";
 import { SearchBar } from "./components/SearchBar";
+import { UserMenu } from "@/ui/components/UserMenu";
+import { UserMobileLink } from "@/ui/components/UserMobileLink";
 
 interface NavProps {
 	channel: string;
@@ -18,10 +20,15 @@ export const Nav = ({ channel, searchOnly, actionsOnly, mobileOnly, linksOnly }:
 		return <SearchBar channel={channel} />;
 	}
 
-	// Actions only mode - cart only (no user menu)
+	// Actions only mode - user menu + cart
 	if (actionsOnly) {
 		return (
 			<div className="flex items-center gap-2 lg:gap-3">
+				<Suspense fallback={<div className="h-8 w-8" />}>
+					<div className="nav-icon-container">
+						<UserMenu channel={channel} />
+					</div>
+				</Suspense>
 				<div className="hidden xs:flex">
 					<Suspense fallback={<div className="w-6" />}>
 						<div className="nav-icon-container">
@@ -40,6 +47,7 @@ export const Nav = ({ channel, searchOnly, actionsOnly, mobileOnly, linksOnly }:
 				<MobileMenu>
 					<SearchBar channel={channel} />
 					<NavLinks channel={channel} />
+					<UserMobileLink channel={channel} />
 				</MobileMenu>
 			</Suspense>
 		);

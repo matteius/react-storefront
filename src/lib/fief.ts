@@ -1,7 +1,7 @@
 import { invariant } from "ts-invariant";
 import { getNextServerCookiesStorageAsync } from "@saleor/auth-sdk/next/server";
 
-export const FIEF_PLUGIN_ID = process.env.FIEF_PLUGIN_ID || "saleor.app.fief";
+export const FIEF_PLUGIN_ID = process.env.FIEF_PLUGIN_ID || "opensensor.fief";
 
 export const ACCESS_TOKEN_COOKIE = "saleor_auth_access_token";
 export const REFRESH_TOKEN_COOKIE = "saleor_auth_module_refresh_token";

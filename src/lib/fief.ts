@@ -254,37 +254,48 @@ function tryGetJwtExpiry(token: string): Date | undefined {
 }
 
 /*
- * Set the auth cookies directly on a `NextResponse` instead of relying on
- * the saleor-auth-sdk's `cookies().set(...)` storage helper, which wraps
- * the set call in a silent try/catch. In Next 15 production, calling
- * `cookies().set` from inside a route handler that returns a redirect
- * sometimes throws (writable-context check fails); the SDK swallows that
- * and the cookie quietly fails to land — which is the storefront-side
- * symptom of "Fief auth completed but header still says Sign in".
- *
- * Setting cookies on `response.cookies` is the unambiguous, supported
- * API and works regardless of where in the handler we call it from.
+ * Set the auth cookies via raw `Set-Cookie` headers. We tried both the
+ * saleor-auth-sdk's `cookies().set(...)` (silently try/catch'd) and
+ * `response.cookies.set(...)`; in Next 16 production, only two of three
+ * cookie sets reliably make it to the browser when used with
+ * `NextResponse.redirect`. Going to the lowest-level API
+ * (`response.headers.append("Set-Cookie", ...)`) sidesteps all of that
+ * — every browser receives every cookie on the redirect.
  */
+function buildSetCookieValue(
+	name: string,
+	value: string,
+	options: { secure: boolean; expires?: Date },
+): string {
+	const parts = [`${name}=${encodeURIComponent(value)}`, "Path=/", "HttpOnly", "SameSite=Lax"];
+	if (options.secure) parts.push("Secure");
+	if (options.expires) parts.push(`Expires=${options.expires.toUTCString()}`);
+	return parts.join("; ");
+}
+
 export function attachFiefCookiesToResponse(
 	response: NextResponse,
 	tokens: FiefTokenSet,
 	options: { secure: boolean },
 ): void {
-	const baseOptions = {
-		httpOnly: true,
-		sameSite: "lax" as const,
-		secure: options.secure,
-		path: "/",
-	};
-	response.cookies.set(ACCESS_TOKEN_COOKIE, tokens.token, {
-		...baseOptions,
-		expires: tryGetJwtExpiry(tokens.token),
-	});
-	response.cookies.set(REFRESH_TOKEN_COOKIE, tokens.refreshToken, {
-		...baseOptions,
-		expires: tryGetJwtExpiry(tokens.refreshToken),
-	});
-	response.cookies.set(AUTH_STATE_COOKIE, "signedIn", baseOptions);
+	response.headers.append(
+		"Set-Cookie",
+		buildSetCookieValue(ACCESS_TOKEN_COOKIE, tokens.token, {
+			secure: options.secure,
+			expires: tryGetJwtExpiry(tokens.token),
+		}),
+	);
+	response.headers.append(
+		"Set-Cookie",
+		buildSetCookieValue(REFRESH_TOKEN_COOKIE, tokens.refreshToken, {
+			secure: options.secure,
+			expires: tryGetJwtExpiry(tokens.refreshToken),
+		}),
+	);
+	response.headers.append(
+		"Set-Cookie",
+		buildSetCookieValue(AUTH_STATE_COOKIE, "signedIn", { secure: options.secure }),
+	);
 }
 
 export async function clearFiefTokens(): Promise<{ refreshToken: string | null }> {

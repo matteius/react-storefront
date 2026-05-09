@@ -55,7 +55,16 @@ export async function GET(request: NextRequest) {
 		return response;
 	}
 
-	const response = NextResponse.redirect(target);
+	// Default landing post-sign-in is the account dashboard. Only fall through
+	// to `next` when the storefront supplied a non-root path (e.g. the user
+	// clicked sign-in from a product page or the checkout CTA).
+	const successTarget = next === "/" ? buildAccountTarget() : target;
+	const response = NextResponse.redirect(successTarget);
 	response.cookies.delete(POST_LOGIN_REDIRECT_COOKIE);
 	return response;
+}
+
+function buildAccountTarget(): URL {
+	const channel = process.env.NEXT_PUBLIC_DEFAULT_CHANNEL || "default-channel";
+	return new URL(`/${encodeURIComponent(channel)}/account`, getStorefrontOrigin());
 }

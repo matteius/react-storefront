@@ -278,23 +278,39 @@ export function attachFiefCookiesToResponse(
 	tokens: FiefTokenSet,
 	options: { secure: boolean },
 ): void {
+	/*
+	 * Use the **refresh token's** expiry for both cookies. Saleor's access
+	 * token JWT has a 5-minute `exp`; if we tie the cookie's Expires
+	 * attribute to that, the browser deletes the access cookie 5 minutes
+	 * after sign-in and the SDK's `fetchWithAuth` only sees the refresh
+	 * cookie thereafter — token-refresh on a Next-server cookie store
+	 * doesn't reliably write the new access value back to the response,
+	 * so the user permanently appears unauthenticated. Letting the
+	 * cookie outlive the JWT is fine: the JWT's own `exp` still governs
+	 * validity, the SDK still triggers refresh on expiry, and at least
+	 * the cookie is sitting there to be replaced in-place.
+	 */
+	const cookieExpiry = tryGetJwtExpiry(tokens.refreshToken);
 	response.headers.append(
 		"Set-Cookie",
 		buildSetCookieValue(ACCESS_TOKEN_COOKIE, tokens.token, {
 			secure: options.secure,
-			expires: tryGetJwtExpiry(tokens.token),
+			expires: cookieExpiry,
 		}),
 	);
 	response.headers.append(
 		"Set-Cookie",
 		buildSetCookieValue(REFRESH_TOKEN_COOKIE, tokens.refreshToken, {
 			secure: options.secure,
-			expires: tryGetJwtExpiry(tokens.refreshToken),
+			expires: cookieExpiry,
 		}),
 	);
 	response.headers.append(
 		"Set-Cookie",
-		buildSetCookieValue(AUTH_STATE_COOKIE, "signedIn", { secure: options.secure }),
+		buildSetCookieValue(AUTH_STATE_COOKIE, "signedIn", {
+			secure: options.secure,
+			expires: cookieExpiry,
+		}),
 	);
 }
 

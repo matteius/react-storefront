@@ -50,7 +50,7 @@ export function NewsletterSignup({ className = "" }: NewsletterSignupProps) {
 
 	return (
 		<div className={className}>
-			<form onSubmit={handleSubmit} className="mx-auto max-w-lg">
+			<form onSubmit={handleSubmit} className="mx-auto max-w-2xl">
 				<div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
 					<div className="group relative flex-1">
 						{/* Input field with enhanced styling */}
@@ -68,7 +68,7 @@ export function NewsletterSignup({ className = "" }: NewsletterSignupProps) {
 					<button
 						type="submit"
 						disabled={status === "loading"}
-						className="group relative overflow-hidden rounded-xl bg-white px-8 py-4 font-bold text-amber-600 shadow-xl transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-white hover:to-amber-50 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
+						className="group relative overflow-hidden rounded-xl bg-white px-6 py-4 font-bold text-amber-600 shadow-xl transition-all duration-300 hover:scale-105 hover:bg-gradient-to-r hover:from-white hover:to-amber-50 hover:shadow-2xl disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100"
 					>
 						{/* Animated gradient background on hover */}
 						<div className="absolute inset-0 bg-gradient-to-r from-amber-100 via-gold-100 to-yellow-100 opacity-0 transition-opacity duration-300 group-hover:opacity-30"></div>

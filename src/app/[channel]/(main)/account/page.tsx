@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { getCurrentUserWithOrders } from "@/lib/auth";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 
@@ -20,9 +19,10 @@ export default async function AccountPage({ params }: { params: Promise<{ channe
 				<h1 className="text-2xl font-semibold">My account</h1>
 				<p className="mt-3 text-neutral-600">
 					We couldn&apos;t load your account. Please{" "}
-					<Link href="/api/auth/login" className="text-amber-600 underline">
+					{/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+					<a href="/api/auth/login" className="text-amber-600 underline">
 						sign in again
-					</Link>
+					</a>
 					.
 				</p>
 			</div>

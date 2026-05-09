@@ -65,6 +65,12 @@ export async function GET(request: NextRequest) {
 	attachFiefCookiesToResponse(response, tokens, {
 		secure: getStorefrontOrigin().startsWith("https://"),
 	});
+	console.info(
+		`[fief-callback] success: redirecting to ${successTarget.toString()}, ` +
+			`token=${tokens.token ? `set(${tokens.token.length})` : "MISSING"}, ` +
+			`refresh=${tokens.refreshToken ? `set(${tokens.refreshToken.length})` : "MISSING"}, ` +
+			`user=${tokens.user?.email ?? "null"}`,
+	);
 	return response;
 }
 

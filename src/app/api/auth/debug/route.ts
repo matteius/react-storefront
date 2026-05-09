@@ -35,8 +35,7 @@ async function withCapturedFetches<T>(
 			});
 		} else {
 			for (const [k, v] of Object.entries(initHeaders)) {
-				headerEntries[k] =
-					k.toLowerCase() === "authorization" ? `len=${(v ).length}` : (v );
+				headerEntries[k] = k.toLowerCase() === "authorization" ? `len=${v.length}` : v;
 			}
 		}
 		const captured: CapturedFetch = {
@@ -79,6 +78,37 @@ export async function GET() {
 	const access = store.get("saleor_auth_access_token");
 	const refresh = store.get("saleor_auth_module_refresh_token");
 
+	// Peek at what the SDK actually sees from the cookie store.
+	const sdkProbe: Record<string, unknown> = {};
+	try {
+		const { getServerAuthClient } = await import("@/app/config");
+		const client = await getServerAuthClient();
+		// @ts-expect-error - probing private surfaces for diagnostics only
+		const accessHandler = client.accessTokenStorage as {
+			getAccessToken: () => string | null;
+			storage: { getItem: (key: string) => string | null };
+		};
+		// @ts-expect-error - same
+		const refreshHandler = client.refreshTokenStorage as {
+			getRefreshToken: () => string | null;
+		};
+		const sdkAccess = accessHandler.getAccessToken();
+		const sdkRefresh = refreshHandler.getRefreshToken();
+		sdkProbe.sdkAccess = sdkAccess ? `len=${sdkAccess.length}, head=${sdkAccess.slice(0, 30)}` : "null";
+		sdkProbe.sdkRefresh = sdkRefresh ? `len=${sdkRefresh.length}, head=${sdkRefresh.slice(0, 30)}` : "null";
+		// Try direct storage read at a few candidate keys
+		for (const key of [
+			"saleor_auth_access_token",
+			"saleor_auth_module_refresh_token",
+			"saleor_auth_module_auth_state",
+		]) {
+			const v = accessHandler.storage.getItem(key);
+			sdkProbe[`raw:${key}`] = v ? `len=${v.length}, head=${v.slice(0, 30)}` : "null";
+		}
+	} catch (err) {
+		sdkProbe.probeError = err instanceof Error ? err.message : String(err);
+	}
+
 	const captured = await withCapturedFetches(() =>
 		executeGraphQL(CurrentUserDocument, {
 			withAuth: true,
@@ -90,6 +120,7 @@ export async function GET() {
 		data: captured.result,
 		error: captured.error,
 		fetches: captured.calls,
+		sdkProbe,
 	};
 
 	return NextResponse.json({

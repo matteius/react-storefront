@@ -1,0 +1,14 @@
+query SitemapCategories($first: Int!, $after: String) {
+	categories(first: $first, after: $after) {
+		edges {
+			node {
+				slug
+				updatedAt
+			}
+		}
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+	}
+}

@@ -1,0 +1,13 @@
+query SitemapCollections($first: Int!, $after: String, $channel: String!) {
+	collections(first: $first, after: $after, channel: $channel) {
+		edges {
+			node {
+				slug
+			}
+		}
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+	}
+}

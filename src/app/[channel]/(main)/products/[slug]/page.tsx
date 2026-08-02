@@ -9,6 +9,7 @@ import { AddButton } from "./AddButton";
 import { VariantSelector } from "@/ui/components/VariantSelector";
 import { ProductDetailImageGallery } from "@/ui/components/ProductDetailImageGallery";
 import { executeGraphQL } from "@/lib/graphql";
+import { getProductCanonical } from "@/lib/canonical";
 import { formatMoney, formatMoneyRange } from "@/lib/utils";
 import { CheckoutAddLineDocument, ProductDetailsDocument, ProductListDocument } from "@/gql/graphql";
 import * as Checkout from "@/lib/checkout";
@@ -44,9 +45,7 @@ export async function generateMetadata(
 		title: `${product.name} | ${product.seoTitle || (await parent).title?.absolute}`,
 		description: product.seoDescription || productNameAndVariant,
 		alternates: {
-			canonical: process.env.NEXT_PUBLIC_STOREFRONT_URL
-				? process.env.NEXT_PUBLIC_STOREFRONT_URL + `/products/${encodeURIComponent(params.slug)}`
-				: undefined,
+			canonical: getProductCanonical(params.channel, params.slug),
 		},
 		openGraph: product.thumbnail
 			? {
@@ -74,7 +73,7 @@ export async function generateStaticParams({ params }: { params: { channel: stri
 	} catch (error) {
 		// During Docker build, the API may not be accessible
 		// Return empty array to allow build to complete (pages will be generated on-demand)
-		console.warn('generateStaticParams: Could not fetch products, returning empty array:', error);
+		console.warn("generateStaticParams: Could not fetch products, returning empty array:", error);
 		return [];
 	}
 }

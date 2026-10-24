@@ -1,30 +1,45 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700&display=swap");
-@import "react-toastify/dist/ReactToastify.css";
-@import "@adyen/adyen-web/dist/adyen.css";
-@import "./sections/PaymentSection/AdyenDropIn/adyenDropin.css";
+/**
+ * Checkout Module Styles
+ *
+ * Imported by `CheckoutApp` (`src/checkout/checkout-app.tsx`).
+ *
+ * Tailwind utilities are NOT duplicated here - checkout inherits all
+ * Tailwind styles from globals.css (loaded in root layout).
+ */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* =============================================================================
+ * Mobile Order Summary Collapse Animation
+ * Using CSS Grid for smooth height animation without JS measurement
+ * ============================================================================= */
 
-@layer components {
-	.page {
-		@apply min-h-screen bg-gradient-to-br from-slate-50 to-amber-50 font-sans;
-	}
+.order-summary-content {
+	display: grid;
+	transition:
+		grid-template-rows 300ms ease-in-out,
+		opacity 200ms ease-in-out;
+}
 
-	.checkout-section-container {
-		@apply rounded-lg border border-amber-200 bg-white/90 p-4 shadow-sm backdrop-blur-sm;
-	}
+.order-summary-content[data-expanded="false"] {
+	grid-template-rows: 0fr;
+	opacity: 0;
+}
 
-	.checkout-section-header-active {
-		@apply text-lg font-medium text-gray-900;
-	}
+.order-summary-content[data-expanded="true"] {
+	grid-template-rows: 1fr;
+	opacity: 1;
+}
 
-	.checkout-section-header-disabled {
-		@apply text-lg font-medium text-gray-400;
-	}
+.order-summary-content > .order-summary-inner {
+	overflow: hidden;
+	min-height: 0;
+}
 
-	.btn-checkout-section {
-		@apply w-full rounded-md border border-amber-300 bg-gradient-to-r from-amber-100 to-yellow-100 px-4 py-2 text-base font-medium shadow-sm hover:from-amber-200 hover:to-yellow-200 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-opacity-75;
+/* Desktop: always visible */
+@media (min-width: 768px) {
+	.order-summary-content,
+	.order-summary-content[data-expanded="false"],
+	.order-summary-content[data-expanded="true"] {
+		grid-template-rows: 1fr;
+		opacity: 1;
 	}
 }

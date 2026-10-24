@@ -1,3 +1,5 @@
+import { getDefaultLocaleSlug } from "@/config/locale";
+import { safeFiefNextPath, FIEF_LOGIN_STATE_COOKIE } from "@/lib/auth/fief-redirect";
 import { type NextRequest, NextResponse } from "next/server";
 import {
 	attachFiefCookiesToResponse,
@@ -6,22 +8,14 @@ import {
 	type FiefTokenSet,
 	getStorefrontOrigin,
 	POST_LOGIN_REDIRECT_COOKIE,
-} from "@/lib/fief";
-
-export const dynamic = "force-dynamic";
-
-function safeNextPath(raw: string | null | undefined): string {
-	if (!raw) return "/";
-	if (!raw.startsWith("/") || raw.startsWith("//")) return "/";
-	return raw;
-}
+} from "@/lib/auth/fief";
 
 export async function GET(request: NextRequest) {
 	const code = request.nextUrl.searchParams.get("code");
 	const state = request.nextUrl.searchParams.get("state");
 	const error = request.nextUrl.searchParams.get("error");
 	const nextCookie = request.cookies.get(POST_LOGIN_REDIRECT_COOKIE)?.value;
-	const next = safeNextPath(nextCookie);
+	const next = safeFiefNextPath(nextCookie);
 
 	// Use storefront origin from env — nextUrl.origin reflects the internal
 	// pod address behind the Traefik proxy.
@@ -31,13 +25,15 @@ export async function GET(request: NextRequest) {
 		target.searchParams.set("auth_error", error);
 		const response = NextResponse.redirect(target);
 		response.cookies.delete(POST_LOGIN_REDIRECT_COOKIE);
+		response.cookies.set(FIEF_LOGIN_STATE_COOKIE, "", { path: "/api/auth", maxAge: 0 });
 		return response;
 	}
 
-	if (!code || !state) {
+	if (!code || !state || state !== request.cookies.get(FIEF_LOGIN_STATE_COOKIE)?.value) {
 		target.searchParams.set("auth_error", "missing_code_or_state");
 		const response = NextResponse.redirect(target);
 		response.cookies.delete(POST_LOGIN_REDIRECT_COOKIE);
+		response.cookies.set(FIEF_LOGIN_STATE_COOKIE, "", { path: "/api/auth", maxAge: 0 });
 		return response;
 	}
 
@@ -48,11 +44,12 @@ export async function GET(request: NextRequest) {
 			state,
 			redirectUri: buildCallbackUrl(),
 		});
-	} catch (err) {
-		console.error("Fief code exchange failed", err);
+	} catch {
+		console.error("Fief code exchange failed");
 		target.searchParams.set("auth_error", "exchange_failed");
 		const response = NextResponse.redirect(target);
 		response.cookies.delete(POST_LOGIN_REDIRECT_COOKIE);
+		response.cookies.set(FIEF_LOGIN_STATE_COOKIE, "", { path: "/api/auth", maxAge: 0 });
 		return response;
 	}
 
@@ -62,6 +59,7 @@ export async function GET(request: NextRequest) {
 	const successTarget = next === "/" ? buildAccountTarget() : target;
 	const response = NextResponse.redirect(successTarget);
 	response.cookies.delete(POST_LOGIN_REDIRECT_COOKIE);
+	response.cookies.set(FIEF_LOGIN_STATE_COOKIE, "", { path: "/api/auth", maxAge: 0 });
 	attachFiefCookiesToResponse(response, tokens, {
 		secure: getStorefrontOrigin().startsWith("https://"),
 	});
@@ -70,5 +68,5 @@ export async function GET(request: NextRequest) {
 
 function buildAccountTarget(): URL {
 	const channel = process.env.NEXT_PUBLIC_DEFAULT_CHANNEL || "default-channel";
-	return new URL(`/${encodeURIComponent(channel)}/account`, getStorefrontOrigin());
+	return new URL(`/${getDefaultLocaleSlug()}/${encodeURIComponent(channel)}/account`, getStorefrontOrigin());
 }

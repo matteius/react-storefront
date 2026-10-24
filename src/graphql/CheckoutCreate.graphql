@@ -1,5 +1,5 @@
-mutation CheckoutCreate($channel: String!) {
-	checkoutCreate(input: { channel: $channel, lines: [] }) {
+mutation CheckoutCreate($channel: String!, $languageCode: LanguageCodeEnum!, $metadata: [MetadataInput!]) {
+	checkoutCreate(input: { channel: $channel, languageCode: $languageCode, lines: [], metadata: $metadata }) {
 		checkout {
 			id
 			email
@@ -17,7 +17,7 @@ mutation CheckoutCreate($channel: String!) {
 						id
 						name
 						slug
-						thumbnail {
+						thumbnail(size: 256, sizeRounding: UP, format: WEBP) {
 							url
 							alt
 						}

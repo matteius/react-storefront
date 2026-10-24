@@ -1,205 +1,92 @@
-@import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700&display=swap");
+/* postcss-import inlines this BEFORE Tailwind processes */
+@import "../styles/brand.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+	*,
+	*::before,
+	*::after {
+		/* Tokens are bare channels — wrap in oklch() to use as a color (see brand.css). */
+		border-color: oklch(var(--border));
+	}
+	html {
+		scroll-behavior: smooth;
+	}
+	body {
+		background-color: oklch(var(--background));
+		color: oklch(var(--foreground));
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+}
+
+/* Canonical page-width containers — bundle centering + responsive gutters + a width token,
+ * so the `mx-auto max-w-7xl px-4 sm:px-6 lg:px-8` incantation lives in ONE place.
+ * Optional and additive: plain Tailwind (`mx-auto max-w-7xl px-4 …`) still works everywhere.
+ * Width is a design choice — `container-full` is a first-class option, not a hack. */
 @layer components {
-	.btn-blue {
-		@apply rounded-lg bg-blue-600 px-4 py-2 font-semibold text-white shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75;
+	.container-prose,
+	.container-content,
+	.container-wide,
+	.container-super-wide,
+	.container-full,
+	.container-nav {
+		@apply mx-auto w-full px-4 sm:px-6 lg:px-8;
+	}
+	.container-prose {
+		max-width: var(--container-prose);
+	}
+	.container-content {
+		max-width: var(--container-content);
+	}
+	.container-wide {
+		max-width: var(--container-wide);
+	}
+	.container-super-wide {
+		max-width: var(--container-super-wide);
+	}
+	.container-full {
+		max-width: var(--container-full);
+	}
+	/* Header/nav column — width driven by --container-nav (see brand.css). */
+	.container-nav {
+		max-width: var(--container-nav);
 	}
 
-	.checkout-section-container {
-		@apply rounded-lg border border-amber-200 bg-white/90 p-4 shadow-sm backdrop-blur-sm;
-	}
-
-	.checkout-section-header-active {
-		@apply text-lg font-medium text-gray-900;
-	}
-	.checkout-section-header-disabled {
-		@apply text-lg font-medium text-gray-400;
-	}
-
-	.btn-checkout-section {
-		@apply w-full rounded-md border border-amber-300 bg-gradient-to-r from-amber-100 to-yellow-100 px-4 py-2 text-base font-medium shadow-sm hover:from-amber-200 hover:to-yellow-200 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:ring-opacity-75;
-	}
-
-	.glass-effect {
-		@apply border border-white/20 bg-white/80 backdrop-blur-sm;
-	}
-
-	.gradient-text {
-		@apply bg-gradient-to-r from-amber-600 to-yellow-600 bg-clip-text text-transparent;
-	}
-
-	.coin-shimmer {
-		position: relative;
-		overflow: hidden;
-	}
-
-	.coin-shimmer::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: -100%;
-		width: 100%;
-		height: 100%;
-		background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-		animation: shimmer 2s infinite;
-	}
-
-	.floating-animation {
-		animation: float 6s ease-in-out infinite;
-	}
-
-	.pulse-glow {
-		animation: pulse-glow 2s ease-in-out infinite alternate;
-	}
-
-	.nav-icon-container {
-		@apply flex items-center justify-center rounded-lg p-2 transition-all duration-300 ease-in-out;
-		@apply hover:bg-white/10 hover:shadow-lg hover:shadow-gold-400/20 hover:backdrop-blur-sm;
-	}
-
-	.nav-search-container {
-		@apply flex items-center justify-center transition-all duration-300 ease-in-out;
-		@apply hover:shadow-lg hover:shadow-gold-400/20;
-	}
-
-	.nav-enhanced {
-		position: relative;
-	}
-
-	.nav-enhanced::before {
-		content: "";
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-		border-radius: inherit;
-		pointer-events: none;
-	}
-
-	/* Navigation overflow handling */
-	.nav-links-container {
-		scrollbar-width: none; /* Firefox */
-		-ms-overflow-style: none; /* Internet Explorer 10+ */
-		max-width: 100%;
-	}
-
-	.nav-links-container::-webkit-scrollbar {
-		display: none; /* WebKit */
-	}
-
-	/* Ensure nav items don't shrink too much */
-	.nav-link-item {
-		flex-shrink: 0;
-		white-space: nowrap;
-		min-width: fit-content;
-	}
-
-	/* Prevent navigation items from wrapping */
-	@media (min-width: 768px) {
-		.nav-links-container {
-			flex-wrap: nowrap;
-			overflow-x: auto;
-		}
-	}
-
-	/* Enhanced navigation layout for better space management */
-	@media (min-width: 1024px) {
-		.nav-links-container {
-			/* Add subtle fade effect at edges when scrolling */
-			mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-			-webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%);
-		}
-
-		/* Remove mask when not overflowing */
-		.nav-links-container:not([data-overflowing="true"]) {
-			mask-image: none;
-			-webkit-mask-image: none;
-		}
-	}
-
-	/* Improved responsive navigation spacing */
-	@media (min-width: 768px) and (max-width: 1023px) {
-		.nav-link-item {
-			margin-right: 0.25rem;
-		}
-	}
-
-	@media (min-width: 1024px) {
-		.nav-link-item {
-			margin-right: 0.125rem;
-		}
+	/* Merchandising badge — explicit class so color survives global border reset + JIT cache.
+	 * Tokens are bare channels, so wrap in oklch() (see brand.css). */
+	.badge-bestseller {
+		color: oklch(var(--bestseller));
+		border-color: oklch(var(--bestseller));
 	}
 }
 
-@keyframes shimmer {
-	0% {
-		left: -100%;
+/* Semantic heading tokens use --font-display (Geist default, Fraunces in editorial theme). */
+@layer utilities {
+	.text-display,
+	.text-h1,
+	.text-h2,
+	.text-h3 {
+		font-family: var(--font-display);
 	}
-	100% {
-		left: 100%;
+
+	/* Fraunces reads heavier than Geist at the same weight — ease display headings slightly. */
+	html[data-typography="editorial"] .text-display {
+		font-weight: 600;
+		letter-spacing: -0.02em;
 	}
-}
-
-@keyframes float {
-	0%,
-	100% {
-		transform: translateY(0px);
+	html[data-typography="editorial"] .text-h1 {
+		font-weight: 600;
+		letter-spacing: -0.015em;
 	}
-	50% {
-		transform: translateY(-10px);
+	html[data-typography="editorial"] .text-h2 {
+		font-weight: 500;
+		letter-spacing: -0.01em;
 	}
-}
-
-@keyframes pulse-glow {
-	0% {
-		box-shadow: 0 0 5px rgba(245, 158, 11, 0.5);
+	html[data-typography="editorial"] .text-h3 {
+		font-weight: 500;
 	}
-	100% {
-		box-shadow:
-			0 0 20px rgba(245, 158, 11, 0.8),
-			0 0 30px rgba(245, 158, 11, 0.4);
-	}
-}
-
-/* Smooth scrolling */
-html {
-	scroll-behavior: smooth;
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
-	width: 8px;
-}
-
-::-webkit-scrollbar-track {
-	background: #f1f5f9;
-}
-
-::-webkit-scrollbar-thumb {
-	background: linear-gradient(to bottom, #f59e0b, #eab308);
-	border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: linear-gradient(to bottom, #d97706, #ca8a04);
-}
-
-.dropdown:focus-within .dropdown-menu {
-	opacity: 1;
-	transform: translate(0) scale(1);
-	visibility: visible;
-}
-
-body {
-	overflow-x: hidden;
-}
-
-html {
-	font-size: 100%;
 }

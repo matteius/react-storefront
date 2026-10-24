@@ -4,9 +4,23 @@ query ProductListPaginated(
 	$last: Int
 	$before: String
 	$channel: String!
+	$languageCode: LanguageCodeEnum!
 	$sortBy: ProductOrder
+	$filter: ProductFilterInput
+	$where: ProductWhereInput
+	$search: String
 ) {
-	products(first: $first, after: $after, last: $last, before: $before, channel: $channel, sortBy: $sortBy) {
+	products(
+		first: $first
+		after: $after
+		last: $last
+		before: $before
+		channel: $channel
+		sortBy: $sortBy
+		filter: $filter
+		where: $where
+		search: $search
+	) {
 		totalCount
 		edges {
 			node {

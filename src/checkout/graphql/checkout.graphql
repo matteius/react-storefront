@@ -51,6 +51,9 @@ fragment CheckoutFragment on Checkout {
 		id
 		slug
 	}
+	user {
+		id
+	}
 	shippingAddress {
 		...AddressFragment
 	}
@@ -60,29 +63,23 @@ fragment CheckoutFragment on Checkout {
 	authorizeStatus
 	chargeStatus
 	isShippingRequired
-	user {
-		id
-		email
-	}
 	availablePaymentGateways {
 		...PaymentGatewayFragment
 	}
-	deliveryMethod {
-		... on ShippingMethod {
+	delivery {
+		id
+		shippingMethod {
 			id
-		}
-		... on Warehouse {
-			id
+			name
 		}
 	}
-	shippingMethods {
-		id
-		name
-		price {
-			...Money
+	problems {
+		... on CheckoutProblemDeliveryMethodStale {
+			__typename
 		}
-		maximumDeliveryDays
-		minimumDeliveryDays
+		... on CheckoutProblemDeliveryMethodInvalid {
+			__typename
+		}
 	}
 	totalPrice {
 		gross {
@@ -152,13 +149,13 @@ fragment CheckoutLineFragment on CheckoutLine {
 			media {
 				alt
 				type
-				url(size: 72)
+				url(size: 72, sizeRounding: UP)
 			}
 		}
 		media {
 			alt
 			type
-			url(size: 72)
+			url(size: 72, sizeRounding: UP)
 		}
 	}
 }
@@ -181,9 +178,19 @@ fragment AddressFragment on Address {
 	lastName
 }
 
-query checkout($id: ID!, $languageCode: LanguageCodeEnum) {
+query checkout($id: ID!, $languageCode: LanguageCodeEnum!) {
 	checkout(id: $id) {
 		...CheckoutFragment
+	}
+}
+
+query checkoutCommerceContext($id: ID!) {
+	checkout(id: $id) {
+		id
+		metadata {
+			key
+			value
+		}
 	}
 }
 
@@ -198,7 +205,7 @@ query channel($slug: String!) {
 mutation checkoutLinesUpdate(
 	$checkoutId: ID!
 	$lines: [CheckoutLineUpdateInput!]!
-	$languageCode: LanguageCodeEnum
+	$languageCode: LanguageCodeEnum!
 ) {
 	checkoutLinesUpdate(id: $checkoutId, lines: $lines) {
 		errors {
@@ -210,7 +217,7 @@ mutation checkoutLinesUpdate(
 	}
 }
 
-mutation checkoutLineDelete($checkoutId: ID!, $lineId: ID, $languageCode: LanguageCodeEnum) {
+mutation checkoutLineDelete($checkoutId: ID!, $lineId: ID, $languageCode: LanguageCodeEnum!) {
 	checkoutLineDelete(id: $checkoutId, lineId: $lineId) {
 		errors {
 			...CheckoutErrorFragment
@@ -221,7 +228,7 @@ mutation checkoutLineDelete($checkoutId: ID!, $lineId: ID, $languageCode: Langua
 	}
 }
 
-mutation checkoutEmailUpdate($email: String!, $checkoutId: ID!, $languageCode: LanguageCodeEnum) {
+mutation checkoutEmailUpdate($email: String!, $checkoutId: ID!, $languageCode: LanguageCodeEnum!) {
 	checkoutEmailUpdate(email: $email, id: $checkoutId) {
 		errors {
 			...CheckoutErrorFragment
@@ -232,8 +239,56 @@ mutation checkoutEmailUpdate($email: String!, $checkoutId: ID!, $languageCode: L
 	}
 }
 
-mutation checkoutCustomerAttach($checkoutId: ID!, $languageCode: LanguageCodeEnum) {
+mutation checkoutMetadataUpdate($id: ID!, $input: [MetadataInput!]!) {
+	updateMetadata(id: $id, input: $input) {
+		errors {
+			field
+			code
+			message
+		}
+		item {
+			... on Checkout {
+				id
+			}
+		}
+	}
+}
+
+mutation checkoutCustomerAttach($checkoutId: ID!, $languageCode: LanguageCodeEnum!) {
 	checkoutCustomerAttach(id: $checkoutId) {
+		errors {
+			...CheckoutErrorFragment
+		}
+		checkout {
+			...CheckoutFragment
+		}
+	}
+}
+
+mutation checkoutCustomerDetach($checkoutId: ID!, $languageCode: LanguageCodeEnum!) {
+	checkoutCustomerDetach(id: $checkoutId) {
+		errors {
+			...CheckoutErrorFragment
+		}
+		checkout {
+			...CheckoutFragment
+		}
+	}
+}
+
+mutation checkoutCreate($channel: String!, $languageCode: LanguageCodeEnum!, $metadata: [MetadataInput!]) {
+	checkoutCreate(input: { channel: $channel, languageCode: $languageCode, lines: [], metadata: $metadata }) {
+		errors {
+			...CheckoutErrorFragment
+		}
+		checkout {
+			...CheckoutFragment
+		}
+	}
+}
+
+mutation checkoutLinesAdd($checkoutId: ID!, $lines: [CheckoutLineInput!]!, $languageCode: LanguageCodeEnum!) {
+	checkoutLinesAdd(id: $checkoutId, lines: $lines) {
 		errors {
 			...CheckoutErrorFragment
 		}
@@ -246,12 +301,14 @@ mutation checkoutCustomerAttach($checkoutId: ID!, $languageCode: LanguageCodeEnu
 mutation checkoutShippingAddressUpdate(
 	$checkoutId: ID!
 	$shippingAddress: AddressInput!
+	$saveAddress: Boolean
 	$validationRules: CheckoutAddressValidationRules
-	$languageCode: LanguageCodeEnum
+	$languageCode: LanguageCodeEnum!
 ) {
 	checkoutShippingAddressUpdate(
 		id: $checkoutId
 		shippingAddress: $shippingAddress
+		saveAddress: $saveAddress
 		validationRules: $validationRules
 	) {
 		errors {
@@ -266,12 +323,14 @@ mutation checkoutShippingAddressUpdate(
 mutation checkoutBillingAddressUpdate(
 	$checkoutId: ID!
 	$billingAddress: AddressInput!
+	$saveAddress: Boolean
 	$validationRules: CheckoutAddressValidationRules
-	$languageCode: LanguageCodeEnum
+	$languageCode: LanguageCodeEnum!
 ) {
 	checkoutBillingAddressUpdate(
 		id: $checkoutId
 		billingAddress: $billingAddress
+		saveAddress: $saveAddress
 		validationRules: $validationRules
 	) {
 		errors {
@@ -286,7 +345,7 @@ mutation checkoutBillingAddressUpdate(
 mutation checkoutDeliveryMethodUpdate(
 	$checkoutId: ID!
 	$deliveryMethodId: ID!
-	$languageCode: LanguageCodeEnum
+	$languageCode: LanguageCodeEnum!
 ) {
 	checkoutDeliveryMethodUpdate(id: $checkoutId, deliveryMethodId: $deliveryMethodId) {
 		errors {
@@ -304,7 +363,7 @@ query addressValidationRules($countryCode: CountryCode!) {
 	}
 }
 
-mutation checkoutAddPromoCode($checkoutId: ID, $promoCode: String!, $languageCode: LanguageCodeEnum) {
+mutation checkoutAddPromoCode($checkoutId: ID, $promoCode: String!, $languageCode: LanguageCodeEnum!) {
 	checkoutAddPromoCode(checkoutId: $checkoutId, promoCode: $promoCode) {
 		errors {
 			...CheckoutErrorFragment
@@ -319,7 +378,7 @@ mutation checkoutRemovePromoCode(
 	$checkoutId: ID
 	$promoCode: String
 	$promoCodeId: ID
-	$languageCode: LanguageCodeEnum
+	$languageCode: LanguageCodeEnum!
 ) {
 	checkoutRemovePromoCode(checkoutId: $checkoutId, promoCode: $promoCode, promoCodeId: $promoCodeId) {
 		errors {
@@ -338,7 +397,38 @@ mutation checkoutComplete($checkoutId: ID!) {
 		}
 		order {
 			id
-			number
+			channel {
+				slug
+			}
+			total {
+				gross {
+					amount
+					currency
+				}
+			}
+		}
+	}
+}
+
+mutation deliveryOptionsCalculate($id: ID!) {
+	deliveryOptionsCalculate(id: $id) {
+		deliveries {
+			id
+			shippingMethod {
+				id
+				name
+				active
+				price {
+					...Money
+				}
+				minimumDeliveryDays
+				maximumDeliveryDays
+			}
+		}
+		errors {
+			field
+			message
+			code
 		}
 	}
 }

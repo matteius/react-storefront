@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { checkRateLimit, getClientIp, rateLimitResponse } from "@/lib/auth/auth-rate-limit";
 import Mailjet from "node-mailjet";
 
 function getMailjetClient() {
@@ -9,11 +10,13 @@ function getMailjetClient() {
 }
 
 export async function POST(request: NextRequest) {
+	const limit = checkRateLimit(`newsletter:${getClientIp(request)}`);
+	if (!limit.allowed) return rateLimitResponse(limit.retryAfterSeconds);
 	try {
 		const body = await request.json();
 		const { email } = body as { email: string };
 
-		if (!email) {
+		if (typeof email !== "string" || !email || email.length > 254) {
 			return NextResponse.json({ error: "Email is required" }, { status: 400 });
 		}
 
@@ -121,7 +124,7 @@ If you no longer wish to receive these emails, you can unsubscribe at any time.`
 
 		return NextResponse.json({ message: "Successfully subscribed to newsletter!" }, { status: 200 });
 	} catch (error: unknown) {
-		console.error("Newsletter subscription error:", error);
+		console.error("Newsletter subscription failed");
 
 		// Handle specific Mailjet errors
 		if (error && typeof error === "object" && "statusCode" in error && "message" in error) {

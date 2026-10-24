@@ -1,16 +1,9 @@
+import { safeFiefNextPath } from "@/lib/auth/fief-redirect";
 import { type NextRequest, NextResponse } from "next/server";
-import { clearFiefTokens, fiefLogout, getStorefrontOrigin } from "@/lib/fief";
-
-export const dynamic = "force-dynamic";
-
-function safeNextPath(raw: string | null): string {
-	if (!raw) return "/";
-	if (!raw.startsWith("/") || raw.startsWith("//")) return "/";
-	return raw;
-}
+import { clearFiefTokens, fiefLogout, getStorefrontOrigin } from "@/lib/auth/fief";
 
 async function handle(request: NextRequest) {
-	const next = safeNextPath(request.nextUrl.searchParams.get("next"));
+	const next = safeFiefNextPath(request.nextUrl.searchParams.get("next"));
 	const target = new URL(next, getStorefrontOrigin());
 
 	const { refreshToken } = await clearFiefTokens();
@@ -19,8 +12,8 @@ async function handle(request: NextRequest) {
 	if (refreshToken) {
 		try {
 			endSessionUrl = await fiefLogout(refreshToken);
-		} catch (err) {
-			console.error("Fief logout failed", err);
+		} catch {
+			console.error("Fief logout failed");
 		}
 	}
 

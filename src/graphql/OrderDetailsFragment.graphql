@@ -12,12 +12,18 @@ fragment OrderDetails on Order {
 		variant {
 			id
 			name
+			translation(languageCode: $languageCode) {
+				name
+			}
 			product {
 				id
 				name
 				description
 				slug
-				thumbnail {
+				translation(languageCode: $languageCode) {
+					name
+				}
+				thumbnail(size: 256, sizeRounding: UP, format: WEBP) {
 					url
 					alt
 				}
@@ -37,5 +43,7 @@ fragment OrderDetails on Order {
 		}
 		quantity
 	}
+	status
+	statusDisplay
 	paymentStatus
 }

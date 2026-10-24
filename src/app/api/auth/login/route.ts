@@ -1,27 +1,65 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { safeFiefNextPath, FIEF_LOGIN_STATE_COOKIE } from "@/lib/auth/fief-redirect";
+import { NextRequest, NextResponse } from "next/server";
+import { httpStatusForAuthErrors } from "@/lib/auth/auth-api-utils";
+import { rejectIfRateLimited } from "@/lib/auth/auth-rate-limit";
+import { signInWithPassword } from "@/lib/auth/bff-server";
+
+interface LoginRequest {
+	email: string;
+	password: string;
+}
+
+export async function POST(request: NextRequest) {
+	const rateLimited = rejectIfRateLimited(request, "login");
+	if (rateLimited) {
+		return rateLimited;
+	}
+
+	let body: LoginRequest;
+	try {
+		body = (await request.json()) as LoginRequest;
+	} catch {
+		return NextResponse.json(
+			{ errors: [{ message: "Invalid request body", code: "INVALID_JSON" }] },
+			{ status: 400 },
+		);
+	}
+
+	const { email, password } = body;
+
+	if (!email || !password) {
+		return NextResponse.json(
+			{ errors: [{ message: "Email and password are required", code: "REQUIRED" }] },
+			{ status: 400 },
+		);
+	}
+
+	const result = await signInWithPassword(email, password);
+
+	if (!result.ok) {
+		return NextResponse.json({ errors: result.errors }, { status: httpStatusForAuthErrors(result.errors) });
+	}
+
+	return NextResponse.json({ ok: true });
+}
+
 import {
 	buildCallbackUrl,
 	getStorefrontOrigin,
 	initiateFiefLogin,
 	POST_LOGIN_REDIRECT_COOKIE,
-} from "@/lib/fief";
-
-export const dynamic = "force-dynamic";
-
-function safeNextPath(raw: string | null): string {
-	if (!raw) return "/";
-	if (!raw.startsWith("/") || raw.startsWith("//")) return "/";
-	return raw;
-}
+} from "@/lib/auth/fief";
 
 export async function GET(request: NextRequest) {
-	const next = safeNextPath(request.nextUrl.searchParams.get("next"));
+	const limited = rejectIfRateLimited(request, "login");
+	if (limited) return limited;
+	const next = safeFiefNextPath(request.nextUrl.searchParams.get("next"));
 
 	let authorizationUrl: string;
 	try {
 		authorizationUrl = await initiateFiefLogin(buildCallbackUrl());
-	} catch (error) {
-		console.error("Fief login init failed", error);
+	} catch {
+		console.error("Fief login init failed");
 		// Use NEXT_PUBLIC_STOREFRONT_URL — request.nextUrl.origin reflects the
 		// internal pod address behind the Traefik proxy (e.g. localhost:3000).
 		const fallback = new URL(next, getStorefrontOrigin());
@@ -29,11 +67,20 @@ export async function GET(request: NextRequest) {
 		return NextResponse.redirect(fallback);
 	}
 
+	const state = new URL(authorizationUrl).searchParams.get("state");
+	if (!state) return NextResponse.json({ error: "Authentication unavailable" }, { status: 502 });
 	const response = NextResponse.redirect(authorizationUrl);
+	response.cookies.set(FIEF_LOGIN_STATE_COOKIE, state, {
+		httpOnly: true,
+		sameSite: "lax",
+		secure: getStorefrontOrigin().startsWith("https://"),
+		path: "/api/auth",
+		maxAge: 600,
+	});
 	response.cookies.set(POST_LOGIN_REDIRECT_COOKIE, next, {
 		httpOnly: true,
 		sameSite: "lax",
-		secure: request.nextUrl.protocol === "https:",
+		secure: getStorefrontOrigin().startsWith("https://"),
 		path: "/",
 		maxAge: 600,
 	});

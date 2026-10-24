@@ -28,6 +28,7 @@ COPY ./messages ./messages/
 COPY ./public ./public/
 COPY ./src ./src/
 COPY ./scripts ./scripts/
+COPY ./eslint ./eslint/
 
 # Disable telemetry (build + runtime)
 ENV NEXT_TELEMETRY_DISABLED=1

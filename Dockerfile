@@ -1,4 +1,4 @@
-FROM node:20-alpine AS base
+FROM node:24.22.1-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -10,6 +10,7 @@ ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
 
+RUN corepack enable
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm i --frozen-lockfile --prefer-offline
 

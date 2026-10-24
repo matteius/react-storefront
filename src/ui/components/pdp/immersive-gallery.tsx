@@ -59,7 +59,6 @@ export function ImmersiveGallery({ images, productName }: ImmersiveGalleryProps)
 	}, [api, syncFromApi]);
 
 	React.useEffect(() => {
-		setSelectedIndex(0);
 		api?.scrollTo(0, true);
 	}, [imagesKey, api]);
 

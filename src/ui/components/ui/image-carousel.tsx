@@ -84,7 +84,6 @@ export function ImageCarousel({
 	// Reset to first image when images array changes (e.g., variant switch)
 	const imagesKey = images.map((img) => img.url).join(",");
 	React.useEffect(() => {
-		setSelectedIndex(0);
 		api?.scrollTo(0, true); // true = instant scroll (no animation)
 	}, [imagesKey, api]);
 

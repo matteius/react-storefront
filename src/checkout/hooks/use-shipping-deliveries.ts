@@ -8,6 +8,7 @@ import { shippingDeliveriesCacheKey } from "@/checkout/lib/shipping-deliveries";
 export function useShippingDeliveries(checkout: ServerCheckout | null, isActive: boolean) {
 	const [deliveries, setDeliveries] = useState<DeliveryOption[]>([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const [loadedKey, setLoadedKey] = useState<string | null>(null);
 	const loadedKeyRef = useRef<string | null>(null);
 	const prevStaleRef = useRef(false);
 
@@ -29,6 +30,7 @@ export function useShippingDeliveries(checkout: ServerCheckout | null, isActive:
 					setDeliveries([]);
 				}
 				loadedKeyRef.current = key;
+				setLoadedKey(key);
 			} finally {
 				setIsLoading(false);
 			}
@@ -51,7 +53,7 @@ export function useShippingDeliveries(checkout: ServerCheckout | null, isActive:
 	}, [isStale, isActive, checkout, loadDeliveries]);
 
 	const cacheKey = isActive && checkout ? shippingDeliveriesCacheKey(checkout) : null;
-	const awaitingFetch = cacheKey !== null && loadedKeyRef.current !== cacheKey;
+	const awaitingFetch = cacheKey !== null && loadedKey !== cacheKey;
 
 	return { deliveries, isLoading: isLoading || awaitingFetch };
 }

@@ -14,10 +14,10 @@ export const defaultStorefrontContent = {
 	// numbers into strings, so the cart math, announcement, and trust labels never drift.
 	policies: {
 		shipping: {
-			freeShippingThreshold: 75,
+			freeShippingThreshold: 20,
 		},
 		returns: {
-			windowDays: 30,
+			windowDays: 7,
 		},
 	},
 	chrome: {
@@ -36,7 +36,7 @@ export const defaultStorefrontContent = {
 	surfaces: {
 		homepage: {
 			hero: {
-				heading: "Discover our collection",
+				heading: "Discover collectible coins",
 				subheading: brandConfig.tagline,
 				primaryCtaLabel: "Shop all",
 			},
@@ -52,8 +52,8 @@ export const defaultStorefrontContent = {
 			brandStory: {
 				heading: "Our story",
 				paragraphs: [
-					"Tell shoppers who you are and what you stand for.",
-					"Edit this copy in Dashboard → Models → Storefront — Homepage.",
+					"Mattscoinage brings collectors authentic coins, currency and precious metals.",
+					"Founded in 2022 and operated by OpenSensor Engineering LLC in Maine, USA.",
 				],
 			},
 			values: {
@@ -61,22 +61,22 @@ export const defaultStorefrontContent = {
 				columns: [
 					{
 						title: "Quality",
-						text: "Share what makes your products worth choosing.",
+						text: "Authentic collectibles with detailed descriptions and photographs.",
 					},
 					{
 						title: "Shipping",
-						text: "Describe how and when orders arrive.",
+						text: "Orders ship within seven business days of payment and acknowledgement.",
 					},
 					{
 						title: "Returns",
-						text: "Easy returns within {returnsWindowDays} days.",
+						text: "Request return authorization within {returnsWindowDays} days. See our return policy for conditions and fees.",
 					},
 				],
 				columnsDesktop: 3,
 			},
 			editorial: {
 				heading: "From the shop",
-				paragraphs: ["Highlight a collection, seasonal story, or campaign — then edit this block in Models."],
+				paragraphs: ["Explore coins, currency and precious metals for your collection."],
 				imagePosition: "right",
 				ctaLabel: "Explore collections",
 				image: null,

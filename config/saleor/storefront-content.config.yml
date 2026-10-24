@@ -230,8 +230,8 @@ models:
     modelType: Storefront — Policies
     isPublished: true
     attributes:
-      Free shipping threshold: 75
-      Returns window days: 30
+      Free shipping threshold: 20
+      Returns window days: 7
   - title: Storefront Chrome
     slug: storefront-chrome
     modelType: Storefront — Chrome
@@ -255,7 +255,7 @@ models:
     isPublished: true
     attributes:
       Hero eyebrow: ""
-      Hero heading: Discover our collection
+      Hero heading: Discover collectible coins
       Hero subheading: Collectible coins, precious metals and numismatic treasures.
       Hero CTA label: Shop all
       Featured heading: Featured products
@@ -264,18 +264,18 @@ models:
       Categories heading: Shop by category
       Categories eyebrow: ""
       Brand story heading: Our story
-      Brand story paragraph 1: Tell shoppers who you are and what you stand for.
-      Brand story paragraph 2: Edit this copy in Dashboard → Models → Storefront — Homepage.
+      Brand story paragraph 1: Mattscoinage brings collectors authentic coins, currency and precious metals.
+      Brand story paragraph 2: Founded in 2022 and operated by OpenSensor Engineering LLC in Maine, USA.
       Values heading: Why shop with us
       Values columns desktop: 3
       Values column 1 title: Quality
-      Values column 1 text: Share what makes your products worth choosing.
+      Values column 1 text: Authentic collectibles with detailed descriptions and photographs.
       Values column 2 title: Shipping
-      Values column 2 text: Describe how and when orders arrive.
+      Values column 2 text: Orders ship within seven business days of payment and acknowledgement.
       Values column 3 title: Returns
-      Values column 3 text: Easy returns within {returnsWindowDays} days.
+      Values column 3 text: Request return authorization within {returnsWindowDays} days. See our return policy for conditions and fees.
       Editorial heading: From the shop
-      Editorial paragraph 1: Highlight a collection, seasonal story, or campaign — then edit this block in Models.
+      Editorial paragraph 1: Explore coins, currency and precious metals for your collection.
       Editorial image position: right
       Editorial CTA label: Explore collections
       Photo credits: "[]"

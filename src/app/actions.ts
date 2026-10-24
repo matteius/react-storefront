@@ -1,8 +1,3 @@
 "use server";
 
-import { getServerAuthClient } from "@/app/config";
-
-export async function logout() {
-	"use server";
-	(await getServerAuthClient()).signOut();
-}
+// No server actions needed - account functionality removed

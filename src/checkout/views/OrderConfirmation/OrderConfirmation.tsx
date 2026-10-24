@@ -2,12 +2,24 @@ import { Suspense } from "react";
 import { Summary, SummarySkeleton } from "@/checkout/sections/Summary";
 import { OrderInfo } from "@/checkout/sections/OrderInfo";
 import { useOrder } from "@/checkout/hooks/useOrder";
+import { TrustPilotReviewCollector } from "@/ui/components/TrustPilot";
+import { GoogleAdsConversion } from "@/ui/components/GoogleAdsConversion";
 
 export const OrderConfirmation = () => {
 	const { order } = useOrder();
 
+	// Extract order total and currency for Google Ads conversion tracking
+	const orderTotal = order?.total?.gross?.amount ?? 0;
+	const currency = order?.total?.gross?.currency ?? "USD";
+
 	return (
 		<main className="grid grid-cols-1 gap-x-16 lg:grid-cols-2">
+			{/* Google Ads Purchase Conversion Tracking */}
+			<GoogleAdsConversion
+				orderId={order.number}
+				orderTotal={orderTotal}
+				currency={currency}
+			/>
 			<div>
 				<header>
 					<p className="mb-2 text-lg font-bold" data-testid="orderConfrmationTitle">
@@ -19,6 +31,20 @@ export const OrderConfirmation = () => {
 					</p>
 				</header>
 				<OrderInfo />
+
+				{/* TrustPilot Review Collector */}
+				<div className="mt-8">
+					<div className="rounded-lg border border-amber-200 bg-amber-50 p-6">
+						<h3 className="mb-4 text-lg font-semibold text-amber-900">
+							Help Other Collectors - Share Your Experience!
+						</h3>
+						<p className="mb-4 text-sm text-amber-700">
+							Your feedback helps fellow coin enthusiasts make informed decisions. Please take a moment to
+							review your experience with Matt&apos;s Coinage.
+						</p>
+						<TrustPilotReviewCollector className="mt-4" />
+					</div>
+				</div>
 			</div>
 			<Suspense fallback={<SummarySkeleton />}>
 				<Summary

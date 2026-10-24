@@ -7,12 +7,14 @@ import { invariant } from "ts-invariant";
 import { type WithContext, type Product } from "schema-dts";
 import { AddButton } from "./AddButton";
 import { VariantSelector } from "@/ui/components/VariantSelector";
-import { ProductImageWrapper } from "@/ui/atoms/ProductImageWrapper";
+import { ProductDetailImageGallery } from "@/ui/components/ProductDetailImageGallery";
 import { executeGraphQL } from "@/lib/graphql";
+import { getProductCanonical } from "@/lib/canonical";
 import { formatMoney, formatMoneyRange } from "@/lib/utils";
 import { CheckoutAddLineDocument, ProductDetailsDocument, ProductListDocument } from "@/gql/graphql";
 import * as Checkout from "@/lib/checkout";
 import { AvailabilityMessage } from "@/ui/components/AvailabilityMessage";
+import { TrustPilotReviewInvite } from "@/ui/components/TrustPilot";
 
 export async function generateMetadata(
 	props: {
@@ -43,9 +45,7 @@ export async function generateMetadata(
 		title: `${product.name} | ${product.seoTitle || (await parent).title?.absolute}`,
 		description: product.seoDescription || productNameAndVariant,
 		alternates: {
-			canonical: process.env.NEXT_PUBLIC_STOREFRONT_URL
-				? process.env.NEXT_PUBLIC_STOREFRONT_URL + `/products/${encodeURIComponent(params.slug)}`
-				: undefined,
+			canonical: getProductCanonical(params.channel, params.slug),
 		},
 		openGraph: product.thumbnail
 			? {
@@ -61,14 +61,21 @@ export async function generateMetadata(
 }
 
 export async function generateStaticParams({ params }: { params: { channel: string } }) {
-	const { products } = await executeGraphQL(ProductListDocument, {
-		revalidate: 60,
-		variables: { first: 20, channel: params.channel },
-		withAuth: false,
-	});
+	try {
+		const { products } = await executeGraphQL(ProductListDocument, {
+			revalidate: 60,
+			variables: { first: 20, channel: params.channel },
+			withAuth: false,
+		});
 
-	const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
-	return paths;
+		const paths = products?.edges.map(({ node: { slug } }) => ({ slug })) || [];
+		return paths;
+	} catch (error) {
+		// During Docker build, the API may not be accessible
+		// Return empty array to allow build to complete (pages will be generated on-demand)
+		console.warn("generateStaticParams: Could not fetch products, returning empty array:", error);
+		return [];
+	}
 }
 
 const parser = edjsHTML();
@@ -119,6 +126,7 @@ export default async function Page(props: {
 				productVariantId: decodeURIComponent(selectedVariantID),
 			},
 			cache: "no-cache",
+			withAuth: true,
 		});
 
 		revalidatePath("/cart");
@@ -178,15 +186,12 @@ export default async function Page(props: {
 			/>
 			<form className="grid gap-2 sm:grid-cols-2 lg:grid-cols-8" action={addItem}>
 				<div className="md:col-span-1 lg:col-span-5">
-					{firstImage && (
-						<ProductImageWrapper
-							priority={true}
-							alt={firstImage.alt ?? ""}
-							width={1024}
-							height={1024}
-							src={firstImage.url}
-						/>
-					)}
+					<ProductDetailImageGallery
+						images={product.media || []}
+						productName={product.name}
+						thumbnailUrl={firstImage?.url}
+						thumbnailAlt={firstImage?.alt}
+					/>
 				</div>
 				<div className="flex flex-col pt-6 sm:col-span-1 sm:px-6 sm:pt-0 lg:col-span-3 lg:pt-16">
 					<div>
@@ -207,7 +212,12 @@ export default async function Page(props: {
 						)}
 						<AvailabilityMessage isAvailable={isAvailable} />
 						<div className="mt-8">
-							<AddButton disabled={!selectedVariantID || !selectedVariant?.quantityAvailable} />
+							<AddButton
+								disabled={!selectedVariantID || !selectedVariant?.quantityAvailable}
+								productName={product.name}
+								productPrice={selectedVariant?.pricing?.price?.gross?.amount}
+								currency={selectedVariant?.pricing?.price?.gross?.currency ?? "USD"}
+							/>
 						</div>
 						{description && (
 							<div className="mt-8 space-y-6 text-sm text-neutral-500">
@@ -216,6 +226,11 @@ export default async function Page(props: {
 								))}
 							</div>
 						)}
+
+						{/* TrustPilot Review Invitation */}
+						<div className="mt-8">
+							<TrustPilotReviewInvite businessunitId="68e97c5feaeab4d0f7b9e85e" domain="mattscoinage.com" />
+						</div>
 					</div>
 				</div>
 			</form>

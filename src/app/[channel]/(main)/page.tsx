@@ -1,16 +1,22 @@
 import { ProductListByCollectionDocument } from "@/gql/graphql";
 import { executeGraphQL } from "@/lib/graphql";
 import { ProductList } from "@/ui/components/ProductList";
+import { ProductElement } from "@/ui/components/ProductElement";
+import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
+import { NewsletterSignup } from "@/ui/components/NewsletterSignup";
+import { TrustPilotWidget } from "@/ui/components/TrustPilot";
 
 export const metadata = {
-	title: "ACME Storefront, powered by Saleor & Next.js",
+	title: "Matt's Coinage - Premium Collectible Coins & Bullion",
 	description:
-		"Storefront Next.js Example for building performant e-commerce experiences with Saleor - the composable, headless commerce platform for global brands.",
+		"Discover rare and collectible coins, bullion, and numismatic treasures at Matt's Coinage. Your trusted source for premium collectibles.",
 };
 
 export default async function Page(props: { params: Promise<{ channel: string }> }) {
 	const params = await props.params;
-	const data = await executeGraphQL(ProductListByCollectionDocument, {
+
+	// Fetch featured products
+	const featuredData = await executeGraphQL(ProductListByCollectionDocument, {
 		variables: {
 			slug: "featured-products",
 			channel: params.channel,
@@ -18,16 +24,353 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 		revalidate: 60,
 	});
 
-	if (!data.collection?.products) {
-		return null;
-	}
+	// Fetch sale products
+	const saleData = await executeGraphQL(ProductListByCollectionDocument, {
+		variables: {
+			slug: "sale-items",
+			channel: params.channel,
+		},
+		revalidate: 60,
+	});
 
-	const products = data.collection?.products.edges.map(({ node: product }) => product);
+	const products = featuredData.collection?.products?.edges.map(({ node: product }) => product) || [];
+	const saleProducts = saleData.collection?.products?.edges.map(({ node: product }) => product) || [];
 
 	return (
-		<section className="mx-auto max-w-7xl p-8 pb-16">
-			<h2 className="sr-only">Product list</h2>
-			<ProductList products={products} />
-		</section>
+		<div className="min-h-screen">
+			{/* News Bar */}
+			<div className="relative overflow-hidden bg-gradient-to-r from-gold-600 via-amber-600 to-yellow-600 px-4 py-3 text-white">
+				<div className="absolute inset-0 animate-pulse bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+				<div className="relative z-10 mx-auto max-w-7xl text-center">
+					<p className="flex items-center justify-center gap-2 text-sm font-medium">
+						<span className="animate-bounce">🎉</span>
+						<span>Free shipping on orders over $20</span>
+						<span className="hidden sm:inline">•</span>
+						<span className="hidden sm:inline">
+							We identified and addressed an issue affecting ordering capabilities.
+							<br />
+							Contact support if you encounter difficulty placing an order.
+						</span>
+						<span className="animate-bounce">✨</span>
+					</p>
+				</div>
+			</div>
+
+			{/* Hero Section */}
+			<section className="relative overflow-hidden bg-gradient-to-br from-amber-50 via-gold-50 to-yellow-50 py-12">
+				{/* Background decorative elements */}
+				<div className="absolute inset-0 opacity-10">
+					<div className="absolute left-10 top-10 h-32 w-32 animate-pulse rounded-full bg-gold-400 blur-3xl"></div>
+					<div className="absolute right-20 top-40 h-24 w-24 animate-pulse rounded-full bg-amber-400 blur-2xl delay-1000"></div>
+					<div className="delay-2000 absolute bottom-20 left-1/3 h-40 w-40 animate-pulse rounded-full bg-yellow-400 blur-3xl"></div>
+				</div>
+
+				<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<div className="text-center">
+						<h1 className="gradient-text mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
+							Premium Collectibles
+						</h1>
+						<p className="mx-auto mb-8 max-w-4xl text-base leading-relaxed text-amber-800 md:text-lg">
+							Discover exceptional deals on <span className="font-semibold text-gold-700">rare coins</span>,
+							<span className="font-semibold text-gold-700"> ancient treasures</span>, and
+							<span className="font-semibold text-gold-700"> collectible bullion</span>. Hand-selected pieces
+							at competitive prices with new sale items added regularly.
+						</p>
+						<div className="flex flex-col justify-center gap-4 sm:flex-row">
+							<LinkWithChannel
+								href="/collections/sale-items"
+								className="pulse-glow group relative overflow-hidden rounded-xl bg-gradient-to-r from-gold-600 to-amber-600 px-8 py-3 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-gold-500/25"
+							>
+								<span className="relative z-10">Shop Sale Items</span>
+								<div className="absolute inset-0 bg-gradient-to-r from-gold-700 to-amber-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+							</LinkWithChannel>
+							<LinkWithChannel
+								href="/products"
+								className="border-3 group relative overflow-hidden rounded-xl border-gold-600 bg-white/80 px-8 py-3 font-bold text-gold-700 shadow-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 hover:bg-gold-600 hover:text-white"
+							>
+								<span className="relative z-10">Browse All Collections</span>
+							</LinkWithChannel>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Sale Products Carousel */}
+			{saleProducts.length > 0 && (
+				<section className="relative overflow-hidden bg-gradient-to-br from-red-50 via-rose-50 to-pink-50 py-12">
+					{/* Background decorative elements */}
+					<div className="absolute inset-0 opacity-10">
+						<div className="absolute left-20 top-20 h-40 w-40 animate-pulse rounded-full bg-red-400 blur-3xl"></div>
+						<div className="absolute right-10 top-60 h-32 w-32 animate-pulse rounded-full bg-rose-400 blur-2xl delay-1000"></div>
+						<div className="delay-2000 absolute bottom-10 left-1/2 h-36 w-36 animate-pulse rounded-full bg-pink-400 blur-3xl"></div>
+					</div>
+
+					<div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+						<div className="mb-6 text-center">
+							<div className="mb-2 flex items-center justify-center">
+								<span className="mr-2 animate-bounce text-3xl">🔥</span>
+								<h2 className="text-3xl font-bold text-red-800 md:text-4xl">Hot Sale Items</h2>
+								<span className="ml-2 animate-bounce text-3xl">🔥</span>
+							</div>
+							<p className="mx-auto max-w-3xl text-base text-red-700 md:text-lg">
+								Don&apos;t miss out on these incredible deals!
+							</p>
+						</div>
+
+						{/* Custom grid for sale items - optimized for 3 items */}
+						<div
+							className={`mx-auto grid gap-6 ${
+								saleProducts.length === 1
+									? "max-w-sm grid-cols-1"
+									: saleProducts.length === 2
+										? "max-w-2xl grid-cols-1 sm:grid-cols-2"
+										: saleProducts.length === 3
+											? "max-w-5xl grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+											: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+							}`}
+						>
+							{saleProducts.map((product, index) => (
+								<ProductElement
+									key={product.id}
+									product={product}
+									priority={index < 2}
+									loading={index < 3 ? "eager" : "lazy"}
+								/>
+							))}
+						</div>
+
+						<div className="mt-8 text-center">
+							<LinkWithChannel
+								href="/collections/sale-items"
+								className="group relative inline-flex items-center overflow-hidden rounded-xl bg-gradient-to-r from-red-600 to-rose-600 px-10 py-4 font-bold text-white shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-red-500/25"
+							>
+								<span className="relative z-10 mr-2">View All Sale Items</span>
+								<svg
+									className="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M13 7l5 5m0 0l-5 5m5-5H6"
+									/>
+								</svg>
+								<div className="absolute inset-0 bg-gradient-to-r from-red-700 to-rose-700 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+							</LinkWithChannel>
+						</div>
+					</div>
+				</section>
+			)}
+
+			{/* Featured Categories */}
+			<section className="bg-gradient-to-b from-white to-gray-50 py-20">
+				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<div className="mb-16 text-center">
+						<h2 className="gradient-text mb-4 text-4xl font-bold">Popular Product Categories</h2>
+						<p className="mx-auto max-w-2xl text-lg text-gray-600">
+							Explore our carefully curated collections of premium collectibles
+						</p>
+					</div>
+					<div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+						{/* Ancient Coins Category */}
+						<LinkWithChannel
+							href="/categories/ancient-coins"
+							className="group transform transition-all duration-300 hover:scale-105"
+						>
+							<div className="coin-shimmer relative flex h-full min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-amber-100 via-gold-100 to-yellow-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
+								<div className="flex flex-col items-center">
+									<div className="floating-animation mb-6 text-6xl">🪙</div>
+									<h3 className="mb-4 text-xl font-bold text-amber-800">Ancient Coins</h3>
+								</div>
+								<p className="leading-relaxed text-gray-700">
+									Historical treasures from ancient civilizations
+								</p>
+								<div className="absolute inset-0 bg-gradient-to-br from-gold-400/20 to-amber-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+							</div>
+						</LinkWithChannel>
+
+						{/* Silver Coins Category */}
+						<LinkWithChannel
+							href="/categories/silver"
+							className="group transform transition-all duration-300 hover:scale-105"
+						>
+							<div className="coin-shimmer relative flex h-full min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-slate-100 via-gray-100 to-zinc-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
+								<div className="flex flex-col items-center">
+									<div className="floating-animation mb-6 text-6xl" style={{ animationDelay: "1s" }}>
+										🥈
+									</div>
+									<h3 className="mb-4 text-xl font-bold text-slate-800">Silver Coins</h3>
+								</div>
+								<p className="leading-relaxed text-gray-700">Premium silver collectibles and bullion</p>
+								<div className="absolute inset-0 bg-gradient-to-br from-slate-400/20 to-gray-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+							</div>
+						</LinkWithChannel>
+
+						{/* Gold Coins Category */}
+						<LinkWithChannel
+							href="/categories/gold"
+							className="group transform transition-all duration-300 hover:scale-105"
+						>
+							<div className="coin-shimmer relative flex h-full min-h-[280px] flex-col justify-between overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-100 via-gold-100 to-amber-100 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-2xl">
+								<div className="flex flex-col items-center">
+									<div className="floating-animation mb-6 text-6xl" style={{ animationDelay: "2s" }}>
+										🥇
+									</div>
+									<h3 className="mb-4 text-xl font-bold text-yellow-800">Gold Coins</h3>
+								</div>
+								<p className="leading-relaxed text-gray-700">Rare gold coins and investment pieces</p>
+								<div className="absolute inset-0 bg-gradient-to-br from-gold-400/20 to-yellow-400/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+							</div>
+						</LinkWithChannel>
+					</div>
+				</div>
+			</section>
+
+			{/* Featured Products */}
+			{products.length > 0 && (
+				<section className="bg-gray-50 py-16">
+					<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+						<div className="mb-12 text-center">
+							<h2 className="mb-4 text-3xl font-bold text-amber-900">Featured Products</h2>
+							<p className="mx-auto max-w-2xl text-gray-600">
+								Discover our hand-picked selection of exceptional collectible coins and currency
+							</p>
+						</div>
+						<ProductList products={products} />
+						<div className="mt-12 text-center">
+							<LinkWithChannel
+								href="products"
+								className="inline-block rounded-lg bg-amber-600 px-8 py-3 font-semibold text-white transition-colors duration-200 hover:bg-amber-700"
+							>
+								View All Featured Items
+							</LinkWithChannel>
+						</div>
+					</div>
+				</section>
+			)}
+
+			{/* Why Choose Us */}
+			<section className="bg-gradient-to-b from-gray-50 to-white py-6">
+				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<div className="mb-4 text-center">
+						<h2 className="gradient-text mb-1 text-2xl font-bold">Why Choose Matt&apos;s Coinage?</h2>
+						<p className="mx-auto max-w-2xl text-sm text-gray-600">
+							Your trusted partner in numismatic excellence
+						</p>
+
+						{/* TrustPilot Reviews Widget */}
+						<div className="mx-auto mt-3 max-w-md">
+							<TrustPilotWidget
+								businessunitId="68e97c5feaeab4d0f7b9e85e"
+								domain="mattscoinage.com"
+								variant="standard"
+								className="rounded-lg"
+							/>
+						</div>
+					</div>
+					<div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+						<div className="group transform text-center transition-all duration-300 hover:scale-105">
+							<div className="pulse-glow mx-auto mb-2.5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-amber-100 to-gold-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+								<svg className="h-7 w-7 text-amber-600" fill="currentColor" viewBox="0 0 20 20">
+									<path
+										fillRule="evenodd"
+										d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+										clipRule="evenodd"
+									/>
+								</svg>
+							</div>
+							<h3 className="mb-1 text-lg font-bold text-amber-800">Quality Assured</h3>
+							<p className="text-xs leading-relaxed text-gray-600">
+								Every item is carefully inspected and comes with our satisfaction guarantee
+							</p>
+						</div>
+						<div className="group transform text-center transition-all duration-300 hover:scale-105">
+							<div className="pulse-glow mx-auto mb-2.5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-blue-100 to-indigo-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+								<svg className="h-7 w-7 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+									<path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" />
+								</svg>
+							</div>
+							<h3 className="mb-1 text-lg font-bold text-blue-800">Secure Shipping</h3>
+							<p className="text-xs leading-relaxed text-gray-600">
+								Professional packaging with full insurance and real-time tracking
+							</p>
+						</div>
+						<div className="group transform text-center transition-all duration-300 hover:scale-105">
+							<div className="pulse-glow mx-auto mb-2.5 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-green-100 to-emerald-200 shadow-lg transition-all duration-300 group-hover:shadow-xl">
+								<svg className="h-7 w-7 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+									<path
+										fillRule="evenodd"
+										d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+										clipRule="evenodd"
+									/>
+								</svg>
+							</div>
+							<h3 className="mb-1 text-lg font-bold text-green-800">Expert Support</h3>
+							<p className="text-xs leading-relaxed text-gray-600">
+								Knowledgeable customer service and professional collecting guidance
+							</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			{/* Newsletter Signup */}
+			<section className="relative overflow-hidden bg-gradient-to-r from-gold-600 via-amber-600 to-yellow-600 py-12">
+				{/* Background decorative elements */}
+				<div className="absolute inset-0 opacity-20">
+					<div className="absolute left-0 top-0 h-64 w-64 rounded-full bg-white blur-3xl"></div>
+					<div className="absolute bottom-0 right-0 h-48 w-48 rounded-full bg-white blur-2xl"></div>
+				</div>
+
+				<div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+					{/* Enhanced Icon with animation */}
+					<div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-white/30 shadow-2xl ring-4 ring-white/20 backdrop-blur-md transition-transform duration-300 hover:scale-110">
+						<div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/40">
+							<svg
+								className="h-7 w-7 text-white drop-shadow-lg"
+								fill="none"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+							>
+								<path
+									strokeLinecap="round"
+									strokeLinejoin="round"
+									strokeWidth={2.5}
+									d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+								/>
+							</svg>
+						</div>
+					</div>
+
+					<h2 className="mb-3 text-xl font-bold text-white drop-shadow-md md:text-2xl">Stay in the Loop</h2>
+					<p className="mx-auto mb-6 max-w-2xl text-sm leading-relaxed text-white/95 drop-shadow-sm md:text-base">
+						Get notified about new arrivals, exclusive sale items, and expert collecting insights delivered
+						directly to your inbox.
+					</p>
+
+					{/* Newsletter Form */}
+					<NewsletterSignup />
+
+					{/* Trust indicators with enhanced styling */}
+					<div className="mt-6 flex flex-col items-center justify-center gap-3 text-white/90 sm:flex-row sm:gap-6">
+						<div className="flex items-center gap-2 text-xs font-medium">
+							<div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/80 shadow-sm shadow-white/50"></div>
+							<span>No spam, unsubscribe anytime</span>
+						</div>
+						<div className="flex items-center gap-2 text-xs font-medium">
+							<div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/80 shadow-sm shadow-white/50"></div>
+							<span>Trusted since 2022</span>
+						</div>
+						<div className="flex items-center gap-2 text-xs font-medium">
+							<div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white/80 shadow-sm shadow-white/50"></div>
+							<span>Premium collectibles updates</span>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
 	);
 }

@@ -1,31 +1,22 @@
-import { SignInFormContainer, type SignInFormContainerProps } from "../Contact/SignInFormContainer";
-import { PasswordInput } from "@/checkout/components/PasswordInput";
-import { Checkbox } from "@/checkout/components/Checkbox";
 import { TextInput } from "@/checkout/components/TextInput";
+import { Title } from "@/checkout/components/Title";
 import { useGuestUserForm } from "@/checkout/sections/GuestUser/useGuestUserForm";
 import { FormProvider } from "@/checkout/hooks/useForm/FormProvider";
 
-type GuestUserProps = Pick<SignInFormContainerProps, "onSectionChange"> & {
+interface GuestUserProps {
 	onEmailChange: (email: string) => void;
 	email: string;
-};
+}
 
-export const GuestUser: React.FC<GuestUserProps> = ({
-	onSectionChange,
-	onEmailChange,
-	email: initialEmail,
-}) => {
+export const GuestUser: React.FC<GuestUserProps> = ({ onEmailChange, email: initialEmail }) => {
 	const form = useGuestUserForm({ initialEmail });
 	const { handleChange } = form;
-	const { createAccount } = form.values;
 
 	return (
-		<SignInFormContainer
-			title="Contact details"
-			redirectSubtitle="Already have an account?"
-			redirectButtonLabel="Sign in"
-			onSectionChange={onSectionChange}
-		>
+		<div className="py-4">
+			<div className="mb-2 flex flex-col">
+				<Title>Contact details</Title>
+			</div>
 			<FormProvider form={form}>
 				<div className="grid grid-cols-1 gap-3">
 					<TextInput
@@ -37,18 +28,8 @@ export const GuestUser: React.FC<GuestUserProps> = ({
 							onEmailChange(event.currentTarget.value);
 						}}
 					/>
-					<Checkbox
-						name="createAccount"
-						label="I want to create account"
-						data-testid={"createAccountCheckbox"}
-					/>
-					{createAccount && (
-						<div className="mt-2">
-							<PasswordInput name="password" label="Password (minimum 8 characters)" required />
-						</div>
-					)}
 				</div>
 			</FormProvider>
-		</SignInFormContainer>
+		</div>
 	);
 };

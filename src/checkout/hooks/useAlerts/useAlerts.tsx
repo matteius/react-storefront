@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { toast } from "react-toastify";
 import { camelCase } from "lodash-es";
 import { useCallback } from "react";

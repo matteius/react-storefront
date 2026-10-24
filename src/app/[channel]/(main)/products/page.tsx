@@ -3,13 +3,12 @@ import { ProductListPaginatedDocument, OrderDirection, ProductOrderField } from 
 import { executeGraphQL } from "@/lib/graphql";
 import { Pagination } from "@/ui/components/Pagination";
 import { ProductList } from "@/ui/components/ProductList";
-
 import { getPaginatedListVariables } from "@/lib/utils";
 import { SortBy } from "@/ui/components/SortBy";
 
 export const metadata = {
-	title: "Products · Saleor Storefront example",
-	description: "All products in Saleor Storefront example",
+	title: "Products · Saleor MattsCoinage Storefront",
+	description: "All products in Saleor MattsCoinage Storefront",
 };
 
 const getSortVariables = (sortParam?: string | string[]) => {

@@ -28,7 +28,24 @@ export const usePhoneNumberValidator = (countryCode: CountryCode) => {
 				return undefined;
 			}
 
-			const valid = isValidPhoneNumber(phone, countryCode);
+			// Try validation with the provided country code first
+			let valid = isValidPhoneNumber(phone, countryCode);
+
+			// If that fails and we're dealing with US numbers, try some common US formats
+			if (!valid && countryCode === "US") {
+				// Remove all non-digit characters for testing
+				const digitsOnly = phone.replace(/\D/g, "");
+
+				// Check if it's a 10-digit US number (add +1 prefix)
+				if (digitsOnly.length === 10) {
+					valid = isValidPhoneNumber(`+1${digitsOnly}`, "US");
+				}
+				// Check if it's an 11-digit number starting with 1
+				else if (digitsOnly.length === 11 && digitsOnly.startsWith("1")) {
+					valid = isValidPhoneNumber(`+${digitsOnly}`, "US");
+				}
+			}
+
 			return valid ? undefined : errorMessages.invalid;
 		},
 		[countryCode, errorMessages.invalid],

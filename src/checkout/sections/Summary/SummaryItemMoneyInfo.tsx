@@ -1,4 +1,3 @@
-import type { FC } from "react";
 import clsx from "clsx";
 import { Money } from "@/checkout/components";
 import { type Money as MoneyType } from "@/checkout/graphql";
@@ -11,7 +10,7 @@ interface SummaryItemMoneyInfoProps {
 	quantity: number;
 }
 
-export const SummaryItemMoneyInfo: FC<SummaryItemMoneyInfoProps> = ({
+export const SummaryItemMoneyInfo: React.FC<SummaryItemMoneyInfoProps> = ({
 	unitPrice,
 	quantity,
 	undiscountedUnitPrice,

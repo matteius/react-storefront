@@ -1,12 +1,12 @@
 import clsx from "clsx";
-import type { FC, PropsWithChildren } from "react";
+import { type PropsWithChildren } from "react";
 import { type Classes } from "@/checkout/lib/globalTypes";
 
 export interface SkeletonProps extends Classes {
 	variant?: "paragraph" | "title";
 }
 
-export const Skeleton: FC<PropsWithChildren<SkeletonProps>> = ({
+export const Skeleton: React.FC<PropsWithChildren<SkeletonProps>> = ({
 	children,
 	className,
 	variant = "paragraph",

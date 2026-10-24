@@ -1,4 +1,4 @@
-import { type CoreOptions } from "@adyen/adyen-web/dist/types/core/types";
+type CoreOptions = Record<string, unknown>;
 import {
 	type AdyenCheckoutInstanceOnAdditionalDetails,
 	type AdyenCheckoutInstanceOnSubmit,

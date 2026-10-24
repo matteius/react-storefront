@@ -2,15 +2,18 @@ import { useEffect, useState, useCallback } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 export const useMobileMenu = () => {
-	const [openRouteKey, setOpenRouteKey] = useState<string | null>(null);
+	const [isOpen, setIsOpen] = useState(false);
 	const pathname = usePathname();
 	const searchParams = useSearchParams();
-	const routeKey = `${pathname}?${searchParams?.toString() ?? ""}`;
+
+	useEffect(() => {
+		setIsOpen(false);
+	}, [pathname, searchParams]);
 
 	useEffect(() => {
 		const handleResize = (ev: MediaQueryListEvent) => {
 			if (ev.matches) {
-				setOpenRouteKey(null);
+				setIsOpen(false);
 			}
 		};
 
@@ -19,10 +22,8 @@ export const useMobileMenu = () => {
 		return () => matchMedia.removeEventListener("change", handleResize);
 	}, []);
 
-	const closeMenu = useCallback(() => setOpenRouteKey(null), []);
-	const openMenu = useCallback(() => setOpenRouteKey(routeKey), [routeKey]);
-
-	const isOpen = openRouteKey === routeKey;
+	const closeMenu = useCallback(() => setIsOpen(false), []);
+	const openMenu = useCallback(() => setIsOpen(true), []);
 
 	return { isOpen, closeMenu, openMenu };
 };

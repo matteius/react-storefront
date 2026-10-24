@@ -1,55 +1,75 @@
-import { Suspense, useState } from "react";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { useCheckout } from "@/checkout/hooks/useCheckout";
 import { Contact } from "@/checkout/sections/Contact";
 import { DeliveryMethods } from "@/checkout/sections/DeliveryMethods";
 import { ContactSkeleton } from "@/checkout/sections/Contact/ContactSkeleton";
 import { DeliveryMethodsSkeleton } from "@/checkout/sections/DeliveryMethods/DeliveryMethodsSkeleton";
 import { AddressSectionSkeleton } from "@/checkout/components/AddressSectionSkeleton";
-import { getQueryParams } from "@/checkout/lib/utils/url";
-import { CollapseSection } from "@/checkout/sections/CheckoutForm/CollapseSection";
 import { Divider } from "@/checkout/components";
-import { UserShippingAddressSection } from "@/checkout/sections/UserShippingAddressSection";
 import { GuestShippingAddressSection } from "@/checkout/sections/GuestShippingAddressSection";
-import { UserBillingAddressSection } from "@/checkout/sections/UserBillingAddressSection";
 import { PaymentSection, PaymentSectionSkeleton } from "@/checkout/sections/PaymentSection";
 import { GuestBillingAddressSection } from "@/checkout/sections/GuestBillingAddressSection";
-import { useUser } from "@/checkout/hooks/useUser";
+import { usePreloadShippingMethods } from "@/checkout/hooks/usePreloadShippingMethods";
 
 export const CheckoutForm = () => {
-	const { user } = useUser();
 	const { checkout } = useCheckout();
-	const { passwordResetToken } = getQueryParams();
 
-	const [showOnlyContact, setShowOnlyContact] = useState(!!passwordResetToken);
+	// Pre-load shipping methods with US default to show options earlier
+	usePreloadShippingMethods();
 
 	return (
-		<div className="flex flex-col items-end">
-			<div className="flex w-full flex-col rounded">
-				<Suspense fallback={<ContactSkeleton />}>
-					<Contact setShowOnlyContact={setShowOnlyContact} />
-				</Suspense>
+		<section className="flex flex-auto flex-col space-y-4 overflow-y-auto px-4 pb-4 pt-4">
+			<div className="flex w-full flex-col">
+				<ErrorBoundary
+					FallbackComponent={({ error }) => {
+						console.error("Contact section error:", error);
+						return <div>Contact Error: {(error as Error)?.message || "Unknown error"}</div>;
+					}}
+				>
+					<Suspense fallback={<ContactSkeleton />}>
+						<Contact setShowOnlyContact={() => {}} />
+					</Suspense>
+				</ErrorBoundary>
 				<>
 					{checkout?.isShippingRequired && (
-						<Suspense fallback={<AddressSectionSkeleton />}>
-							<CollapseSection collapse={showOnlyContact}>
+						<ErrorBoundary
+							FallbackComponent={({ error }) => {
+								console.error("Address section error:", error);
+								return <div>Address Error: {(error as Error)?.message || "Unknown error"}</div>;
+							}}
+						>
+							<Suspense fallback={<AddressSectionSkeleton />}>
 								<Divider />
 								<div className="py-4" data-testid="shippingAddressSection">
-									{user ? <UserShippingAddressSection /> : <GuestShippingAddressSection />}
+									<GuestShippingAddressSection />
 								</div>
-								{user ? <UserBillingAddressSection /> : <GuestBillingAddressSection />}
-							</CollapseSection>
-						</Suspense>
+								<GuestBillingAddressSection />
+							</Suspense>
+						</ErrorBoundary>
 					)}
-					<Suspense fallback={<DeliveryMethodsSkeleton />}>
-						<DeliveryMethods collapsed={showOnlyContact} />
-					</Suspense>
-					<Suspense fallback={<PaymentSectionSkeleton />}>
-						<CollapseSection collapse={showOnlyContact}>
+					<ErrorBoundary
+						FallbackComponent={({ error }) => {
+							console.error("DeliveryMethods section error:", error);
+							return <div>DeliveryMethods Error: {(error as Error)?.message || "Unknown error"}</div>;
+						}}
+					>
+						<Suspense fallback={<DeliveryMethodsSkeleton />}>
+							<DeliveryMethods collapsed={false} />
+						</Suspense>
+					</ErrorBoundary>
+					<ErrorBoundary
+						FallbackComponent={({ error }) => {
+							console.error("PaymentSection section error:", error);
+							return <div>PaymentSection Error: {(error as Error)?.message || "Unknown error"}</div>;
+						}}
+					>
+						<Suspense fallback={<PaymentSectionSkeleton />}>
 							<PaymentSection />
-						</CollapseSection>
-					</Suspense>
+						</Suspense>
+					</ErrorBoundary>
 				</>
 			</div>
-		</div>
+		</section>
 	);
 };

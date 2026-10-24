@@ -1,19 +1,9 @@
-// https://nextjs.org/docs/basic-features/eslint#lint-staged
-
 import path from "path";
 
-const buildEslintCommand = (filenames) => {
-	const files = filenames
-		.map((filename) => path.relative(process.cwd(), filename))
-		.map((filename) => `"${filename}"`)
-		.join(" ");
+const buildEslintCommand = (filenames) =>
+	`eslint --fix ${filenames.map((f) => path.relative(process.cwd(), f)).join(" ")}`;
 
-	return `pnpm eslint --fix ${files}`;
-};
-
-const config = {
+export default {
 	"*.{js,cjs,mjs,jsx,ts,cts,mts,tsx}": [buildEslintCommand],
 	"*.*": "prettier --write --ignore-unknown",
 };
-
-export default config;

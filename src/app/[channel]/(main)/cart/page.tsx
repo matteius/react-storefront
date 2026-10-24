@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { CheckoutLink } from "./CheckoutLink";
+import Link from "next/link";
 import { DeleteLineButton } from "./DeleteLineButton";
 import * as Checkout from "@/lib/checkout";
 import { formatMoney, getHrefForVariant } from "@/lib/utils";
 import { LinkWithChannel } from "@/ui/atoms/LinkWithChannel";
 
 export const metadata = {
-	title: "Shopping Cart · Saleor Storefront example",
+	title: "Shopping Cart · MattsCoinage Storefront",
 };
 
 export default async function Page(props: { params: Promise<{ channel: string }> }) {
@@ -96,11 +96,13 @@ export default async function Page(props: { params: Promise<{ channel: string }>
 						</div>
 					</div>
 					<div className="mt-10 text-center">
-						<CheckoutLink
-							checkoutId={checkoutId}
-							disabled={!checkout.lines.length}
-							className="w-full sm:w-1/3"
-						/>
+						<Link
+							href={`/checkout?checkout=${checkoutId}`}
+							className="inline-block w-full rounded border border-transparent bg-neutral-900 px-6 py-3 text-center font-medium text-neutral-50 hover:bg-neutral-800 sm:w-1/3 sm:px-16"
+							data-testid="CheckoutLink"
+						>
+							Checkout
+						</Link>
 					</div>
 				</div>
 			</form>

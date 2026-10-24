@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { pick } from "lodash-es";
 import { useCallback } from "react";
 import { type AddressFormData } from "@/checkout/components/AddressForm/types";
@@ -71,11 +72,13 @@ export const useAutoSaveAddressForm = ({
 		}
 
 		handleChange(event);
-		void partialSubmit();
+		// Don't auto-save on every keystroke - only on blur
+		// This reduces API calls and prevents re-renders during typing
 	};
 
 	const onBlur: BlurHandler = (event) => {
 		handleBlur(event);
+		// Only save when user leaves a field, not on every keystroke
 		void partialSubmit();
 	};
 

@@ -1,0 +1,14 @@
+query SitemapProducts($first: Int!, $after: String, $channel: String!) {
+	products(first: $first, after: $after, channel: $channel) {
+		edges {
+			node {
+				slug
+				updatedAt
+			}
+		}
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+	}
+}

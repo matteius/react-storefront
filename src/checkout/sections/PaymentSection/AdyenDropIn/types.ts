@@ -1,7 +1,25 @@
-import { type CardElementData } from "@adyen/adyen-web/dist/types/components/Card/types";
-import type DropinElement from "@adyen/adyen-web/dist/types/components/Dropin";
-import { type PaymentMethodsResponse } from "@adyen/adyen-web/dist/types/core/ProcessResponse/PaymentMethodsResponse/types";
-import { type PaymentResponse } from "@adyen/adyen-web/dist/types/components/types";
+// Inline type declarations to avoid deep imports into @adyen/adyen-web internals
+// which break when package exports restrictions are enforced
+type CardElementData = {
+	paymentMethod: Record<string, unknown>;
+	billingAddress?: Record<string, unknown>;
+	browserInfo?: Record<string, unknown>;
+	storePaymentMethod?: boolean;
+};
+
+type DropinElement = {
+	setStatus: (status: string, props?: Record<string, unknown>) => void;
+	handleAction: (action: Record<string, unknown>) => void;
+};
+
+type PaymentMethodsResponse = Record<string, unknown>;
+
+type PaymentResponse = {
+	resultCode: string;
+	action?: Record<string, unknown>;
+	order?: Record<string, unknown>;
+	donationToken?: string;
+};
 
 export const adyenGatewayId = "app.saleor.adyen";
 export type AdyenGatewayId = typeof adyenGatewayId;

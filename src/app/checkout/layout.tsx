@@ -1,15 +1,18 @@
 import { type ReactNode } from "react";
 import { AuthProvider } from "@/ui/components/AuthProvider";
+import { ReactQueryProvider } from "@/checkout/providers/ReactQueryProvider";
 
 export const metadata = {
-	title: "Saleor Storefront example",
-	description: "Starter pack for building performant e-commerce experiences with Saleor.",
+	title: "Checkout - Matt's Coinage",
+	description: "Complete your purchase at Matt's Coinage - Premium collectible coins and bullion.",
 };
 
 export default function RootLayout(props: { children: ReactNode }) {
 	return (
 		<main>
-			<AuthProvider>{props.children}</AuthProvider>
+			<AuthProvider>
+				<ReactQueryProvider>{props.children}</ReactQueryProvider>
+			</AuthProvider>
 		</main>
 	);
 }

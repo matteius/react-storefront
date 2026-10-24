@@ -1,0 +1,13 @@
+query SitemapPages($first: Int!, $after: String) {
+	pages(first: $first, after: $after) {
+		edges {
+			node {
+				slug
+			}
+		}
+		pageInfo {
+			hasNextPage
+			endCursor
+		}
+	}
+}

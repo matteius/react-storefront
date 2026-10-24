@@ -1,6 +1,8 @@
 import { Skeleton } from "@/checkout/components";
 
-export const ContactSkeleton = () => {
+interface ContactSkeletonProps {}
+
+export const ContactSkeleton: React.FC<ContactSkeletonProps> = ({}) => {
 	return (
 		<div className="py-6">
 			<Skeleton variant="title" />

@@ -51,26 +51,18 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 			},
 			plugins,
 		);
-		const [canScrollPrev, setCanScrollPrev] = React.useState(false);
-		const [canScrollNext, setCanScrollNext] = React.useState(false);
-		const [selectedIndex, setSelectedIndex] = React.useState(0);
-		const slideCount = React.useSyncExternalStore(
-      React.useCallback((notify) => {
-        if (!api) return () => {};
-        api.on("reInit", notify);
-        return () => { api.off("reInit", notify); };
-      }, [api]),
-      React.useCallback(() => api?.scrollSnapList().length ?? 0, [api]),
-      () => 0,
-    );
-
-		const onSelect = React.useCallback((api: CarouselApi) => {
-			if (!api) return;
-
-			setSelectedIndex(api.selectedScrollSnap());
-			setCanScrollPrev(api.canScrollPrev());
-			setCanScrollNext(api.canScrollNext());
-		}, []);
+		const subscribe = React.useCallback((notify: () => void) => {
+      if (!api) return () => {};
+      api.on("reInit", notify);
+      api.on("select", notify);
+      return () => { api.off("reInit", notify); api.off("select", notify); };
+    }, [api]);
+    const getSnapshot = React.useCallback(() => JSON.stringify([
+      api?.selectedScrollSnap() ?? 0, api?.scrollSnapList().length ?? 0,
+      api?.canScrollPrev() ?? false, api?.canScrollNext() ?? false,
+    ]), [api]);
+    const snapshot = React.useSyncExternalStore(subscribe, getSnapshot, () => "[0,0,false,false]");
+    const [selectedIndex, slideCount, canScrollPrev, canScrollNext] = JSON.parse(snapshot) as [number, number, boolean, boolean];
 
 		const scrollPrev = React.useCallback(() => {
 			api?.scrollPrev();
@@ -106,17 +98,7 @@ const Carousel = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 			setApi(api);
 		}, [api, setApi]);
 
-		React.useEffect(() => {
-			if (!api) return;
 
-			onSelect(api);
-			api.on("reInit", onSelect);
-			api.on("select", onSelect);
-
-			return () => {
-				api?.off("select", onSelect);
-			};
-		}, [api, onSelect]);
 
 		return (
 			<CarouselContext.Provider

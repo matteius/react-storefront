@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Fail when a prerendered route cannot be resumed at request time.
+ * Fail when a prerendered route cannot resume and finish its response at request time.
  *
  *   pnpm build && pnpm check:ppr-resume
  *
@@ -51,7 +51,12 @@ function stop() {
 async function waitForReady() {
 	for (let attempt = 0; attempt < 120; attempt++) {
 		try {
-			await fetch(`${BASE}${browse}`);
+			const response = await fetch(
+				`${BASE}/api/listing?surface=all&locale=en&channel=${encodeURIComponent(channel)}`,
+				{ signal: AbortSignal.timeout(10_000) },
+			);
+			await response.text();
+			if (!response.ok) throw new Error(`Readiness returned ${response.status}`);
 			return;
 		} catch {
 			await sleep(500);
@@ -64,7 +69,7 @@ let failed = false;
 try {
 	await waitForReady();
 	for (const route of routes) {
-		const response = await fetch(`${BASE}${route}`);
+		const response = await fetch(`${BASE}${route}`, { signal: AbortSignal.timeout(20_000) });
 		await response.text();
 		console.log(`${response.status} ${route}`);
 	}

@@ -64,9 +64,11 @@ const config = {
 	// See: https://nextjs.org/docs/app/getting-started/cache-components
 	cacheComponents: true,
 
-	// Next.js 16.3 — prefetch one reusable loading shell per route (not per link).
-	// See: https://nextjs.org/blog/next-16-3-instant-navigations
-	partialPrefetching: true,
+	// On self-hosted Next 16.4.3, embedded runtime prefetches leave document
+	// streams open and retain CacheSignal subscriptions after client disconnects.
+	// Keep Cache Components/PPR; use the supported previous prefetch behavior
+	// until complete-response and retained-memory checks pass with this enabled.
+	partialPrefetching: false,
 
 	// Named cacheLife tiers for `"use cache"` — see src/lib/saleor/cache/life-profiles.ts
 	cacheLife: paperCacheLifeProfiles,

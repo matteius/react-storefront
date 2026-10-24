@@ -14,7 +14,7 @@ export default function TermsOfServicePage() {
 
 				<div className="prose prose-lg max-w-none">
 					<p className="mb-6 text-sm text-muted-foreground">
-						<strong>Last Updated:</strong> {new Date().toLocaleDateString()}
+						<strong>Last Updated:</strong> December 26, 2025
 					</p>
 
 					<h2 className="mb-4 text-2xl font-bold text-foreground">Agreement to Terms</h2>

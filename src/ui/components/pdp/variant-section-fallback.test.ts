@@ -25,7 +25,7 @@ describe("variantSectionFallbackProps", () => {
 		expect(props.price).toBe("$90.00");
 		expect(props.selectOptionsLabel).toBe("Select options");
 		expect(props.secureCheckoutLabel).toBe(defaultStorefrontContent.surfaces.checkout.trust.secureCheckout);
-		expect(props.freeShippingTrustLabel).toMatch(/75/);
+		expect(props.freeShippingTrustLabel).toMatch(/20/);
 	});
 
 	it("omits the free-shipping line when the channel has no threshold", () => {

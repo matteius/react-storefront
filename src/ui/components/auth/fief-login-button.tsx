@@ -9,7 +9,7 @@ export function FiefLoginButton() {
 			type="button"
 			className="mb-4 w-full"
 			onClick={() => {
-				const next = window.location.pathname + window.location.search;
+				const next = window.location.pathname.replace(/\/(?:login|signup)$/, "/account") + window.location.search;
 				window.location.assign(`/api/auth/login?next=${encodeURIComponent(next)}`);
 			}}
 		>

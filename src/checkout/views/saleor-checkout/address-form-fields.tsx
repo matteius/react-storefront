@@ -176,7 +176,7 @@ export const AddressFields: FC<AddressFieldsProps> = ({
 	const renderField = (field: AddressField): ReactNode => {
 		if (field === "countryCode") return null;
 
-		const label = getFieldLabel(field);
+		const label = getFieldLabel(field).replace(/\s*\(optional\)$/i, "");
 		const isRequired = isRequiredField(field);
 		const error = errors[field];
 		const Icon = addressFieldIcons[field];

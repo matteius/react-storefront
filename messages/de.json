@@ -250,6 +250,7 @@
 		},
 		"login": {
 			"title": "Willkommen zurück",
+			"fiefDescription": "Melden Sie sich an, erstellen Sie ein Konto oder setzen Sie Ihr Passwort bei OpenSensor zurück.",
 			"noAccount": "Sie haben noch kein Konto?",
 			"signUp": "Registrieren",
 			"forgotPassword": "Passwort vergessen?",
@@ -261,6 +262,7 @@
 		},
 		"signup": {
 			"title": "Konto erstellen",
+			"fiefDescription": "Erstellen Sie Ihr Konto sicher bei OpenSensor.",
 			"hasAccount": "Sie haben bereits ein Konto?",
 			"signIn": "Anmelden",
 			"submit": "Konto erstellen",
@@ -480,6 +482,8 @@
 			"itemCount": "{count, plural, one {# Artikel} other {# Artikel}}",
 			"subtotal": "Zwischensumme",
 			"shipping": "Versand",
+			"calculatedAtShipping": "Wird beim Versand berechnet",
+			"totalBeforeShipping": "Gesamtbetrag vor Versand",
 			"taxVat": "Steuer (MwSt.)",
 			"discount": "Rabatt",
 			"total": "Gesamt",

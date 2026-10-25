@@ -15,10 +15,8 @@ Rows are keyed by file and enclosing function, not line, so formatting does not 
 | mutate           | transactionProcessDocument              | —                                             | src/app/(checkout)/actions.ts › processCheckoutTransaction                                    |
 | mutate           | checkoutCreateDocument                  | —                                             | src/app/(checkout)/actions.ts › recoverOrphanedCheckout                                       |
 | mutate           | checkoutLinesAddDocument                | —                                             | src/app/(checkout)/actions.ts › recoverOrphanedCheckout                                       |
-| rawMutation      | —                                       | —                                             | src/app/(checkout)/actions.ts › registerCheckoutAccount                                       |
 | mutate           | checkoutLineDeleteDocument              | —                                             | src/app/(checkout)/actions.ts › removeCheckoutLine                                            |
 | mutate           | checkoutRemovePromoCodeDocument         | —                                             | src/app/(checkout)/actions.ts › removeCheckoutPromoCode                                       |
-| rawMutation      | —                                       | —                                             | src/app/(checkout)/actions.ts › requestCheckoutPasswordReset                                  |
 | mutate           | checkoutCompleteDocument                | —                                             | src/app/(checkout)/actions.ts › runCheckoutComplete                                           |
 | mutate           | userSetDefaultAddressDocument           | —                                             | src/app/(checkout)/actions.ts › setUserDefaultAddress                                         |
 | mutate           | checkoutBillingAddressUpdateDocument    | —                                             | src/app/(checkout)/actions.ts › updateCheckoutBillingAddress                                  |
@@ -36,8 +34,6 @@ Rows are keyed by file and enclosing function, not line, so formatting does not 
 | mutate           | CheckoutAddLineDocument                 | —                                             | src/app/actions.ts › addVariantToCart                                                         |
 | mutate           | CheckoutDeleteLinesDocument             | —                                             | src/app/actions.ts › deleteCartLine                                                           |
 | mutate           | CheckoutLinesUpdateDocument             | —                                             | src/app/actions.ts › updateCartLineQuantity                                                   |
-| rawMutation      | —                                       | —                                             | src/app/api/auth/register/route.ts › POST                                                     |
-| rawMutation      | —                                       | —                                             | src/app/api/auth/reset-password/route.ts › POST                                               |
 | mutate           | checkoutMetadataUpdateDocument          | —                                             | src/checkout/lib/server/enrich-commerce-context.ts › enrichCheckoutCommerceContext            |
 | liveQuery        | checkoutCommerceContextDocument         | —                                             | src/checkout/lib/server/enrich-commerce-context.ts › readCheckoutMetadata                     |
 | liveQuery        | channelQueryDocument                    | —                                             | src/checkout/lib/server/fetch-channel-countries.ts › fetchChannelCountriesOnServer            |

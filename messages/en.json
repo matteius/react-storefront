@@ -250,6 +250,7 @@
 		},
 		"login": {
 			"title": "Welcome Back",
+			"fiefDescription": "Sign in, create an account, or reset your password with OpenSensor.",
 			"noAccount": "Don't have an account?",
 			"signUp": "Sign up",
 			"forgotPassword": "Forgot password?",
@@ -261,6 +262,7 @@
 		},
 		"signup": {
 			"title": "Create an Account",
+			"fiefDescription": "Create your account securely with OpenSensor.",
 			"hasAccount": "Already have an account?",
 			"signIn": "Sign in",
 			"submit": "Create Account",
@@ -480,6 +482,8 @@
 			"itemCount": "{count, plural, one {# item} other {# items}}",
 			"subtotal": "Subtotal",
 			"shipping": "Shipping",
+			"calculatedAtShipping": "Calculated at shipping",
+			"totalBeforeShipping": "Total before shipping",
 			"taxVat": "Tax (VAT)",
 			"discount": "Discount",
 			"total": "Total",

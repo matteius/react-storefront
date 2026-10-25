@@ -42,7 +42,7 @@ export const defaultStorefrontContent = {
 			},
 			featuredCollection: {
 				heading: "Featured products",
-				collectionSlug: "sale-items",
+				collectionSlug: "featured-products",
 				limit: 8,
 			},
 			categories: {

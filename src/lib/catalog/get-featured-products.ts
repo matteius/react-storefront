@@ -16,17 +16,22 @@ export async function getFeaturedProducts(
 ) {
 	"use cache";
 
-	const data = await cachedQuery(ProductListByCollectionDocument, {
-		profile: CACHE_PROFILES.collections,
-		tag: collectionSlug,
-		variables: {
-			slug: collectionSlug,
-			channel,
-			first: limit,
-			sortBy: { field: ProductOrderField.Collection, direction: OrderDirection.Asc },
-			...graphqlLanguageCodeVariables(localeSlug),
-		},
-	});
-
-	return data.collection?.products?.edges.map(({ node }) => node) ?? [];
+	for (const slug of collectionSlug === "featured-products"
+		? [collectionSlug, "sale-items"]
+		: [collectionSlug]) {
+		const data = await cachedQuery(ProductListByCollectionDocument, {
+			profile: CACHE_PROFILES.collections,
+			tag: slug,
+			variables: {
+				slug,
+				channel,
+				first: limit,
+				sortBy: { field: ProductOrderField.Collection, direction: OrderDirection.Asc },
+				...graphqlLanguageCodeVariables(localeSlug),
+			},
+		});
+		const products = data.collection?.products?.edges.map(({ node }) => node) ?? [];
+		if (products.length) return products;
+	}
+	return [];
 }

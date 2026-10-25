@@ -410,7 +410,7 @@
 				"Hero subheading": "Collectible coins, precious metals and numismatic treasures.",
 				"Hero CTA label": "Shop all",
 				"Featured heading": "Featured products",
-				"Featured collection": "sale-items",
+				"Featured collection": "featured-products",
 				"Featured limit": 8,
 				"Categories heading": "Shop by category",
 				"Categories eyebrow": "",
@@ -466,5 +466,5 @@
 			}
 		}
 	],
-	"contentHash": "21cac2dffce27a54"
+	"contentHash": "08a2d15df42b85cc"
 }

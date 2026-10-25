@@ -1,9 +1,40 @@
-import { expect, test, type Page } from "@playwright/test";
+import { expect, test, type Frame, type Page } from "@playwright/test";
 
 const productPath = process.env.PURCHASE_E2E_PRODUCT_PATH;
 const baseUrl = process.env.PLAYWRIGHT_BASE_URL;
 const isProductionHost = baseUrl ? /(^|\.)mattscoinage\.com$/.test(new URL(baseUrl).hostname) : false;
 const isRelativeProductPath = Boolean(productPath?.startsWith("/") && !productPath.startsWith("//"));
+
+async function cardFrame(page: Page): Promise<Frame> {
+	await expect
+		.poll(
+			async () => {
+				for (const frame of page.frames()) {
+					if (
+						(await frame
+							.locator('input[name="number"]')
+							.count()
+							.catch(() => 0)) > 0
+					)
+						return true;
+				}
+				return false;
+			},
+			{ timeout: 30_000 },
+		)
+		.toBe(true);
+	for (const frame of page.frames()) {
+		if (
+			frame.url().startsWith("https://js.stripe.com/") &&
+			(await frame
+				.locator('input[name="number"]')
+				.count()
+				.catch(() => 0)) > 0
+		)
+			return frame;
+	}
+	throw new Error("Stripe card input frame disappeared");
+}
 
 test.describe("Stripe sandbox purchase", () => {
 	test.describe.configure({ mode: "serial", timeout: 180_000 });
@@ -73,13 +104,11 @@ test.describe("Stripe sandbox purchase", () => {
 			[...observedKeyModes],
 			"Refusing test cards unless the rendered Stripe form uses only test keys",
 		).toEqual(["test"]);
-		await expect(
-			page.frameLocator('iframe[title="Secure payment input frame"]').locator('input[name="number"]'),
-		).toBeVisible();
+		await expect((await cardFrame(page)).locator('input[name="number"]')).toBeVisible();
 	}
 
 	async function fillCard(page: Page, number: string) {
-		const frame = page.frameLocator('iframe[title="Secure payment input frame"]');
+		const frame = await cardFrame(page);
 		await frame.locator('input[name="number"]').fill(number);
 		await frame.locator('input[name="expiry"]').fill("12/34");
 		await frame.locator('input[name="cvc"]').fill("123");

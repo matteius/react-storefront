@@ -83,7 +83,6 @@ test.describe("Stripe sandbox purchase", () => {
 			streetAddress1: "100 Test Street",
 			city: "New York",
 			postalCode: "10001",
-			countryArea: "NY",
 		})) {
 			const input = page.locator(`[name="${field}"]`);
 			if (!(await input.count())) continue;
@@ -93,6 +92,7 @@ test.describe("Stripe sandbox purchase", () => {
 				await input.fill(value);
 			}
 		}
+		await page.locator('select[name="countryArea"]').selectOption("NY");
 		await page.getByRole("button", { name: /continue to shipping/i }).click();
 		await expect(page).toHaveURL(/step=shipping/);
 		await page.locator('input[name="shipping"]').first().check({ force: true });
@@ -112,6 +112,7 @@ test.describe("Stripe sandbox purchase", () => {
 		await frame.locator('input[name="number"]').fill(number);
 		await frame.locator('input[name="expiry"]').fill("12/34");
 		await frame.locator('input[name="cvc"]').fill("123");
+		await frame.locator('input[name="postalCode"]').fill("10001");
 	}
 
 	test("Visa test card creates an order confirmation", async ({ page }) => {
@@ -127,7 +128,7 @@ test.describe("Stripe sandbox purchase", () => {
 		await reachPayment(page);
 		await fillCard(page, "4000000000009995");
 		await page.getByRole("button", { name: /^pay\b/i }).click();
-		await expect(page.getByText(/declined/i).first()).toBeVisible({ timeout: 45_000 });
+		await expect(page.getByText(/insufficient funds|declined/i).first()).toBeVisible({ timeout: 45_000 });
 		await expect(page).toHaveURL(/\/checkout\?.*step=payment/);
 	});
 });

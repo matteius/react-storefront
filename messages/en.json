@@ -65,8 +65,8 @@
 			"productDetails": "Product Details",
 			"careInstructions": "Care Instructions",
 			"shippingReturns": "Shipping & Returns",
-			"shippingBody": "Free shipping on orders over {freeShippingThreshold}. Standard delivery 3-5 business days.",
-			"returnsBody": "Free returns within {returnsWindowDays} days of purchase. Items must be unworn with tags attached.",
+			"shippingBody": "Free shipping on orders over {freeShippingThreshold}. Orders ship within seven business days of payment and acknowledgement.",
+			"returnsBody": "Request a return within {returnsWindowDays} days of delivery. Authorization is required; return shipping and a restocking fee may apply. See our return policy.",
 			"yes": "Yes",
 			"no": "No"
 		},

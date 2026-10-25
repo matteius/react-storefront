@@ -33,7 +33,7 @@ export function ProductCardBase({
 						alt={product.imageAlt || product.name}
 						sizes={imageSizes}
 						className={cn(
-							"object-cover transition-all duration-500 ease-out md:group-hover:scale-105",
+							"object-contain transition-all duration-500 ease-out md:group-hover:scale-105",
 							product.hoverImage && "md:group-hover:opacity-0",
 						)}
 						priority={priority}
@@ -46,7 +46,7 @@ export function ProductCardBase({
 							fill
 							sizes={imageSizes}
 							quality={PRODUCT_IMAGE_QUALITY}
-							className="object-cover opacity-0 transition-all duration-500 ease-out md:group-hover:scale-105 md:group-hover:opacity-100"
+							className="object-contain opacity-0 transition-all duration-500 ease-out md:group-hover:scale-105 md:group-hover:opacity-100"
 						/>
 					)}
 				</ProductCardLink>
@@ -66,7 +66,7 @@ export function ProductCardBase({
 				<div className="space-y-1.5">
 					{product.brand && <p className="text-eyebrow uppercase text-muted-foreground">{product.brand}</p>}
 					<h3
-						className="truncate font-medium leading-snug text-foreground/80 no-underline transition-colors duration-200 md:group-hover:text-foreground"
+						className="line-clamp-2 min-h-[2.75em] font-medium leading-snug text-foreground/80 no-underline transition-colors duration-200 md:group-hover:text-foreground"
 						title={product.name}
 					>
 						{product.name}

@@ -59,7 +59,7 @@ export function EditorialHero({
 	return (
 		<section className={cn("border-b border-border bg-background", className)} aria-labelledby={id}>
 			<div className="grid items-stretch lg:grid-cols-2">
-				<div className="order-2 flex flex-col justify-center px-4 py-section-md sm:px-6 lg:order-1 lg:py-section-lg lg:pl-8 lg:pr-12 xl:pl-16">
+				<div className="order-1 flex flex-col justify-center px-4 py-section-md sm:px-6 lg:py-section-lg lg:pl-8 lg:pr-12 xl:pl-16">
 					<div className="mx-auto w-full max-w-xl lg:mx-0">
 						{eyebrow ? <p className="text-eyebrow uppercase text-muted-foreground">{eyebrow}</p> : null}
 						<h1 id={id} className={cn("text-balance text-display text-foreground", eyebrow && "mt-4")}>
@@ -95,7 +95,7 @@ export function EditorialHero({
 					</div>
 				</div>
 
-				<div className="relative order-1 min-h-[52vh] overflow-hidden bg-secondary lg:order-2 lg:min-h-[80vh]">
+				<div className="relative order-2 min-h-[36vh] overflow-hidden bg-secondary sm:min-h-[52vh] lg:min-h-[80vh]">
 					{image ? (
 						<SaleorImage
 							src={image}

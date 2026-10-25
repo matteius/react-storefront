@@ -192,7 +192,7 @@ async function HomePageContent({ params }: { params: HomeParams }) {
 				imageFit={editorial.image ? "cover" : "contain"}
 				imagePosition={editorial.imagePosition}
 				placeholder={<PaperSignEditorialPlaceholder />}
-				cta={{ label: editorial.ctaLabel, href: "/collections" }}
+				cta={{ label: editorial.ctaLabel, href: "/products" }}
 			/>
 
 			<MulticolumnSection

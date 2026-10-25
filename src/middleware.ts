@@ -1,7 +1,12 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { DefaultChannelSlug } from "@/app/config";
 import { getStaticStorefrontChannelSlugs, isAllowedStorefrontChannel } from "@/config/channels";
-import { getDefaultLocaleSlug, isLocaleSlug, isStorefrontLocaleSlug } from "@/config/locale";
+import {
+	getDefaultLocaleSlug,
+	getLocaleDefinition,
+	isLocaleSlug,
+	isStorefrontLocaleSlug,
+} from "@/config/locale";
 import { BROWSE_LOCALE_COOKIE, getBrowseLocaleCookieOptions } from "@/lib/browse-locale";
 import { buildStorefrontPath } from "@/lib/storefront-path";
 
@@ -81,6 +86,17 @@ export function middleware(request: NextRequest) {
 	// Canonical format: /{locale}/{channel}/…
 	if (isStorefrontLocaleSlug(first)) {
 		if (second && isChannelSlug(second)) {
+			// Old storefront links appended the BCP 47 locale after the channel.
+			// Remove it so bookmarked home and catalog URLs reach the current routes.
+			if (rest[0]?.toLowerCase() === getLocaleDefinition(first)?.bcp47.toLowerCase()) {
+				const url = request.nextUrl.clone();
+				url.pathname = buildStorefrontPath(
+					first,
+					second,
+					rest.length > 1 ? `/${rest.slice(1).join("/")}` : "",
+				);
+				return withBrowseLocaleCookie(request, NextResponse.redirect(url, 308), first);
+			}
 			return withBrowseLocaleCookie(request, NextResponse.next(), first);
 		}
 

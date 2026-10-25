@@ -9,10 +9,8 @@ import {
 } from "@/config/channels";
 import { getCachedChannelsList } from "@/lib/channels/get-channels-data";
 import { getStorefrontChannelSlugs } from "@/lib/channel-slugs";
-import { getFooterMenuItems } from "@/lib/menus/get-menu-data";
 import { getStorefrontContent } from "@/lib/content/server";
 import { getStorefrontLocaleOptions } from "@/lib/locale-display";
-import { FooterMenuColumns } from "./footer-menu-columns";
 import { CopyrightText } from "./copyright-text";
 import { FooterAttribution } from "./footer-attribution";
 import { FooterPhotoCredits } from "./footer-photo-credits";
@@ -26,13 +24,11 @@ export async function Footer({ locale, channel }: { locale: string; channel: str
 		? await getStorefrontChannelSlugs()
 		: getStaticStorefrontChannelSlugs();
 
-	const [menuItems, channels, content] = await Promise.all([
-		getFooterMenuItems(channel, locale),
+	const [channels, content] = await Promise.all([
 		shouldFetchChannelMetadata(resolvedSlugs) ? getCachedChannelsList() : Promise.resolve(null),
 		getStorefrontContent(channel, locale),
 	]);
 
-	const footerMenuItems = menuItems ?? [];
 	const localeOptions = getStorefrontLocaleOptions();
 	const selectorChannels =
 		channels?.channels && resolvedSlugs.length > 0
@@ -52,11 +48,27 @@ export async function Footer({ locale, channel }: { locale: string; channel: str
 						<p className="mt-4 max-w-xs text-sm leading-relaxed text-inverse-subtle">{brandConfig.tagline}</p>
 					</div>
 
-					<FooterMenuColumns items={footerMenuItems} />
-					<nav aria-label="Mattscoinage information" className="flex flex-col gap-3 text-sm">
+					<nav aria-label="Customer support" className="flex flex-col gap-3 text-sm">
+						<h2 className="font-semibold text-inverse">Support</h2>
+						{[
+							["customer-support", "Customer support"],
+							["shipping-delivery", "Shipping and delivery"],
+							["return-policy", "Return policy"],
+							["sales-tax", "Sales tax"],
+							["secure-payments", "Secure payments"],
+						].map(([slug, label]) => (
+							<Link key={slug} href={buildStorefrontPath(locale, channel, `/${slug}`)}>
+								{label}
+							</Link>
+						))}
+					</nav>
+					<nav aria-label="Store information" className="flex flex-col gap-3 text-sm">
+						<h2 className="font-semibold text-inverse">Information</h2>
 						{[
 							["about-us", "About us"],
 							["investment-disclaimer", "Investment disclaimer"],
+							["privacy-policy", "Privacy policy"],
+							["terms-of-service", "Terms of service"],
 						].map(([slug, label]) => (
 							<Link key={slug} href={buildStorefrontPath(locale, channel, `/${slug}`)}>
 								{label}
@@ -83,22 +95,6 @@ export async function Footer({ locale, channel }: { locale: string; channel: str
 						</p>
 						<FooterAttribution />
 						<FooterPhotoCredits credits={content.surfaces.homepage.photoCredits} />
-					</div>
-					<div className="flex items-center gap-6">
-						<Link
-							href={buildStorefrontPath(locale, channel, "/privacy-policy")}
-							prefetch={false}
-							className="text-xs text-inverse-muted transition-colors hover:text-inverse-subtle"
-						>
-							Privacy Policy
-						</Link>
-						<Link
-							href={buildStorefrontPath(locale, channel, "/terms-of-service")}
-							prefetch={false}
-							className="text-xs text-inverse-muted transition-colors hover:text-inverse-subtle"
-						>
-							Terms of Service
-						</Link>
 					</div>
 				</div>
 			</div>

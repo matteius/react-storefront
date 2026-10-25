@@ -1,6 +1,6 @@
 # Stripe purchase browser check
 
-Run `e2e/purchase-flow.spec.ts` against a **nonproduction storefront** backed by a Saleor instance or dedicated channel whose Stripe app configuration uses `pk_test_` and `rk_test_` keys. Seed a published, in-stock product with a US shipping method. The product path must point to that product and remain relative to the storefront origin.
+Run `e2e/purchase-flow.spec.ts` against a **nonproduction storefront** backed by a Saleor instance or dedicated channel whose Stripe app configuration uses a `pk_test_` key and a sandbox server key (`rk_test_`, or `sk_test_` in our custom fork). Seed a published, in-stock product with a US shipping method. The product path must point to that product and remain relative to the storefront origin.
 
 ```sh
 PLAYWRIGHT_BASE_URL=https://storefront-sandbox.example.com \

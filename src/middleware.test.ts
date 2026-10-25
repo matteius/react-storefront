@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { NextRequest } from "next/server";
 
 process.env.NEXT_PUBLIC_DEFAULT_CHANNEL = "default-channel";
+process.env.STOREFRONT_CHANNELS = "default-channel";
 const { middleware } = await import("./middleware");
 
 describe("legacy storefront locale URLs", () => {

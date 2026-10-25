@@ -135,7 +135,7 @@ function extractCheckoutData(checkout: CheckoutFragment): OrderSummaryData {
 		discount: checkout.discount?.amount || 0,
 		total: checkout.totalPrice?.gross?.amount || 0,
 		editable: true,
-		shippingSelected: Boolean(checkout.delivery?.shippingMethod),
+		shippingSelected: !checkout.isShippingRequired || Boolean(checkout.delivery?.shippingMethod),
 	};
 }
 

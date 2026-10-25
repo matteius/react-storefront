@@ -56,11 +56,6 @@ export async function Footer({ locale, channel }: { locale: string; channel: str
 					<nav aria-label="Mattscoinage information" className="flex flex-col gap-3 text-sm">
 						{[
 							["about-us", "About us"],
-							["customer-support", "Customer support"],
-							["shipping-delivery", "Shipping and delivery"],
-							["return-policy", "Returns"],
-							["sales-tax", "Sales tax"],
-							["secure-payments", "Secure payments"],
 							["investment-disclaimer", "Investment disclaimer"],
 						].map(([slug, label]) => (
 							<Link key={slug} href={buildStorefrontPath(locale, channel, `/${slug}`)}>

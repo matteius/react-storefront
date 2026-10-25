@@ -33,6 +33,7 @@ function saleorApiHostname() {
 const imageRemotePatterns = [
 	{ hostname: "*.saleor.cloud" },
 	{ hostname: "*.media.saleor.cloud" },
+	{ hostname: "cdn.mattscoinage.com" },
 	...[saleorApiHostname()].filter(Boolean).map((hostname) => ({ hostname })),
 	...(process.env.IMAGE_ALLOWED_HOSTS?.split(",")
 		.map((host) => host.trim())

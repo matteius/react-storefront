@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { NextRequest } from "next/server";
-import { middleware } from "./middleware";
+
+process.env.NEXT_PUBLIC_DEFAULT_CHANNEL = "default-channel";
+const { middleware } = await import("./middleware");
 
 describe("legacy storefront locale URLs", () => {
 	it("redirects a bookmarked homepage without losing its query", () => {

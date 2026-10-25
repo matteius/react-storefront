@@ -259,7 +259,7 @@ models:
       Hero subheading: Collectible coins, precious metals and numismatic treasures.
       Hero CTA label: Shop all
       Featured heading: Featured products
-      Featured collection: featured-products
+      Featured collection: sale-items
       Featured limit: 8
       Categories heading: Shop by category
       Categories eyebrow: ""
@@ -273,11 +273,12 @@ models:
       Values column 2 title: Shipping
       Values column 2 text: Orders ship within seven business days of payment and acknowledgement.
       Values column 3 title: Returns
-      Values column 3 text: Request return authorization within {returnsWindowDays} days. See our return policy for conditions and fees.
+      Values column 3 text: Request return authorization within {returnsWindowDays} days. See our return
+        policy for conditions and fees.
       Editorial heading: From the shop
       Editorial paragraph 1: Explore coins, currency and precious metals for your collection.
       Editorial image position: right
-      Editorial CTA label: Explore collections
+      Editorial CTA label: Browse all products
       Photo credits: "[]"
   - title: Storefront Cart
     slug: storefront-cart

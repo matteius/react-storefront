@@ -78,7 +78,7 @@ export const defaultStorefrontContent = {
 				heading: "From the shop",
 				paragraphs: ["Explore coins, currency and precious metals for your collection."],
 				imagePosition: "right",
-				ctaLabel: "Explore collections",
+				ctaLabel: "Browse all products",
 				image: null,
 				imageAlt: "",
 			},

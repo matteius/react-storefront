@@ -26,6 +26,7 @@
 		"test:e2e": "playwright test",
 		"test:e2e:instant": "playwright test e2e/instant-navigation.spec.ts",
 		"test:e2e:checkout": "playwright test e2e/checkout-step-back.spec.ts",
+		"test:e2e:purchase": "playwright test e2e/purchase-flow.spec.ts",
 		"typecheck": "tsc --noEmit",
 		"verify": "pnpm run docs:check && pnpm run lint:design-tokens && pnpm run lint:graphql-variants && pnpm run data:lock:check && pnpm run core:lock:check && pnpm run typecheck && pnpm run lint && pnpm run test:run",
 		"data:lock": "node scripts/data-layer-lock.mjs",

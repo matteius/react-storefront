@@ -1,5 +1,6 @@
 "use client";
 
+import * as Sentry from "@sentry/nextjs";
 import { useEffect } from "react";
 import Link from "next/link";
 import { AlertCircle, RefreshCw, Home, ArrowLeft } from "lucide-react";
@@ -16,7 +17,7 @@ export interface ErrorContentProps {
  */
 export function ErrorContent({ error, reset }: ErrorContentProps) {
 	useEffect(() => {
-		console.error("[Error Page]", error);
+		Sentry.captureException(error);
 	}, [error]);
 
 	const saleorError = error as Error & { isRetryable?: boolean; userMessage?: string; type?: string };

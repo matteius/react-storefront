@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+import { withSentryConfig } from "@sentry/nextjs/config";
 import createNextIntlPlugin from "next-intl/plugin";
 import { paperCacheLifeProfiles } from "./src/lib/saleor/cache/life-profiles.data.mjs";
 import {
@@ -174,4 +175,11 @@ const config = {
 // resolves the locale we pass explicitly; see src/i18n/request.ts.
 const withNextIntl = createNextIntlPlugin();
 
-export default withNextIntl(config);
+export default withSentryConfig(withNextIntl(config), {
+	org: "opensensor-engineering",
+	project: "mattscoinage-storefront",
+	authToken: process.env.SENTRY_AUTH_TOKEN,
+	silent: !process.env.CI,
+	release: { name: process.env.SENTRY_RELEASE },
+	sourcemaps: { deleteSourcemapsAfterUpload: true },
+});

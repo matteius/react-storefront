@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM node:24.22.1-alpine3.24 AS base
 
 # Install dependencies only when needed
@@ -17,6 +18,10 @@ RUN pnpm i --frozen-lockfile --prefer-offline
 COPY \
     ./global.d.ts \
     ./knip.config.ts \
+    ./sentry.project.json \
+    ./sentry.options.ts \
+    ./sentry.server.config.ts \
+    ./sentry.edge.config.ts \
     ./next.config.js \
     ./paper-version.json \
     ./postcss.config.cjs \
@@ -49,7 +54,9 @@ ARG NEXT_PUBLIC_ENABLE_STRIPE_PAYMENTS
 ENV NEXT_PUBLIC_ENABLE_STRIPE_PAYMENTS=${NEXT_PUBLIC_ENABLE_STRIPE_PAYMENTS:-false}
 
 # Build Next.js
-RUN NEXT_OUTPUT=standalone \
+ARG SENTRY_RELEASE
+ENV SENTRY_RELEASE=${SENTRY_RELEASE}
+RUN --mount=type=secret,id=sentry_auth_token,env=SENTRY_AUTH_TOKEN NEXT_OUTPUT=standalone \
     pnpm build
 
 # Production image, copy all the files and run next
@@ -57,6 +64,8 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
+ARG SENTRY_RELEASE
+ENV SENTRY_RELEASE=${SENTRY_RELEASE}
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

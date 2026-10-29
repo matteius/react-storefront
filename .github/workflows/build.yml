@@ -59,6 +59,11 @@ jobs:
       - name: Test
         run: pnpm run test:run
       - name: Build
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.OPENSENSOR_SENTRY_AUTH_TOKEN }}
+          SENTRY_RELEASE: mattscoinage-storefront@${{ github.sha }}
+          SENTRY_ENABLED: "false"
+          NEXT_PUBLIC_SENTRY_ENABLED: "false"
         run: |
           set -o pipefail
           pnpm run build | tee build-output.txt

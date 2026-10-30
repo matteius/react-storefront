@@ -1,4 +1,5 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { validateMultipartRequest } from "@/multipart-request";
 import { DefaultChannelSlug } from "@/app/config";
 import { getStaticStorefrontChannelSlugs, isAllowedStorefrontChannel } from "@/config/channels";
 import {
@@ -41,7 +42,7 @@ function withBrowseLocaleCookie(request: NextRequest, response: NextResponse, lo
 	return response;
 }
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
 
 	if (
@@ -51,6 +52,9 @@ export function middleware(request: NextRequest) {
 	) {
 		return NextResponse.next();
 	}
+
+	const malformedBody = await validateMultipartRequest(request);
+	if (malformedBody) return malformedBody;
 
 	const segments = pathname.split("/").filter(Boolean);
 	const defaultLocale = getDefaultLocaleSlug();
